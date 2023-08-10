@@ -8,10 +8,32 @@ import java.util.*;
 @RestController
 public class SongsController {
 
+    Map<Integer, SongDto> databaseInMemory = new HashMap<>();
+
     @GetMapping("/songs")
     public ResponseEntity<SongResponseDto> getAllSongs() {
-        SongResponseDto songResponseDto = new SongResponseDto(Arrays.asList("Song 1", "Song 2", "Song 3"));
+        databaseInMemory.put(1, new SongDto("Song1"));
+        databaseInMemory.put(2, new SongDto("Song2"));
+        databaseInMemory.put(3, new SongDto("Song3"));
+        SongResponseDto songResponseDto = new SongResponseDto(databaseInMemory);
         return ResponseEntity.ok(songResponseDto);
     }
 
+    @GetMapping("/songs/{id}")
+    public ResponseEntity<SongDto> getSongById(@PathVariable("id") int id) {
+        SongDto songDto = databaseInMemory.get(id);
+        if (songDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(songDto);
+    }
+
+    @GetMapping("/songs/")
+    public ResponseEntity<SongDto> getSongByIdRequestParam(@RequestParam("id") Integer id) {
+        SongDto songDto = databaseInMemory.get(id);
+        if (songDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(songDto);
+    }
 }

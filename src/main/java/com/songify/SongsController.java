@@ -11,12 +11,12 @@ import java.util.Map;
 @Log4j2
 public class SongsController {
 
-    Map<Integer, SongDto> databaseInMemory = new HashMap<>(Map.of(
-            1, new SongDto("Song1"),
-            2, new SongDto("Song2"),
-            3, new SongDto("Song3"),
-            4, new SongDto("Song4")
-    ));
+    Map<Integer, SongDto> databaseInMemory = new HashMap<>(
+            Map.of(
+                    1, new SongDto("Song1"),
+                    2, new SongDto("Song2"),
+                    3, new SongDto("Song3"),
+                    4, new SongDto("Song4")));
 
     @GetMapping("/songs")
     public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer id) {
@@ -25,7 +25,7 @@ public class SongsController {
             SongDto songDto = databaseInMemory.get(id);
             if (songDto == null) {
                 return ResponseEntity.notFound()
-                        .build();
+                                     .build();
             }
             SongResponseDto singleMapOfSongDto = new SongResponseDto(Map.of(id, songDto));
             return ResponseEntity.ok(singleMapOfSongDto);
@@ -41,9 +41,16 @@ public class SongsController {
         SongDto songDto = databaseInMemory.get(id);
         if (songDto == null) {
             return ResponseEntity.notFound()
-                    .build();
+                                 .build();
         }
         return ResponseEntity.ok(songDto);
     }
 
+    @PostMapping("/songs")
+    public ResponseEntity<SongDto> createSong(@RequestBody SongRequestDto songRequestDto) {
+        int key = databaseInMemory.size() + 1;
+        databaseInMemory.put(key, new SongDto(songRequestDto.songName()));
+        log.info("Song created: {}", songRequestDto);
+        return ResponseEntity.ok(databaseInMemory.get(key));
+    }
 }

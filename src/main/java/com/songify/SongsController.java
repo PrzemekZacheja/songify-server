@@ -1,5 +1,6 @@
 package com.songify;
 
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class SongsController {
     }
 
     @PostMapping("/songs")
-    public ResponseEntity<SongDto> createSong(@RequestBody SongRequestDto songRequestDto) {
+    public ResponseEntity<SongDto> createSong(@RequestBody @Valid SongRequestDto songRequestDto) {
         int key = databaseInMemory.size() + 1;
         databaseInMemory.put(key, new SongDto(songRequestDto.songName()));
         log.info("Song created: {}", songRequestDto);

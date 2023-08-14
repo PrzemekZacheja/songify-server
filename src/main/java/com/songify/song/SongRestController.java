@@ -1,4 +1,4 @@
-package com.songify;
+package com.songify.song;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @Log4j2
-public class SongsController {
+public class SongRestController {
 
     Map<Integer, SongDto> databaseInMemory = new HashMap<>(
             Map.of(

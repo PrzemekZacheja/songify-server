@@ -2,6 +2,7 @@ package com.songify.song;
 
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +14,7 @@ import java.util.Map;
 public class SongRestController {
 
     Map<Integer, SongDto> databaseInMemory = new HashMap<>(
-            Map.of(
-                    1, new SongDto("Song1"),
-                    2, new SongDto("Song2"),
-                    3, new SongDto("Song3"),
-                    4, new SongDto("Song4")));
+            Map.of(1, new SongDto("Song1"), 2, new SongDto("Song2"), 3, new SongDto("Song3"), 4, new SongDto("Song4")));
 
     @GetMapping("/songs")
     public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer id) {
@@ -56,24 +53,22 @@ public class SongRestController {
     }
 
     @DeleteMapping("/songs/{id}")
-    public ResponseEntity<SongDto> deleteSongByPathVariable(@PathVariable("id") Integer id) {
-        SongDto songDto = databaseInMemory.get(id);
-        if (songDto == null) {
-            return ResponseEntity.notFound()
-                                 .build();
-        }
-        databaseInMemory.remove(id);
-        return ResponseEntity.ok(songDto);
+    public ResponseEntity<DeleteSongResponseDto> deleteSongByPathVariable(@PathVariable("id") Integer id) {
+        return getDeleteSongResponseDtoResponseEntity(id);
     }
 
     @DeleteMapping("/songs")
-    public ResponseEntity<SongDto> deleteSongByQueryParam(@RequestParam("id") Integer id) {
+    public ResponseEntity<DeleteSongResponseDto> deleteSongByQueryParam(@RequestParam("id") Integer id) {
+        return getDeleteSongResponseDtoResponseEntity(id);
+    }
+
+    private ResponseEntity<DeleteSongResponseDto> getDeleteSongResponseDtoResponseEntity(@RequestParam("id") Integer id) {
         SongDto songDto = databaseInMemory.get(id);
         if (songDto == null) {
-            return ResponseEntity.notFound()
-                                 .build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(new DeleteSongResponseDto("Song not found", HttpStatus.NOT_FOUND));
         }
         databaseInMemory.remove(id);
-        return ResponseEntity.ok(songDto);
+        return ResponseEntity.ok(new DeleteSongResponseDto("Deleted song " + id, HttpStatus.OK));
     }
 }

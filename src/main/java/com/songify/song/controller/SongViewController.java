@@ -1,5 +1,6 @@
-package com.songify.song;
+package com.songify.song.controller;
 
+import com.songify.song.dto.SongDto;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;

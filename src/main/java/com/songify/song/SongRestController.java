@@ -54,4 +54,26 @@ public class SongRestController {
         log.info("Song created: {}", songRequestDto);
         return ResponseEntity.ok(databaseInMemory.get(key));
     }
+
+    @DeleteMapping("/songs/{id}")
+    public ResponseEntity<SongDto> deleteSongByPathVariable(@PathVariable("id") Integer id) {
+        SongDto songDto = databaseInMemory.get(id);
+        if (songDto == null) {
+            return ResponseEntity.notFound()
+                                 .build();
+        }
+        databaseInMemory.remove(id);
+        return ResponseEntity.ok(songDto);
+    }
+
+    @DeleteMapping("/songs")
+    public ResponseEntity<SongDto> deleteSongByQueryParam(@RequestParam("id") Integer id) {
+        SongDto songDto = databaseInMemory.get(id);
+        if (songDto == null) {
+            return ResponseEntity.notFound()
+                                 .build();
+        }
+        databaseInMemory.remove(id);
+        return ResponseEntity.ok(songDto);
+    }
 }

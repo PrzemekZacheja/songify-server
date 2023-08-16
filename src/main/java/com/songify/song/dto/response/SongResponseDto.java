@@ -1,4 +1,6 @@
-package com.songify.song.dto;
+package com.songify.song.dto.response;
+
+import com.songify.song.dto.SongDto;
 
 import java.util.*;
 

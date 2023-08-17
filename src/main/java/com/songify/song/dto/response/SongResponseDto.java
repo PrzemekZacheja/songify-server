@@ -1,8 +1,8 @@
 package com.songify.song.dto.response;
 
-import com.songify.song.dto.SongDto;
+import com.songify.song.dto.SongEntity;
 
 import java.util.*;
 
-public record SongResponseDto(Map<Integer, SongDto> songs) {
+public record SongResponseDto(Map<Integer, SongEntity> songs) {
 }

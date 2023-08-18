@@ -1,7 +1,7 @@
 package com.songify.song.error;
 
 import com.songify.song.controller.SongRestController;
-import com.songify.song.dto.response.ErrorSongResponseDto;
+import com.songify.song.dto.response.DeleteSongResponseDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,8 +16,8 @@ public class SongErrorHandler {
     @ExceptionHandler(SongNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorSongResponseDto handleSongNotFoundException(SongNotFoundException songNotFoundException) {
+    public DeleteSongResponseDto handleSongNotFoundException(SongNotFoundException songNotFoundException) {
         log.error(songNotFoundException.getClass().getSimpleName() + " while accessing a song.");
-        return new ErrorSongResponseDto(songNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        return new DeleteSongResponseDto(songNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

@@ -4,5 +4,5 @@ import com.songify.song.dto.SongEntity;
 
 import java.util.*;
 
-public record SongResponseDto(Map<Integer, SongEntity> songs) {
+public record GetAllSongsResponseDto(Map<Integer, SongEntity> songs) {
 }

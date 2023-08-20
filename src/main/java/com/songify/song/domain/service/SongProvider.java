@@ -28,7 +28,7 @@ public class SongProvider {
         return songRepository.remove(id);
     }
 
-    public SongEntity put(Integer id, SongEntity songToPut) {
-        return songRepository.put(id, songToPut);
+    public void put(Integer id, SongEntity songToPut) {
+        songRepository.put(id, songToPut);
     }
 }

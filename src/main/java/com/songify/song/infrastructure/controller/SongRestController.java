@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -33,12 +32,11 @@ public class SongRestController {
 
     @GetMapping
     public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limitOfSongs) {
-        Map<Integer, SongEntity> allSongs = songProvider.findAll();
-        Map<Integer, SongEntity> limited = allSongs.entrySet()
-                .stream()
-                .limit(limitOfSongs)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(limited));
+        if (limitOfSongs == null) {
+            return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(songProvider.findAll()));
+        }
+        Map<Integer, SongEntity> limitedSongs = songProvider.getLimitedSongs(limitOfSongs);
+        return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(limitedSongs));
     }
 
     @GetMapping("/{id}")
@@ -62,7 +60,6 @@ public class SongRestController {
         SongPostResponseDto songPostResponseDto = SongMapper.mapSongEntityToSongPostResponseDto(addedSong);
         return ResponseEntity.ok(songPostResponseDto);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSongResponseDto> deleteSongByPathVariable(@PathVariable("id") Integer id) {

@@ -10,7 +10,7 @@ import java.util.*;
 @Controller
 public class SongViewController {
 
-    Map<Integer, SongEntity> databaseInMemory = new HashMap<>();
+    final Map<Integer, SongEntity> databaseInMemory = new HashMap<>();
 
     @GetMapping("/")
     public String index() {

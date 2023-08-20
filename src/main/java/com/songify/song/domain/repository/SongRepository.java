@@ -5,12 +5,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class SongRepository {
 
     public static final String THE_BEATLES = "The Beatles";
-    Map<Integer, SongEntity> databaseInMemory = new HashMap<>(Map.of(
+
+    final Map<Integer, SongEntity> databaseInMemory = new HashMap<>(Map.of(
             1, new SongEntity(THE_BEATLES, "Let it Be"),
             2, new SongEntity(THE_BEATLES, "Hey Jude"),
             3, new SongEntity(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
@@ -37,5 +39,12 @@ public class SongRepository {
 
     public void put(Integer id, SongEntity songToPut) {
         databaseInMemory.put(id, songToPut);
+    }
+
+    public Map<Integer, SongEntity> getLimitedSongs(Integer limitOfSongs) {
+        return databaseInMemory.entrySet()
+                .stream()
+                .limit(limitOfSongs)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

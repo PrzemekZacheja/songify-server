@@ -20,6 +20,10 @@ public class SongProvider {
         return songRepository.findAll();
     }
 
+    public Map<Integer, SongEntity> getLimitedSongs(Integer limitOfSongs) {
+        return songRepository.getLimitedSongs(limitOfSongs);
+    }
+
     public SongEntity getById(Integer id) {
         return songRepository.getById(id);
     }

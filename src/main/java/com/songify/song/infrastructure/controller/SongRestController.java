@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -23,7 +24,7 @@ public class SongRestController {
 
     public static final String SONG_NOT_FOUND = "Song not found";
     private final SongAdder songAdder;
-    private final SongProvider  songProvider;
+    private final SongProvider songProvider;
 
     public SongRestController(SongAdder songAdder, SongProvider songProvider) {
         this.songAdder = songAdder;
@@ -31,20 +32,13 @@ public class SongRestController {
     }
 
     @GetMapping
-    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer id) {
-        if (id != null) {
-            SongEntity songEntity = songProvider.getById(id);
-            if (songEntity == null) {
-                throw new SongNotFoundException(SONG_NOT_FOUND);
-            }
-            GetAllSongsResponseDto singleSongById = new GetAllSongsResponseDto(Map.of(id, songEntity));
-            log.info("Song found: {}", singleSongById);
-            return ResponseEntity.ok(singleSongById);
-        }
+    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limitOfSongs) {
         Map<Integer, SongEntity> allSongs = songProvider.findAll();
-        log.info("All songs: {}", allSongs);
-        GetAllSongsResponseDto getAllSongsResponseDto = SongMapper.mapSongEntitiesToGetAllSongsResponseDto(allSongs);
-        return ResponseEntity.ok(getAllSongsResponseDto);
+        Map<Integer, SongEntity> limited = allSongs.entrySet()
+                .stream()
+                .limit(limitOfSongs)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(limited));
     }
 
     @GetMapping("/{id}")

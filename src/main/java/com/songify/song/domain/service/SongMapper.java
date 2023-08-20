@@ -3,12 +3,12 @@ package com.songify.song.domain.service;
 import com.songify.song.domain.model.SongEntity;
 import com.songify.song.infrastructure.controller.dto.request.PutSongRequestDto;
 import com.songify.song.infrastructure.controller.dto.request.SongPostRequestDto;
-import com.songify.song.infrastructure.controller.dto.response.PartiallyUpdateSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.PutSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.SingleSongResponseDtoById;
-import com.songify.song.infrastructure.controller.dto.response.SongPostResponseDto;
+import com.songify.song.infrastructure.controller.dto.response.*;
+import org.springframework.http.HttpStatus;
 
-public class Mapper {
+import java.util.Map;
+
+public class SongMapper {
     public static SongEntity mapSongPostRequestDtoToSongEntity(SongPostRequestDto dto) {
         return new SongEntity(dto.name(), dto.artistName());
     }
@@ -31,5 +31,13 @@ public class Mapper {
 
     public static PartiallyUpdateSongResponseDto mapSongEntityToPartiallyUpdateSongResponse(SongEntity songEntity) {
         return new PartiallyUpdateSongResponseDto(songEntity.name(), songEntity.artistName());
+    }
+
+    public static DeleteSongResponseDto mapSongEntityToDeleteSongResponseDto(SongEntity removed) {
+        return new DeleteSongResponseDto("Deleted song " + removed, HttpStatus.OK);
+    }
+
+    public static GetAllSongsResponseDto mapSongEntitiesToGetAllSongsResponseDto(Map<Integer, SongEntity> allSongs) {
+        return new GetAllSongsResponseDto(allSongs);
     }
 }

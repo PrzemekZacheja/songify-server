@@ -1,50 +1,22 @@
 package com.songify.song.domain.repository;
 
-import com.songify.song.domain.model.SongEntity;
+import com.songify.song.domain.model.Song;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Repository
-public class SongRepository {
+public interface SongRepository extends org.springframework.data.repository.Repository<Song, Long> {
 
-    public static final String THE_BEATLES = "The Beatles";
+    public Song save(Song song);
 
-    final Map<Integer, SongEntity> databaseInMemory = new HashMap<>(Map.of(
-            1, new SongEntity(THE_BEATLES, "Let it Be"),
-            2, new SongEntity(THE_BEATLES, "Hey Jude"),
-            3, new SongEntity(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
-            4, new SongEntity(THE_BEATLES, "A Hard Day's Night")));
+    public List<Song> findAll();
 
+    public Song getById(Integer id);
 
-    public SongEntity saveToDatabase(SongEntity songEntity) {
-        int key = databaseInMemory.size() + 1;
-        databaseInMemory.put(key, songEntity);
-        return songEntity;
-    }
+    public Song remove(Integer id);
 
-    public Map<Integer, SongEntity> findAll() {
-        return databaseInMemory;
-    }
+    public void put(Integer id, Song songToPut);
 
-    public SongEntity getById(Integer id) {
-        return databaseInMemory.get(id);
-    }
-
-    public SongEntity remove(Integer id) {
-        return databaseInMemory.remove(id);
-    }
-
-    public void put(Integer id, SongEntity songToPut) {
-        databaseInMemory.put(id, songToPut);
-    }
-
-    public Map<Integer, SongEntity> getLimitedSongs(Integer limitOfSongs) {
-        return databaseInMemory.entrySet()
-                .stream()
-                .limit(limitOfSongs)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
+    public List<Song> getLimitedSongs(Integer limitOfSongs);
 }

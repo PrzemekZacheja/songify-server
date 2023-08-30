@@ -1,6 +1,6 @@
 package com.songify.song.infrastructure.controller;
 
-import com.songify.song.domain.model.SongEntity;
+import com.songify.song.domain.model.Song;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.*;
 @Controller
 public class SongViewController {
 
-    final Map<Integer, SongEntity> databaseInMemory = new HashMap<>();
+    final Map<Integer, Song> databaseInMemory = new HashMap<>();
 
     @GetMapping("/")
     public String index() {
@@ -19,9 +19,9 @@ public class SongViewController {
 
     @GetMapping("/views/songs")
     public String songs(Model model) {
-        databaseInMemory.put(1, new SongEntity("Song1", "Artist1"));
-        databaseInMemory.put(2, new SongEntity("Song2", "Artist2"));
-        databaseInMemory.put(3, new SongEntity("Song3",  "Artist3"));
+        databaseInMemory.put(1, new Song("Song1", "Artist1"));
+        databaseInMemory.put(2, new Song("Song2", "Artist2"));
+        databaseInMemory.put(3, new Song("Song3",  "Artist3"));
 
         model.addAttribute("songs", databaseInMemory);
         return "songs";

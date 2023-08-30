@@ -1,38 +1,38 @@
 package com.songify.song.domain.service;
 
-import com.songify.song.domain.model.SongEntity;
+import com.songify.song.domain.model.Song;
 import com.songify.song.domain.repository.SongRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class SongProvider {
 
-    private final SongRepository songRepository;
+    private final SongRepository songRepositoryInMemory;
 
-    public SongProvider(SongRepository songRepository) {
-        this.songRepository = songRepository;
+    public SongProvider(SongRepository songRepositoryInMemory) {
+        this.songRepositoryInMemory = songRepositoryInMemory;
     }
 
 
-    public Map<Integer, SongEntity> findAll() {
-        return songRepository.findAll();
+    public List<Song> findAll() {
+        return songRepositoryInMemory.findAll();
     }
 
-    public Map<Integer, SongEntity> getLimitedSongs(Integer limitOfSongs) {
-        return songRepository.getLimitedSongs(limitOfSongs);
+    public List<Song> getLimitedSongs(Integer limitOfSongs) {
+        return songRepositoryInMemory.findAll().stream().limit(limitOfSongs).toList();
     }
 
-    public SongEntity getById(Integer id) {
-        return songRepository.getById(id);
+    public Song getById(Integer id) {
+        return songRepositoryInMemory.getById(id);
     }
 
-    public SongEntity remove(Integer id) {
-        return songRepository.remove(id);
+    public Song remove(Integer id) {
+        return songRepositoryInMemory.remove(id);
     }
 
-    public void put(Integer id, SongEntity songToPut) {
-        songRepository.put(id, songToPut);
+    public void put(Integer id, Song songToPut) {
+        songRepositoryInMemory.put(id, songToPut);
     }
 }

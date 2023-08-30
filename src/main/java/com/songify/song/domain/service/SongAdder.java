@@ -1,6 +1,6 @@
 package com.songify.song.domain.service;
 
-import com.songify.song.domain.model.SongEntity;
+import com.songify.song.domain.model.Song;
 import com.songify.song.domain.repository.SongRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class SongAdder {
 
-    private final SongRepository SongRepository;
+    private final SongRepository SongRepositoryInMemory;
 
-    public SongAdder(com.songify.song.domain.repository.SongRepository songRepository) {
-        SongRepository = songRepository;
+    public SongAdder(SongRepository songRepositoryInMemory) {
+        SongRepositoryInMemory = songRepositoryInMemory;
     }
 
-    public SongEntity addSong(SongEntity songEntity) {
-        SongEntity savedToDatabase = SongRepository.saveToDatabase(songEntity);
+    public Song addSong(Song song) {
+        Song savedToDatabase = SongRepositoryInMemory.save(song);
         log.info("Song created: {}", savedToDatabase);
         return savedToDatabase;
     }

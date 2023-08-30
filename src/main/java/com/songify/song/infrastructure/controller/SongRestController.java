@@ -95,8 +95,9 @@ public class SongRestController {
     }
 
     @PatchMapping
-    public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(@RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
-                                                                            @RequestParam Integer id) {
+    public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(
+            @RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
+            @RequestParam Integer id) {
         SongEntity songEntity = songProvider.getById(id);
         if (songEntity == null) {
             throw new SongNotFoundException(SONG_NOT_FOUND);
@@ -104,18 +105,18 @@ public class SongRestController {
 
         String nameToUpdate = songEntity.name();
         String artistNameToUpdate = songEntity.artistName();
-        if (partiallySongRequestDto.songName() != null) {
-            nameToUpdate = partiallySongRequestDto.songName();
+        if (!partiallySongRequestDto.name().isEmpty()) {
+            nameToUpdate = partiallySongRequestDto.name();
             log.info("New name is: {}", nameToUpdate);
         }
-        if (partiallySongRequestDto.artistName() != null) {
+        if (!partiallySongRequestDto.artistName().isEmpty()) {
             artistNameToUpdate = partiallySongRequestDto.artistName();
             log.info("New artist name is: {}", artistNameToUpdate);
         }
 
         SongEntity updatedSong = new SongEntity(nameToUpdate, artistNameToUpdate);
         songProvider.put(id, updatedSong);
-        log.info("Song updated: {}", updatedSong);
-        return ResponseEntity.ok(SongMapper.mapSongEntityToPartiallyUpdateSongResponse(updatedSong));
+        PartiallyUpdateSongResponseDto body = SongMapper.mapSongEntityToPartiallyUpdateSongResponse(updatedSong);
+        return ResponseEntity.ok(body);
     }
 }

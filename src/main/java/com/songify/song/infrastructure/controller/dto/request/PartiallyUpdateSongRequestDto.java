@@ -1,4 +1,4 @@
 package com.songify.song.infrastructure.controller.dto.request;
 
-public record PartiallyUpdateSongRequestDto(String songName, String artistName) {
+public record PartiallyUpdateSongRequestDto(String name, String artistName) {
 }

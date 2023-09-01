@@ -15,7 +15,7 @@ public class SongAdder {
 
     public Song addSong(Song song) {
         Song savedToDatabase = songRepository.save(song);
-        log.info("Song created: {}", savedToDatabase);
+        log.info("Song created: {}",savedToDatabase.toString());
         return savedToDatabase;
     }
 

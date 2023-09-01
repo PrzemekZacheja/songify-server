@@ -11,15 +11,15 @@ public class SongRepositoryInMemory implements SongRepository {
 
     public static final String THE_BEATLES = "The Beatles";
 
-    final Map<Integer, Song> databaseInMemory = new HashMap<>(
-            Map.of(1, new Song(THE_BEATLES, "Let it Be"),
-                    2, new Song(THE_BEATLES, "Hey Jude"),
-                    3, new Song(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
-                    4, new Song(THE_BEATLES, "A Hard Day's Night")));
+    final Map<Long, Song> databaseInMemory = new HashMap<>(
+            Map.of(1L, new Song(THE_BEATLES, "Let it Be"),
+                    2L, new Song(THE_BEATLES, "Hey Jude"),
+                    3L, new Song(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
+                    4L, new Song(THE_BEATLES, "A Hard Day's Night")));
 
     @Override
     public Song save(Song song) {
-        int key = databaseInMemory.size() + 1;
+        long key = databaseInMemory.size() + 1;
         databaseInMemory.put(key, song);
         return song;
     }
@@ -36,10 +36,10 @@ public class SongRepositoryInMemory implements SongRepository {
         return Optional.ofNullable(databaseInMemory.get(id));
     }
 
-//    @Override
-//    public Song remove(Integer id) {
-//        return databaseInMemory.remove(id);
-//    }
+    @Override
+    public void deleteById(Long id) {
+        databaseInMemory.remove(id);
+    }
 
 //    @Override
 //    public void put(Integer id, Song songToPut) {

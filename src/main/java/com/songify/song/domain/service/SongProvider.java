@@ -29,9 +29,6 @@ public class SongProvider {
         return songRepository.findById(id);
     }
 
-//    public Song remove(Integer id) {
-//        return songRepositoryInMemory.remove(id);
-//    }
 
 //    public void put(Integer id, Song songToPut) {
 //        songRepositoryInMemory.put(id, songToPut);

@@ -5,34 +5,35 @@ import com.songify.song.domain.repository.SongRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SongProvider {
 
-    private final SongRepository songRepositoryInMemory;
+    private final SongRepository songRepository;
 
-    public SongProvider(SongRepository songRepositoryInMemory) {
-        this.songRepositoryInMemory = songRepositoryInMemory;
+    public SongProvider(SongRepository songRepository) {
+        this.songRepository = songRepository;
     }
 
 
     public List<Song> findAll() {
-        return songRepositoryInMemory.findAll();
+        return songRepository.findAll();
     }
 
     public List<Song> getLimitedSongs(Integer limitOfSongs) {
-        return songRepositoryInMemory.findAll().stream().limit(limitOfSongs).toList();
+        return songRepository.findAll().stream().limit(limitOfSongs).toList();
     }
 
-    public Song getById(Integer id) {
-        return songRepositoryInMemory.getById(id);
+    public Optional<Song> getById(Long id) {
+        return songRepository.findById(id);
     }
 
-    public Song remove(Integer id) {
-        return songRepositoryInMemory.remove(id);
-    }
+//    public Song remove(Integer id) {
+//        return songRepositoryInMemory.remove(id);
+//    }
 
-    public void put(Integer id, Song songToPut) {
-        songRepositoryInMemory.put(id, songToPut);
-    }
+//    public void put(Integer id, Song songToPut) {
+//        songRepositoryInMemory.put(id, songToPut);
+//    }
 }

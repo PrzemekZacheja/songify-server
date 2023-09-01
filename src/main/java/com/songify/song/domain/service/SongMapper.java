@@ -14,11 +14,11 @@ public class SongMapper {
     }
 
     public static SongPostResponseDto mapSongEntityToSongPostResponseDto(Song song) {
-        return new SongPostResponseDto(song.name(), song.artistName());
+        return new SongPostResponseDto(song.getName(), song.getArtist());
     }
 
     public static SingleSongResponseDtoById mapSongEntityToSingleSongResponseDtoById(Song song) {
-        return new SingleSongResponseDtoById(song.name(), song.artistName());
+        return new SingleSongResponseDtoById(song.getName(), song.getArtist());
     }
 
     public static Song mapPutSongRequestDtoToSongEntity(PutSongRequestDto putSongRequestDto) {
@@ -26,18 +26,18 @@ public class SongMapper {
     }
 
     public static PutSongResponseDto mapSongEntityToPutSongResponseDto(Song song) {
-        return new PutSongResponseDto(song.name(), song.artistName());
+        return new PutSongResponseDto(song.getName(), song.getArtist());
     }
 
     public static PartiallyUpdateSongResponseDto mapSongEntityToPartiallyUpdateSongResponse(Song song) {
-        return new PartiallyUpdateSongResponseDto(song.name(), song.artistName());
+        return new PartiallyUpdateSongResponseDto(song.getName(), song.getArtist());
     }
 
     public static DeleteSongResponseDto mapSongEntityToDeleteSongResponseDto(Song removed) {
         return new DeleteSongResponseDto("Deleted song " + removed, HttpStatus.OK);
     }
 
-    public static GetAllSongsResponseDto mapSongEntitiesToGetAllSongsResponseDto(List<Song>allSongs) {
+    public static GetAllSongsResponseDto mapSongEntitiesToGetAllSongsResponseDto(List<Song> allSongs) {
         return new GetAllSongsResponseDto(allSongs);
     }
 }

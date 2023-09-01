@@ -5,6 +5,7 @@ import com.songify.song.domain.model.Song;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SongRepositoryInMemory implements SongRepository {
 
@@ -30,27 +31,26 @@ public class SongRepositoryInMemory implements SongRepository {
                                .toList();
     }
 
-
     @Override
-    public Song getById(Integer id) {
-        return databaseInMemory.get(id);
+    public Optional<Song> findById(Long id) {
+        return Optional.ofNullable(databaseInMemory.get(id));
     }
 
-    @Override
-    public Song remove(Integer id) {
-        return databaseInMemory.remove(id);
-    }
+//    @Override
+//    public Song remove(Integer id) {
+//        return databaseInMemory.remove(id);
+//    }
 
-    @Override
-    public void put(Integer id, Song songToPut) {
-        databaseInMemory.put(id, songToPut);
-    }
+//    @Override
+//    public void put(Integer id, Song songToPut) {
+//        databaseInMemory.put(id, songToPut);
+//    }
 
-    @Override
-    public List<Song> getLimitedSongs(Integer limitOfSongs) {
-        return databaseInMemory.values()
-                               .stream()
-                               .limit(limitOfSongs)
-                               .toList();
-    }
+//    @Override
+//    public List<Song> getLimitedSongs(Integer limitOfSongs) {
+//        return databaseInMemory.values()
+//                               .stream()
+//                               .limit(limitOfSongs)
+//                               .toList();
+//    }
 }

@@ -1,22 +1,22 @@
 package com.songify.song.domain.repository;
 
 import com.songify.song.domain.model.Song;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface SongRepository extends org.springframework.data.repository.Repository<Song, Long> {
+public interface SongRepository extends Repository<Song, Long> {
 
-    public Song save(Song song);
+    Song save(Song song);
 
-    public List<Song> findAll();
+    List<Song> findAll();
 
-    public Song getById(Integer id);
+    Optional<Song> findById(Long id);
 
-    public Song remove(Integer id);
+//    Song remove(Integer id);
 
-    public void put(Integer id, Song songToPut);
+//    void put(Integer id, Song songToPut);
 
-    public List<Song> getLimitedSongs(Integer limitOfSongs);
+//    List<Song> getLimitedSongs(Integer limitOfSongs);
 }

@@ -13,10 +13,14 @@ public interface SongRepository extends Repository<Song, Long> {
 
     Song save(Song song);
 
+    @Query("select s from Song s")
     List<Song> findAll();
 
+    @Query("select s from Song s where s.id = :id")
     Optional<Song> findById(Long id);
 
+    @Modifying
+    @Query("DELETE FROM Song s where s.id = :id")
     void deleteById(Long id);
 
     @Modifying

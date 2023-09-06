@@ -4,6 +4,7 @@ import com.songify.song.domain.model.Song;
 import com.songify.song.infrastructure.controller.dto.request.PutSongRequestDto;
 import com.songify.song.infrastructure.controller.dto.request.SongPostRequestDto;
 import com.songify.song.infrastructure.controller.dto.response.*;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class SongMapper {
         return new SingleSongResponseDtoById(song.getName(), song.getArtist());
     }
 
-    public static Song mapPutSongRequestDtoToSongEntity(PutSongRequestDto putSongRequestDto) {
+    public static Song mapPutSongRequestDtoToSongEntity(@Valid PutSongRequestDto putSongRequestDto) {
         return new Song(putSongRequestDto.name(), putSongRequestDto.artistName());
     }
 

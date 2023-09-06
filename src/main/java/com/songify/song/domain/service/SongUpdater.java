@@ -18,23 +18,21 @@ public class SongUpdater {
     private final SongProvider songProvider;
 
     public void updateById(Long id, Song songToPut) {
-        songProvider.getById(id);
-        songRepository.updateById(id, songToPut);
+        Song song = songProvider.getById(id);
+        song.setName(songToPut.getName());
+        song.setArtist(songToPut.getArtist());
     }
 
     public Song partiallyUpdateById(Long id, PartiallyUpdateSongRequestDto partiallySongRequestDto) {
         Song song = songProvider.getById(id);
-        String nameToUpdate = song.getName();
-        String artistNameToUpdate = song.getArtist();
         if (partiallySongRequestDto.name() != null) {
-            nameToUpdate = partiallySongRequestDto.name();
-            log.info("New name is: {}", nameToUpdate);
+            song.setName(partiallySongRequestDto.name());
+            log.info("New name is: {}", partiallySongRequestDto.name());
         }
         if (partiallySongRequestDto.artistName() != null) {
-            artistNameToUpdate = partiallySongRequestDto.artistName();
-            log.info("New artist name is: {}", artistNameToUpdate);
+            song.setArtist(partiallySongRequestDto.artistName());
+            log.info("New artist is: {}", partiallySongRequestDto.artistName());
         }
-
-        return new Song(nameToUpdate, artistNameToUpdate);
+        return song;
     }
 }

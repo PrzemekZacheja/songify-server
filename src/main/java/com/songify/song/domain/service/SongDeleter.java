@@ -11,7 +11,7 @@ public class SongDeleter {
 
     private final SongRepository songRepository;
 
-    public SongDeleter(SongRepository songRepository) {
+    public SongDeleter(SongRepository songRepository, SongProvider songProvider) {
         this.songRepository = songRepository;
     }
 

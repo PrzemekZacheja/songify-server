@@ -1,16 +1,11 @@
 package com.songify.song.infrastructure.controller;
 
 import com.songify.song.domain.model.Song;
-import com.songify.song.domain.model.SongNotFoundException;
-import com.songify.song.domain.service.SongAdder;
-import com.songify.song.domain.service.SongDeleter;
-import com.songify.song.domain.service.SongMapper;
-import com.songify.song.domain.service.SongProvider;
+import com.songify.song.domain.service.*;
+import com.songify.song.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
+import com.songify.song.infrastructure.controller.dto.request.PutSongRequestDto;
 import com.songify.song.infrastructure.controller.dto.request.SongPostRequestDto;
-import com.songify.song.infrastructure.controller.dto.response.DeleteSongResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.GetAllSongsResponseDto;
-import com.songify.song.infrastructure.controller.dto.response.SingleSongResponseDtoById;
-import com.songify.song.infrastructure.controller.dto.response.SongPostResponseDto;
+import com.songify.song.infrastructure.controller.dto.response.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,10 +20,10 @@ import java.util.List;
 @RequestMapping("/songs")
 public class SongRestController {
 
-    public static final String SONG_NOT_FOUND = "Song not found";
     private final SongAdder songAdder;
     private final SongProvider songProvider;
     private final SongDeleter songDeleter;
+    private final SongUpdater songUpdater;
 
     @GetMapping
     public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limitOfSongs) {
@@ -40,11 +35,9 @@ public class SongRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SingleSongResponseDtoById> getSongById(@PathVariable("id") long id, @RequestHeader(required = false) String authorizationHeader) {
-        Song song = songProvider.getById(id)
-                                .orElseThrow(
-                                        () -> new SongNotFoundException(SONG_NOT_FOUND
-                                        ));
+    public ResponseEntity<SingleSongResponseDtoById> getSongById(@PathVariable("id") long id,
+                                                                 @RequestHeader(required = false) String authorizationHeader) {
+        Song song = songProvider.getById(id);
         if (authorizationHeader != null) {
             log.info("Authorization header: {}", authorizationHeader);
         }
@@ -72,48 +65,28 @@ public class SongRestController {
     }
 
     private ResponseEntity<DeleteSongResponseDto> getDeleteSongResponseDtoResponseEntity(@RequestParam("id") Long id) {
-        Song songDeleted = songProvider.getById(id)
-                                .orElseThrow(() -> new SongNotFoundException(SONG_NOT_FOUND));
-        DeleteSongResponseDto deletedSongResponseDto = SongMapper.mapSongEntityToDeleteSongResponseDto(songDeleted);
+        Song songToDelete = songProvider.getById(id);
+        DeleteSongResponseDto deletedSongResponseDto = SongMapper.mapSongEntityToDeleteSongResponseDto(songToDelete);
         songDeleter.deleteById(id);
         return ResponseEntity.ok(deletedSongResponseDto);
     }
 
-//    @PutMapping
-//    public ResponseEntity<PutSongResponseDto> updateSong(@RequestBody @Valid PutSongRequestDto putSongRequestDto, @RequestParam Integer id) {
-//        Song song = songProvider.getById(id);
-//        if (song == null) {
-//            throw new SongNotFoundException(SONG_NOT_FOUND);
-//        }
-//        Song songToPut = SongMapper.mapPutSongRequestDtoToSongEntity(putSongRequestDto);
-//        songProvider.put(id, songToPut);
-//        log.info("Song updated: {}", songToPut);
-//        return ResponseEntity.ok(SongMapper.mapSongEntityToPutSongResponseDto(songToPut));
-//    }
+    @PutMapping
+    public ResponseEntity<PutSongResponseDto> updateSong(@RequestBody @Valid PutSongRequestDto putSongRequestDto,
+                                                         @RequestParam Long id) {
+        Song songToPut = SongMapper.mapPutSongRequestDtoToSongEntity(putSongRequestDto);
+        songUpdater.updateById(id, songToPut);
+        PutSongResponseDto putSongResponseDto = SongMapper
+                .mapSongEntityToPutSongResponseDto(songToPut);
+        return ResponseEntity.ok(putSongResponseDto);
+    }
 
-//    @PatchMapping
-//    public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(
-//            @RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
-//            @RequestParam Integer id) {
-//        Song song = songProvider.getById(id);
-//        if (song == null) {
-//            throw new SongNotFoundException(SONG_NOT_FOUND);
-//        }
-//
-//        String nameToUpdate = song.getName();
-//        String artistNameToUpdate = song.getArtist();
-//        if (!partiallySongRequestDto.name().isEmpty()) {
-//            nameToUpdate = partiallySongRequestDto.name();
-//            log.info("New name is: {}", nameToUpdate);
-//        }
-//        if (!partiallySongRequestDto.artistName().isEmpty()) {
-//            artistNameToUpdate = partiallySongRequestDto.artistName();
-//            log.info("New artist name is: {}", artistNameToUpdate);
-//        }
-//
-//        Song updatedSong = new Song(nameToUpdate, artistNameToUpdate);
-//        songProvider.put(id, updatedSong);
-//        PartiallyUpdateSongResponseDto body = SongMapper.mapSongEntityToPartiallyUpdateSongResponse(updatedSong);
-//        return ResponseEntity.ok(body);
-//    }
+    @PatchMapping
+    public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(
+            @RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
+            @RequestParam Long id) {
+        Song updatedSong = songUpdater.partiallyUpdateById(id, partiallySongRequestDto);
+        PartiallyUpdateSongResponseDto body = SongMapper.mapSongEntityToPartiallyUpdateSongResponse(updatedSong);
+        return ResponseEntity.ok(body);
+    }
 }

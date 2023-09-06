@@ -16,14 +16,15 @@ public class ApiValidationErrorHandler {
     public ResponseEntity<ApiValidationErrorResponseDto> handleValidationException(MethodArgumentNotValidException exception) {
         List<String> errorsFromException = getErrorsFromException(exception);
         ApiValidationErrorResponseDto responseDto = new ApiValidationErrorResponseDto(errorsFromException, BAD_REQUEST);
-        return ResponseEntity.badRequest().body(responseDto);
+        return ResponseEntity.badRequest()
+                             .body(responseDto);
     }
 
     private List<String> getErrorsFromException(MethodArgumentNotValidException exception) {
         return exception.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + " : " + error.getDefaultMessage())
-                .toList();
+                        .getFieldErrors()
+                        .stream()
+                        .map(error -> error.getField() + " : " + error.getDefaultMessage())
+                        .toList();
     }
 }

@@ -1,11 +1,12 @@
 package com.songify.song.infrastructure.controller;
 
 import com.songify.song.domain.model.Song;
-import org.springframework.stereotype.*;
-import org.springframework.ui.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class SongViewController {
@@ -21,7 +22,7 @@ public class SongViewController {
     public String songs(Model model) {
         databaseInMemory.put(1, new Song("Song1", "Artist1"));
         databaseInMemory.put(2, new Song("Song2", "Artist2"));
-        databaseInMemory.put(3, new Song("Song3",  "Artist3"));
+        databaseInMemory.put(3, new Song("Song3", "Artist3"));
 
         model.addAttribute("songs", databaseInMemory);
         return "songs";

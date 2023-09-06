@@ -41,10 +41,10 @@ public class SongRepositoryInMemory implements SongRepository {
         databaseInMemory.remove(id);
     }
 
-//    @Override
-//    public void put(Integer id, Song songToPut) {
-//        databaseInMemory.put(id, songToPut);
-//    }
+    @Override
+    public void updateById(Long id, Song song) {
+        databaseInMemory.put(id, song);
+    }
 
 //    @Override
 //    public List<Song> getLimitedSongs(Integer limitOfSongs) {

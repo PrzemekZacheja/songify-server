@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Builder
 @Entity
 @Getter
 @Setter
@@ -14,13 +13,13 @@ import lombok.ToString;
 @ToString
 public class Song {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(nullable = false)
     String name;
     @Column(nullable = false)
     String artist;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public Song() {
     }

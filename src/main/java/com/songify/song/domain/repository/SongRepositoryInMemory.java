@@ -1,6 +1,7 @@
 package com.songify.song.domain.repository;
 
 import com.songify.song.domain.model.Song;
+import org.springframework.data.domain.Pageable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SongRepositoryInMemory implements SongRepository {
     }
 
     @Override
-    public List<Song> findAll() {
+    public List<Song> findAll(Pageable pageable) {
         return databaseInMemory.values()
                                .stream()
                                .toList();

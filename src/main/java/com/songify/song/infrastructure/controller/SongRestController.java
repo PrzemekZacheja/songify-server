@@ -9,6 +9,8 @@ import com.songify.song.infrastructure.controller.dto.response.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +28,10 @@ public class SongRestController {
     private final SongUpdater songUpdater;
 
     @GetMapping
-    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@RequestParam(required = false) Integer limitOfSongs) {
-        if (limitOfSongs == null) {
-            return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(songProvider.findAll()));
-        }
-        List<Song> limitedSongs = songProvider.getLimitedSongs(limitOfSongs);
-        return ResponseEntity.ok(SongMapper.mapSongEntitiesToGetAllSongsResponseDto(limitedSongs));
+    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault(10)  Pageable pageable) {
+        List<Song> songs = songProvider.findAll(pageable);
+        GetAllSongsResponseDto getAllSongsResponseDto = SongMapper.mapSongEntitiesToGetAllSongsResponseDto(songs);
+        return ResponseEntity.ok(getAllSongsResponseDto);
     }
 
     @GetMapping("/{id}")

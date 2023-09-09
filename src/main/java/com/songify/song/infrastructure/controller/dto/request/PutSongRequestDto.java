@@ -8,6 +8,6 @@ public record PutSongRequestDto(@NotNull(message = "Song name cannot be null")
                                 String songName,
                                 @NotNull(message = "Artist name cannot be null")
                                 @NotEmpty(message = "Artist name cannot be empty")
-                                String artistName){
+                                String artistName) {
 
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.songify.song.domain.service.SongMapper.mapSongEntitiesToGetAllSongsResponseDto;
+
 @RestController
 @Log4j2
 @AllArgsConstructor
@@ -28,9 +30,9 @@ public class SongRestController {
     private final SongUpdater songUpdater;
 
     @GetMapping
-    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault(10)  Pageable pageable) {
+    public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault(10) Pageable pageable) {
         List<Song> songs = songProvider.findAll(pageable);
-        GetAllSongsResponseDto getAllSongsResponseDto = SongMapper.mapSongEntitiesToGetAllSongsResponseDto(songs);
+        GetAllSongsResponseDto getAllSongsResponseDto = mapSongEntitiesToGetAllSongsResponseDto(songs);
         return ResponseEntity.ok(getAllSongsResponseDto);
     }
 

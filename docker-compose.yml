@@ -13,12 +13,9 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: postgres
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
 
   pgadmin:
     container_name: pgadmin4_container
@@ -29,3 +26,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+
+volumes:
+  local_pgdata:

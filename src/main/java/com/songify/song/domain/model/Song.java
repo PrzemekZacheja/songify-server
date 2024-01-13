@@ -13,10 +13,15 @@ import java.time.Instant;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Song {
+public class Song extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "songs_id_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(
+            name = "songs_id_seq",
+            sequenceName = "songs_id_seq",
+            allocationSize = 1
+    )
     private Long id;
 
     @Column(nullable = false)

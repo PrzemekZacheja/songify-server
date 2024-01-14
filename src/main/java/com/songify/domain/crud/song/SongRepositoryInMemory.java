@@ -13,9 +13,9 @@ public class SongRepositoryInMemory implements SongRepository {
 
     final Map<Long, Song> databaseInMemory = new HashMap<>(
             Map.of(1L, new Song(THE_BEATLES, "Let it Be"),
-                    2L, new Song(THE_BEATLES, "Hey Jude"),
-                    3L, new Song(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
-                    4L, new Song(THE_BEATLES, "A Hard Day's Night")));
+                   2L, new Song(THE_BEATLES, "Hey Jude"),
+                   3L, new Song(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
+                   4L, new Song(THE_BEATLES, "A Hard Day's Night")));
 
     @Override
     public Song save(Song song) {

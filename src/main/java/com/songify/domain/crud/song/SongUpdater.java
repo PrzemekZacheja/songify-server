@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 @Transactional
 @AllArgsConstructor
 @Log4j2
-public class SongUpdater {
+class SongUpdater {
 
     private final SongRepository songRepository;
     private final SongProvider songProvider;
 
-    public void updateById(Long id, Song songToPut) {
+     void updateById(Long id, Song songToPut) {
         songProvider.getById(id);
         songRepository.updateById(id, songToPut);
     }
 
-    public Song partiallyUpdateById(Long id, PartiallyUpdateSongRequestDto partiallySongRequestDto) {
+     Song partiallyUpdateById(Long id, PartiallyUpdateSongRequestDto partiallySongRequestDto) {
         Song song = songProvider.getById(id);
         String nameToUpdate = song.getName();
         String artistNameToUpdate = song.getArtist();

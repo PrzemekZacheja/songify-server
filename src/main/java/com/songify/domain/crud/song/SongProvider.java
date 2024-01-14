@@ -6,20 +6,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SongProvider {
+class SongProvider {
 
     private final SongRepository songRepository;
 
-    public SongProvider(SongRepository songRepository) {
+     SongProvider(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 
 
-    public List<Song> findAll(Pageable pageable) {
+     List<Song> findAll(Pageable pageable) {
         return songRepository.findAll(pageable);
     }
 
-    public Song getById(Long id) {
+     Song getById(Long id) {
         return songRepository.findById(id)
                              .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found"));
     }

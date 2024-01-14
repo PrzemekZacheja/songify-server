@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 @Transactional
-public class SongAdder {
+class SongAdder {
 
     private final SongRepository songRepository;
 
-    public Song addSong(Song song) {
+    Song addSong(Song song) {
         Song savedToDatabase = songRepository.save(song);
         log.info("Song created: {}", savedToDatabase.toString());
         return savedToDatabase;

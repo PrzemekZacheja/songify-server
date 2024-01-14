@@ -1,9 +1,14 @@
 package com.songify.domain.crud.song;
 
-import com.songify.infrastructure.controller.dto.response.*;
-import com.songify.song.domain.model.Song;
 import com.songify.infrastructure.controller.dto.request.PutSongRequestDto;
 import com.songify.infrastructure.controller.dto.request.SongPostRequestDto;
+import com.songify.infrastructure.controller.dto.response.DeleteSongResponseDto;
+import com.songify.infrastructure.controller.dto.response.GetAllSongsResponseDto;
+import com.songify.infrastructure.controller.dto.response.PartiallyUpdateSongResponseDto;
+import com.songify.infrastructure.controller.dto.response.PutSongResponseDto;
+import com.songify.infrastructure.controller.dto.response.SingleSongResponseDtoById;
+import com.songify.infrastructure.controller.dto.response.SongDto;
+import com.songify.infrastructure.controller.dto.response.SongPostResponseDto;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 

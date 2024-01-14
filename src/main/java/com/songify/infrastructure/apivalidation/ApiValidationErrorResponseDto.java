@@ -4,5 +4,6 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public record ApiValidationErrorResponseDto(List<String> messages, HttpStatus status) {
+record ApiValidationErrorResponseDto(List<String> messages,
+                                            HttpStatus status) {
 }

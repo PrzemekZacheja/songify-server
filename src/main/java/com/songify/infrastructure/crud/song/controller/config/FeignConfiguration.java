@@ -1,4 +1,4 @@
-package com.songify.infrastructure.controller.config;
+package com.songify.infrastructure.crud.song.controller.config;
 
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;

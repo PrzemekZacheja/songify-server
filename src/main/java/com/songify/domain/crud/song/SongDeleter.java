@@ -12,11 +12,11 @@ class SongDeleter {
 
     private final SongRepository songRepository;
 
-     SongDeleter(SongRepository songRepository) {
+    SongDeleter(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 
-     void deleteById(Long id) {
+    void deleteById(Long id) {
         songRepository.deleteById(id);
         log.info("Song with id {} deleted", id);
     }

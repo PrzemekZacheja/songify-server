@@ -1,26 +1,27 @@
 package com.songify.domain.crud.song;
 
-import com.songify.infrastructure.controller.dto.request.PartiallyUpdateSongRequestDto;
 import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Log4j2
 class SongUpdater {
 
     private final SongRepository songRepository;
     private final SongProvider songProvider;
 
-     void updateById(Long id, Song songToPut) {
-        songProvider.getById(id);
+    SongDomainDto updateById(Long id, Song songToPut) {
+        Song byId = songProvider.getById(id);
         songRepository.updateById(id, songToPut);
+        return SongDomainMapper.mapFromSongToSongDomainDto(byId);
     }
 
-     Song partiallyUpdateById(Long id, PartiallyUpdateSongRequestDto partiallySongRequestDto) {
+    SongDomainDto partiallyUpdateById(Long id, SongDomainDto partiallySongRequestDto) {
         Song song = songProvider.getById(id);
         String nameToUpdate = song.getName();
         String artistNameToUpdate = song.getArtist();
@@ -28,12 +29,12 @@ class SongUpdater {
             nameToUpdate = partiallySongRequestDto.name();
             log.info("New name is: {}", nameToUpdate);
         }
-        if (partiallySongRequestDto.artistName() != null) {
-            artistNameToUpdate = partiallySongRequestDto.artistName();
+        if (partiallySongRequestDto.artist() != null) {
+            artistNameToUpdate = partiallySongRequestDto.artist();
             log.info("New artist name is: {}", artistNameToUpdate);
         }
         Song songToUpdate = new Song(nameToUpdate, artistNameToUpdate);
         songRepository.updateById(id, songToUpdate);
-        return songToUpdate;
+        return SongDomainMapper.mapFromSongToSongDomainDto(songToUpdate);
     }
 }

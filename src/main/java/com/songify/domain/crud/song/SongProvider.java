@@ -10,16 +10,16 @@ class SongProvider {
 
     private final SongRepository songRepository;
 
-     SongProvider(SongRepository songRepository) {
+    SongProvider(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 
 
-     List<Song> findAll(Pageable pageable) {
+    List<Song> findAll(Pageable pageable) {
         return songRepository.findAll(pageable);
     }
 
-     Song getById(Long id) {
+    Song getById(Long id) {
         return songRepository.findById(id)
                              .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found"));
     }

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-    <component name="DatabaseMigrationSettings" lastSelectedDirectory="src\main\resources\db\migration"/>
-    <component name="JpaPluginProjectSettings">
-        <option name="lastSelectedLanguage" value="Java"/>
-    </component>
-    <component name="PersistenceUnitSettings">
-        <persistence-units>
-            <persistence-unit name="Default">
-                <packages>
-                    <package value="com.songify"/>
-                </packages>
-            </persistence-unit>
-        </persistence-units>
-    </component>
+  <component name="DatabaseMigrationSettings" lastSelectedDirectory="src\main\resources\db\migration" />
+  <component name="JpaLiquibaseChangesConfig">
+    <exclude-change idName="songs#uuid" tagName="dropColumn" />
+    <exclude-change idName="songs_id_seq" tagName="createSequence" />
+    <exclude-change idName="genre_id_seq" tagName="createSequence" />
+  </component>
+  <component name="JpaPluginProjectSettings">
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
+  <component name="PersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit name="Default">
+        <packages>
+          <package value="com.songify" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
 </project>

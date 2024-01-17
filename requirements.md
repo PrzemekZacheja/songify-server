@@ -15,6 +15,7 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
 
 3. **Zarządzanie piosenkami**
     * Dodawanie nowych piosenek do bazy danych, wraz z artystą-relacja między encjami.
+    * można dodać tylko jeden gatunek muzyczny do piosenki
     * Wyświetlanie listy piosenek z bazy danych.
     * Edycja istniejących piosenek.
     * Usuwanie piosenek z bazy danych.

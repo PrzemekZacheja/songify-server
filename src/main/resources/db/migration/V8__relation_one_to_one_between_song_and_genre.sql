@@ -1,0 +1,3 @@
+ALTER TABLE songs
+    ADD genre_id BIGINT,
+    ADD CONSTRAINT FK_SONGS_ON_GENRE FOREIGN KEY (genre_id) REFERENCES genre (id);

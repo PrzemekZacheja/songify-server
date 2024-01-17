@@ -1,6 +1,6 @@
 package com.songify.infrastructure.crud.song.controller.dto.response;
 
-import com.songify.domain.crud.song.SongLanguage;
+import com.songify.domain.crud.SongLanguage;
 import lombok.Builder;
 
 @Builder

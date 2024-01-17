@@ -1,7 +1,7 @@
 package com.songify.infrastructure.crud.song.controller;
 
-import com.songify.domain.crud.song.SongDomainDto;
-import com.songify.domain.crud.song.SongLanguage;
+import com.songify.domain.crud.SongDomainDto;
+import com.songify.domain.crud.SongLanguage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

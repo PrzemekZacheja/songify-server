@@ -1,6 +1,6 @@
 package com.songify.infrastructure.crud.song.controller.dto.request;
 
-import com.songify.domain.crud.song.SongLanguage;
+import com.songify.domain.crud.SongLanguage;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 

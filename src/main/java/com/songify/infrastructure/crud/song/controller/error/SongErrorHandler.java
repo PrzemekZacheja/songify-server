@@ -1,6 +1,6 @@
 package com.songify.infrastructure.crud.song.controller.error;
 
-import com.songify.domain.crud.song.SongNotFoundException;
+import com.songify.domain.crud.SongNotFoundException;
 import com.songify.infrastructure.crud.song.controller.SongRestController;
 import com.songify.infrastructure.crud.song.controller.dto.response.DeleteSongResponseDto;
 import lombok.extern.log4j.Log4j2;

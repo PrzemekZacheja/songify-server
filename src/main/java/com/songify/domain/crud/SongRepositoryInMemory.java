@@ -10,13 +10,12 @@ import java.util.Optional;
 @SuppressWarnings("ClassEscapesDefinedScope")
 public class SongRepositoryInMemory implements SongRepository {
 
-    public static final String THE_BEATLES = "The Beatles";
 
     final Map<Long, Song> databaseInMemory = new HashMap<>(
-            Map.of(1L, new Song(THE_BEATLES, "Let it Be"),
-                   2L, new Song(THE_BEATLES, "Hey Jude"),
-                   3L, new Song(THE_BEATLES, "Sgt. Pepper's Lonely Hearts Club Band"),
-                   4L, new Song(THE_BEATLES, "A Hard Day's Night")));
+            Map.of(1L, new Song("Let it Be"),
+                   2L, new Song("Hey Jude"),
+                   3L, new Song("Sgt. Pepper's Lonely Hearts Club Band"),
+                   4L, new Song("A Hard Day's Night")));
 
     @Override
     public Song save(Song song) {

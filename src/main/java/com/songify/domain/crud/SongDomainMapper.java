@@ -7,7 +7,6 @@ class SongDomainMapper {
     @NotNull
     public static SongDomainDto mapFromSongToSongDomainDto(Song song) {
         return SongDomainDto.builder()
-                            .artist(song.getArtist())
                             .duration(song.getDuration())
                             .language(song.getLanguage())
                             .name(song.getName())
@@ -17,7 +16,6 @@ class SongDomainMapper {
 
     static Song mapFromSongDomainDtoToSong(final SongDomainDto songDomainDto) {
         return Song.builder()
-                   .artist(songDomainDto.artist())
                    .duration(songDomainDto.duration())
                    .language(songDomainDto.language())
                    .name(songDomainDto.name())

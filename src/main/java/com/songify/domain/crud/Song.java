@@ -43,9 +43,6 @@ class Song extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String artist;
-
     private Instant releaseDate;
 
     private Long duration;
@@ -56,8 +53,7 @@ class Song extends BaseEntity {
     @OneToOne
     private Genre genre;
 
-    public Song(String name, String artist) {
-        this.name = name;
-        this.artist = artist;
+    public Song(final String nameToUpdate) {
+        this.name = nameToUpdate;
     }
 }

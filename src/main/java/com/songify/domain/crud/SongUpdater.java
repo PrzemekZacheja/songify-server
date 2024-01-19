@@ -24,16 +24,11 @@ class SongUpdater {
     SongDomainDto partiallyUpdateById(Long id, SongDomainDto partiallySongRequestDto) {
         Song song = songProvider.getById(id);
         String nameToUpdate = song.getName();
-        String artistNameToUpdate = song.getArtist();
         if (partiallySongRequestDto.name() != null) {
             nameToUpdate = partiallySongRequestDto.name();
             log.info("New name is: {}", nameToUpdate);
         }
-        if (partiallySongRequestDto.artist() != null) {
-            artistNameToUpdate = partiallySongRequestDto.artist();
-            log.info("New artist name is: {}", artistNameToUpdate);
-        }
-        Song songToUpdate = new Song(nameToUpdate, artistNameToUpdate);
+        Song songToUpdate = new Song(nameToUpdate);
         songRepository.updateById(id, songToUpdate);
         return SongDomainMapper.mapFromSongToSongDomainDto(songToUpdate);
     }

@@ -1,43 +1,50 @@
 
 Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzanie albumami, artystami i piosenkami. Poniżej przedstawiam szczegółowe wymagania w podpunktach:
+1. można dodać artystę (nazwa artysty)
+2. można dodać gatunek muzyczny (nazwa gatunku)
+3. można dodać album (tytuł, data wydania, ale musi być w nim przynajmniej jedna piosenka)
+4. można dodać piosenkę (tytuł, czas trwania, data wydania, język piosenki) 
+5. można dodać artystę od razu z albumem i z piosenką (domyślne wartości) 
+6. można usunąć artystę (usuwamy wtedy jego piosenki oraz albumy, ale jeśli było więcej niż jeden artysta w albumie, to usuwamy tylko artystę z albumu i samego artystę) 
+7. można usunąć gatunek muzyczny (ale nie może istnieć piosenka z takim gatunkiem) 
+8. można usunąć album (ale dopiero, wtedy kiedy nie ma już żadnej piosenki przypisanej do albumu) 
+9. można usunąć piosenkę, ale nie usuwamy albumu i artystów, gdy była tylko 1 piosenka w albumie 
+10. można edytować nazwę artysty 
+11. można edytować nazwę gatunku muzycznego 
+12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu) 
+13. można edytować piosenkę (czas trwania, artystę, nazwę piosenki) 
+14. można przypisać piosenki tylko do albumów 
+15. można przypisać piosenki do artysty (poprzez album) 
+16. można przypisać artystów do albumów (album może mieć więcej artystów, artysta może mieć kilka albumów) 
+17. można przypisać tylko jeden gatunek muzyczny do piosenki 
+18. gdy nie ma przypisanego gatunku muzycznego do piosenki, to wyświetlamy "default" 
+19. można wyświetlać wszystkie piosenki 
+20. można wyświetlać wszystkie gatunki 
+21. można wyświetlać wszystkich artystów 
+22. można wyświetlać wszystkie albumy 
+23. można wyświetlać konkretne albumy z artystami oraz piosenkami w albumie 
+24. można wyświetlać konkretne gatunki muzyczne wraz z piosenkami 
+25. można wyświetlać konkretnych artystów wraz z ich albumami 
+26. chcemy mieć trwałe dane
 
-1. **Zarządzanie albumami**
-    * Dodawanie nowych albumów do bazy danych, wraz z piosenką zawartą w środku-relacja między encjami.
-    * Wyświetlanie listy albumów z bazy danych.
-    * Edycja istniejących albumów.
-    * Usuwanie albumów z bazy danych.
+HAPPY PATH (user tworzy album "Eminema" z piosenkami "Til i collapse", "Lose Yourself", o gatunku Rap)
 
-2. **Zarządzanie artystami**
-    * Dodawanie nowych artystów do bazy danych.
-    * Wyświetlanie listy artystów z bazy danych.
-    * Edycja istniejących artystów.
-    * Usuwanie artystów z bazy danych.
+given there is no songs, artists, albums and genres created before
 
-3. **Zarządzanie piosenkami**
-    * Dodawanie nowych piosenek do bazy danych, wraz z artystą-relacja między encjami.
-    * można dodać tylko jeden gatunek muzyczny do piosenki
-    * Wyświetlanie listy piosenek z bazy danych.
-    * Edycja istniejących piosenek.
-    * Usuwanie piosenek z bazy danych.
-
-HAPPY-PATH:
-* user tworzy album EMINEM z piosenkami "Til I collapse" i "Love Yourself" o gatunku RAP 
-W aplikacji nie ma zapisanych żadnych piosenek, albumów czy gatunków
-
-1. when I use /songs there are no songs displayed
-2. when I use POST /song with the song "Til I collapse" the song with id:1 and status 200 OK is returned
-3. when I use POST /song with the song "Love Yourself", the song with id:2 and status 200 OK are returned
-4. when I use /genre no genres are displayed
-5. when I use POST /genre with "RAP" then the genre "RAP" with id 1 is returned
-6. when I use /song/1 I see a song with the genre "default"
-7. when I use PUT /song/1/genre/1 the genre "RAP" is added to the song with id 1
-8. when I use /song/1 I see a song with the genre "RAP"
-9. when I use PUT /song/2/genre/1 the genre with id 1 is added to the song with id 2
-10. when I use GET /album, no albums are displayed
-11. when I use POST /album with the album "EMINEM ALBUM", the album with id 1 is returned
-12. when I use GET /album/1 there are no songs added
-13. when I use PUT /album/1/song/1 the song with id 1 is added to the album with id 1
-14. when I use PUT /album/1/song/2 the song with id 2 is added to the album with id 1
-15. when I use GET /album/1 I see 2 songs with id 1 and id 2
-16. when I use POST /artist with the artist "EMINE", the artist with id 1 is added to the album
-17. when I use PUT /album/1/artist/1 the artist with id 1 is added to the album with id 1
+when I go to /song then I can see no songs
+when I post to /song with Song "Till i collapse" then Song "Til i collapse" is returned with id 1
+when I post to /song with Song "Lose Yourself" then Song "Lose Yourself" is returned with id 2
+when I go to /genre then I can see no genres
+when I post to /genre with Genre "Rap" then Genre "Rap" is returned with id 1
+when I go to /song/1 then I can see default genre
+when I put to /song/1/genre/1 then Genre with id 1 ("Rap") is added to Song with id 1 ("Til i collapse")
+when I go to /song/1 then I can see "Rap" genre
+when I put to /song/2/genre/1 then Genre with id 1 ("Rap") is added to Song with id 2 ("Lose Yourself")
+when I go to /album then I can see no albums
+when I post to /album with Album "EminemAlbum1" and Song with id 1 then Album "EminemAlbum1" is returned with id 1
+when I go to /album/1 then I can see song with id 1 added to it
+when I put to /album/1/song/1 then Song with id 1 ("Til i collapse") is added to Album with id 1 ("EminemAlbum1")
+when I put to /album/1/song/2 then Song with id 2 ("Lose Yourself") is added to Album with id 1 ("EminemAlbum1")
+when I go to /album/1/song then I can see 2 songs (id 1, id 2)
+when I post to /artist with Artist "Eminem" then Artist "Eminem" is returned with id 1
+when I put to /album/1/artist/2 then Artist with id 1 ("Eminem") is added to Album with id 1 ("EminemAlbum1")the album with id 1

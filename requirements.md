@@ -1,6 +1,7 @@
 
 Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzanie albumami, artystami i piosenkami. Poniżej przedstawiam szczegółowe wymagania w podpunktach:
-1. można dodać artystę (nazwa artysty)
+
+~~1. można dodać artystę (nazwa artysty)~~
 2. można dodać gatunek muzyczny (nazwa gatunku)
 3. można dodać album (tytuł, data wydania, ale musi być w nim przynajmniej jedna piosenka)
 4. można dodać piosenkę (tytuł, czas trwania, data wydania, język piosenki) 

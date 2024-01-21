@@ -1,5 +1,8 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.domain.crud.dto.SongDomainDto;
 import com.songify.infrastructure.crud.song.controller.SongControllerMapper;
 import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
 import lombok.AccessLevel;
@@ -11,12 +14,18 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class SongCrudFacade {
+public class SongifyCrudFacade {
 
     private final SongAdder songAdder;
     private final SongProvider songProvider;
     private final SongDeleter songDeleter;
     private final SongUpdater songUpdater;
+    private final ArtistAdder artistAdder;
+
+
+    public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
+        return artistAdder.addArtist(artistRequestDto);
+    }
 
     public List<SongDomainDto> findAll(final Pageable pageable) {
         return songProvider.findAll(pageable)

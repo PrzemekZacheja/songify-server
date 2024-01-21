@@ -1,5 +1,6 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.SongDomainDto;
 import org.jetbrains.annotations.NotNull;
 
 class SongDomainMapper {

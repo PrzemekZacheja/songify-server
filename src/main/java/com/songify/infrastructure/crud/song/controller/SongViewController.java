@@ -1,6 +1,6 @@
 package com.songify.infrastructure.crud.song.controller;
 
-import com.songify.domain.crud.SongDomainDto;
+import com.songify.domain.crud.dto.SongDomainDto;
 import com.songify.domain.crud.SongLanguage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

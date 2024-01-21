@@ -1,5 +1,6 @@
-package com.songify.domain.crud;
+package com.songify.domain.crud.dto;
 
+import com.songify.domain.crud.SongLanguage;
 import lombok.Builder;
 
 @Builder

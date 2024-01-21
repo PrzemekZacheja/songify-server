@@ -1,7 +1,7 @@
 package com.songify.infrastructure.crud.song.controller;
 
-import com.songify.domain.crud.SongCrudFacade;
-import com.songify.domain.crud.SongDomainDto;
+import com.songify.domain.crud.SongifyCrudFacade;
+import com.songify.domain.crud.dto.SongDomainDto;
 import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
 import com.songify.infrastructure.crud.song.controller.dto.request.PutSongRequestDto;
 import com.songify.infrastructure.crud.song.controller.dto.request.SongPostRequestDto;
@@ -41,11 +41,11 @@ import static com.songify.infrastructure.crud.song.controller.SongControllerMapp
 @RequestMapping("/songs")
 public class SongRestController {
 
-    private final SongCrudFacade songCrudFacade;
+    private final SongifyCrudFacade songifyCrudFacade;
 
     @GetMapping
     public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault() Pageable pageable) {
-        List<SongDomainDto> songs = songCrudFacade.findAll(pageable);
+        List<SongDomainDto> songs = songifyCrudFacade.findAll(pageable);
         GetAllSongsResponseDto getAllSongsResponseDto = mapSongDomainDtoListToGetAllSongsResponseDto(songs);
         return ResponseEntity.ok(getAllSongsResponseDto);
     }
@@ -53,7 +53,7 @@ public class SongRestController {
     @GetMapping("/{id}")
     public ResponseEntity<SingleSongResponseDtoById> getSongById(@PathVariable("id") long id,
                                                                  @RequestHeader(required = false) String authorizationHeader) {
-        SongDomainDto song = songCrudFacade.getById(id);
+        SongDomainDto song = songifyCrudFacade.getById(id);
         if (authorizationHeader != null) {
             log.info("Authorization header: {}", authorizationHeader);
         }
@@ -67,7 +67,7 @@ public class SongRestController {
     @PostMapping
     public ResponseEntity<SongPostResponseDto> createSong(@RequestBody @Valid SongPostRequestDto songPostRequestDto) {
         SongDomainDto songDomainDto = SongControllerMapper.mapSongPostRequestDtoToSongDomainDto(songPostRequestDto);
-        SongDomainDto addedSong = songCrudFacade.addSong(songDomainDto);
+        SongDomainDto addedSong = songifyCrudFacade.addSong(songDomainDto);
         SongPostResponseDto songPostResponseDto = SongControllerMapper.mapSongDomainDtoToSongPostResponseDto(addedSong);
         return ResponseEntity.ok(songPostResponseDto);
     }
@@ -83,8 +83,8 @@ public class SongRestController {
     }
 
     private ResponseEntity<DeleteSongResponseDto> getDeleteSongResponseDtoResponseEntity(@RequestParam("id") Long id) {
-        SongDomainDto songToDelete = songCrudFacade.getById(id);
-        songCrudFacade.deleteById(id);
+        SongDomainDto songToDelete = songifyCrudFacade.getById(id);
+        songifyCrudFacade.deleteById(id);
         DeleteSongResponseDto deletedSongResponseDto = SongControllerMapper.mapSongDomainDtoToDeleteSongResponseDto(
                 songToDelete);
         return ResponseEntity.ok(deletedSongResponseDto);
@@ -94,7 +94,7 @@ public class SongRestController {
     public ResponseEntity<PutSongResponseDto> updateSong(@RequestBody @Valid PutSongRequestDto putSongRequestDto,
                                                          @RequestParam Long id) {
         SongDomainDto songToPut = SongControllerMapper.mapPutSongRequestDtoToSongDomainDto(putSongRequestDto);
-        songCrudFacade.updateById(id, songToPut);
+        songifyCrudFacade.updateById(id, songToPut);
         return ResponseEntity.ok(SongControllerMapper.mapSongDomainDtoToPutSongResponseDto(songToPut));
     }
 
@@ -102,7 +102,7 @@ public class SongRestController {
     public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(
             @RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
             @RequestParam Long id) {
-        SongDomainDto updatedSong = songCrudFacade.partiallyUpdateById(id, partiallySongRequestDto);
+        SongDomainDto updatedSong = songifyCrudFacade.partiallyUpdateById(id, partiallySongRequestDto);
         return ResponseEntity.ok(SongControllerMapper.mapSongDomainDtoToPartiallyUpdateSongResponseDto(updatedSong));
     }
 }

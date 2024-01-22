@@ -1,14 +1,12 @@
 package com.songify.domain.crud;
 
 import com.songify.domain.crud.dto.SongDomainDto;
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Log4j2
 class SongUpdater {

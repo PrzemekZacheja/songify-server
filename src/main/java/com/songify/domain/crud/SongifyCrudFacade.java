@@ -1,5 +1,7 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.AlbumDto;
+import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistRequestDto;
 import com.songify.domain.crud.dto.GenreDto;
@@ -11,11 +13,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Transactional
 public class SongifyCrudFacade {
 
     private final SongAdder songAdder;
@@ -24,6 +28,7 @@ public class SongifyCrudFacade {
     private final SongUpdater songUpdater;
     private final ArtistAdder artistAdder;
     private final GenreAdder genreAdder;
+    private final AlbumAdder albumAdder;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
         return artistAdder.addArtist(artistRequestDto);
@@ -31,6 +36,10 @@ public class SongifyCrudFacade {
 
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
         return genreAdder.addGenre(genreRequestDto);
+    }
+
+    public AlbumDto addAlbumWithSongs(AlbumRequestDto albumRequestDto) {
+        return albumAdder.addAlbumWithSong(albumRequestDto);
     }
 
     public List<SongDomainDto> findAll(final Pageable pageable) {

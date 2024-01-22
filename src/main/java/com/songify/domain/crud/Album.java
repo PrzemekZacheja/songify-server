@@ -22,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-class Album extends BaseEntity {
+public class Album extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "album_id_seq", strategy = GenerationType.SEQUENCE)
@@ -42,4 +42,12 @@ class Album extends BaseEntity {
     @ManyToMany(mappedBy = "albums")
     private Set<Artist> artists = new HashSet<>();
 
+    Album(final String title, final Instant releaseDate) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+    }
+
+    void addSong(final Song songById) {
+        songs.add(songById);
+    }
 }

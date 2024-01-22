@@ -1,24 +1,24 @@
-package com.songify.infrastructure.crud.genre;
+package com.songify.infrastructure.crud.album;
 
 import com.songify.domain.crud.SongifyCrudFacade;
-import com.songify.domain.crud.dto.GenreDto;
-import com.songify.domain.crud.dto.GenreRequestDto;
+import com.songify.domain.crud.dto.AlbumDto;
+import com.songify.domain.crud.dto.AlbumRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/genre")
-class GenreController {
+@RequestMapping("/album")
+class AlbumController {
 
     private final SongifyCrudFacade songifyCrudFacade;
 
     @PostMapping
-    ResponseEntity<GenreDto> postGenre(@RequestBody GenreRequestDto genreRequestDto) {
-        return ResponseEntity.ok(songifyCrudFacade.addGenre(genreRequestDto));
+    ResponseEntity<AlbumDto> postAlbum(AlbumRequestDto albumRequestDto) {
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
+        return ResponseEntity.ok(albumDto);
     }
 }

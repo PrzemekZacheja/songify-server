@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("ClassEscapesDefinedScope")
-interface SongRepository extends Repository<Song, Long> {
+public interface SongRepository extends Repository<Song, Long> {
 
     Song save(Song song);
 

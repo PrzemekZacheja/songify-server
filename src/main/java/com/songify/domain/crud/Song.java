@@ -23,13 +23,13 @@ import java.time.Instant;
 
 @Entity
 @Builder
-@Getter
-@Setter
+@Getter(AccessLevel.PACKAGE)
+@Setter(AccessLevel.PACKAGE)
 @Table(name = "songs")
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-class Song extends BaseEntity {
+public class Song extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "songs_id_seq", strategy = GenerationType.SEQUENCE)

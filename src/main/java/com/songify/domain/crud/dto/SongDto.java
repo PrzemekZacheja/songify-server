@@ -4,7 +4,7 @@ import com.songify.domain.crud.SongLanguage;
 import lombok.Builder;
 
 @Builder
-public record SongDomainDto(
+public record SongDto(
         Long id,
         String name,
         String artist,

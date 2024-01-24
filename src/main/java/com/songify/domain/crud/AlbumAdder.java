@@ -13,7 +13,7 @@ class AlbumAdder {
     private final SongProvider songProvider;
 
     AlbumDto addAlbumWithSong(final AlbumRequestDto albumRequestDto) {
-        Song songById = songProvider.getById(albumRequestDto.songId());
+        Song songById = songProvider.findSongById(albumRequestDto.songId());
         Album album = new Album(albumRequestDto.title(), albumRequestDto.releaseDate());
         album.addSong(songById);
         albumRepository.save(album);

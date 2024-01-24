@@ -43,44 +43,41 @@ public class SongifyCrudFacade {
         return genreAdder.addGenre(genreRequestDto);
     }
 
-    public AlbumDto addAlbumWithSongs(AlbumRequestDto albumRequestDto) {
-        return albumAdder.addAlbumWithSong(albumRequestDto);
-    }
-
-    public Set<ArtistDto> findAllArtists() {
-        return albumProvider.findAllArtists();
-    }
-
-    public List<SongDto> findAll(final Pageable pageable) {
-        return songProvider.findAll(pageable)
-                           .stream()
-                           .map(SongMapper::mapFromSongToSongDomainDto)
-                           .toList();
-    }
-
-    public SongDto getById(final long id) {
-        Song byId = songProvider.getById(id);
-        return SongMapper.mapFromSongToSongDomainDto(byId);
-    }
-
     public SongDto addSong(final SongRequestDto songRequestDto) {
         Song song = SongMapper.mapFromSongRequestDtoToSong(songRequestDto);
         Song added = songAdder.addSong(song);
         log.info("Song added with id: {}", added.getId());
-        return SongMapper.mapFromSongToSongDomainDto(added);
+        return SongMapper.mapFromSongToSongDto(added);
     }
 
-    public void deleteById(final Long id) {
+    public AlbumDto addAlbumWithSongs(AlbumRequestDto albumRequestDto) {
+        return albumAdder.addAlbumWithSong(albumRequestDto);
+    }
+
+    public Set<ArtistDto> findAllArtists(Pageable pageable) {
+        return albumProvider.findAllArtists(pageable);
+    }
+
+    public List<SongDto> findAllSongs(final Pageable pageable) {
+        return songProvider.findAll(pageable);
+    }
+
+    public SongDto getSongById(final long id) {
+        return songProvider.findSongDtoById(id);
+
+    }
+
+    public void deleteSongById(final Long id) {
         songDeleter.deleteById(id);
     }
 
-    public SongDto updateById(final Long id, final SongRequestDto songToPut) {
-        Song song = SongMapper.mapFromSongDomainDtoToSong(songToPut);
+    public SongDto updateSongById(final Long id, final SongRequestDto songToPut) {
+        Song song = SongMapper.mapFromSongRequestToSong(songToPut);
         return songUpdater.updateById(id, song);
     }
 
-    public SongDto partiallyUpdateById(final Long id,
-                                       final PartiallyUpdateSongRequestDto partiallySongRequestDto) {
+    public SongDto partiallyUpdateSongById(final Long id,
+                                           final PartiallyUpdateSongRequestDto partiallySongRequestDto) {
         SongDto songDto = SongControllerMapper.mapFromPartiallyUpdateSongRequestDtoToSong(
                 partiallySongRequestDto,
                 id);

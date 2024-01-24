@@ -15,20 +15,20 @@ class SongUpdater {
     private final SongProvider songProvider;
 
     SongDto updateById(Long id, Song songToPut) {
-        Song byId = songProvider.getById(id);
+        SongDto byId = songProvider.findSongDtoById(id);
         songRepository.updateById(id, songToPut);
-        return SongMapper.mapFromSongToSongDomainDto(byId);
+        return byId;
     }
 
-    SongDto partiallyUpdateById(Long id, SongDto partiallySongRequestDto) {
-        Song song = songProvider.getById(id);
+    SongDto partiallyUpdateById(Long id, SongDto songDto) {
+        Song song = songProvider.findSongById(id);
         String nameToUpdate = song.getName();
-        if (partiallySongRequestDto.name() != null) {
-            nameToUpdate = partiallySongRequestDto.name();
+        if (song.getName() != null) {
+            nameToUpdate = songDto.name();
             log.info("New name is: {}", nameToUpdate);
         }
         Song songToUpdate = new Song(nameToUpdate);
         songRepository.updateById(id, songToUpdate);
-        return SongMapper.mapFromSongToSongDomainDto(songToUpdate);
+        return SongMapper.mapFromSongToSongDto(songToUpdate);
     }
 }

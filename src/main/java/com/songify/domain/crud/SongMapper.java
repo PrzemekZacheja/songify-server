@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 class SongMapper {
 
     @NotNull
-    public static SongDto mapFromSongToSongDomainDto(Song song) {
+    public static SongDto mapFromSongToSongDto(Song song) {
         return SongDto.builder()
                       .duration(song.getDuration())
                       .language(song.getLanguage())
@@ -16,7 +16,14 @@ class SongMapper {
                       .build();
     }
 
-    static Song mapFromSongDomainDtoToSong(final SongRequestDto songDto) {
+    static Song mapFromSongDtoToSong(final SongDto songDto) {
+        return Song.builder()
+                   .duration(songDto.duration())
+                   .name(songDto.name())
+                   .build();
+    }
+
+    static Song mapFromSongRequestToSong(final SongRequestDto songDto) {
         return Song.builder()
                    .duration(songDto.duration())
                    .name(songDto.name())

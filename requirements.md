@@ -22,8 +22,8 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
     ~~19. można wyświetlać wszystkie piosenki~~
 20. można wyświetlać wszystkie gatunki
     ~~21. można wyświetlać wszystkich artystów~~
-22. można wyświetlać wszystkie albumy 
-23. można wyświetlać konkretne albumy z artystami oraz piosenkami w albumie 
+22. można wyświetlać wszystkie albumy
+    ~~23. można wyświetlać konkretne albumy z artystami oraz piosenkami w albumie~~
 24. można wyświetlać konkretne gatunki muzyczne wraz z piosenkami 
 25. można wyświetlać konkretnych artystów wraz z ich albumami 
 26. chcemy mieć trwałe dane

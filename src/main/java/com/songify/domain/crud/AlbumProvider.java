@@ -1,29 +1,18 @@
 package com.songify.domain.crud;
 
-import com.songify.domain.crud.dto.ArtistDto;
+import com.songify.domain.crud.dto.AlbumInfo;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 class AlbumProvider {
 
-    private final ArtistRepository repository;
+    private final AlbumRepository repository;
 
-    Set<ArtistDto> findAllArtists(final Pageable pageable) {
-        return repository.findAll(pageable)
-                         .stream()
-                         .map(artist ->
-                                      ArtistDto.builder()
-                                               .id(artist.getId())
-                                               .name(artist.getName())
-                                               .build()
-                             )
-                         .collect(Collectors.toSet());
+    AlbumInfo findAlbumByIdWithArtistsAndSongs(final long id) {
+        return repository.findByIdAndSongs_IdAndArtists_Id(id)
+                         .orElseThrow(() -> new AlbumNotFoundException("Album with id " + id + " wasn't " + "found"));
 
     }
 }

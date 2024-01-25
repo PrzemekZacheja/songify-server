@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-class Artist extends BaseEntity {
+public class Artist extends BaseEntity {
 
     @Id
     @GeneratedValue(generator = "artist_id_seq", strategy = GenerationType.SEQUENCE)

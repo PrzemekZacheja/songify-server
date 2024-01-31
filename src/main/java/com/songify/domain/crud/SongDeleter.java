@@ -16,6 +16,5 @@ class SongDeleter {
 
     void deleteById(Long id) {
         songRepository.deleteById(id);
-        log.info("Song with id {} deleted", id);
     }
 }

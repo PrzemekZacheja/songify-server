@@ -75,6 +75,7 @@ public class SongifyCrudFacade {
 
     public void deleteSongById(final Long id) {
         songDeleter.deleteById(id);
+        log.info("Song with id: {} deleted", id);
     }
 
     public SongDto updateSongById(final Long id, final SongRequestDto songToPut) {

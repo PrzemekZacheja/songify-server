@@ -21,4 +21,9 @@ class AlbumProvider {
     Set<Album> findAlbumsByArtistId(final Long id) {
         return repository.findAllAlbumsByArtistsId(id);
     }
+
+    Album findById(final Long albumId) {
+        return repository.findById(albumId)
+                         .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
+    }
 }

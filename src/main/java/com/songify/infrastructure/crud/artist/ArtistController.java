@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,5 +42,12 @@ class ArtistController {
     ResponseEntity<String> deleteArtistById(@PathVariable final Long artistId) {
         songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(artistId);
         return ResponseEntity.ok("Artist with id: " + artistId + " deleted");
+    }
+
+    @PutMapping("/{artistId}/albums/{albumId}")
+    public ResponseEntity<String> addArtistToAlbum(@PathVariable final Long artistId,
+                                                   @PathVariable final Long albumId) {
+        songifyCrudFacade.addArtistToAlbum(artistId, albumId);
+        return ResponseEntity.ok("Artist with id: " + artistId + " added to album with id: " + albumId);
     }
 }

@@ -30,4 +30,6 @@ public interface AlbumRepository extends Repository<Album, Long> {
     @Modifying
     @Query("delete from Album a where a.id in :ids")
     void deleteByIdIn(Collection<Long> ids);
+
+    Optional<Album> findById(Long id);
 }

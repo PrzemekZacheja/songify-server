@@ -36,6 +36,7 @@ public class SongifyCrudFacade {
     private final AlbumAdder albumAdder;
     private final ArtistProvider artistProvider;
     private final AlbumProvider albumPovider;
+    private final ArtistDeleter artistDeleter;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
         return artistAdder.addArtist(artistRequestDto);
@@ -72,6 +73,9 @@ public class SongifyCrudFacade {
         return albumPovider.findAlbumByIdWithArtistsAndSongs(id);
     }
 
+    public void deleteArtistByIdWithSongsAndAlbums(final Long id) {
+        artistDeleter.deleteArtistByIdWithSongsAndAlbums(id);
+    }
 
     public void deleteSongById(final Long id) {
         songDeleter.deleteById(id);

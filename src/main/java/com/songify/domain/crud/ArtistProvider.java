@@ -26,4 +26,11 @@ class ArtistProvider {
                          .collect(Collectors.toSet());
 
     }
+
+    Artist findById(final Long id) {
+        return repository.findById(id)
+                         .orElseThrow(() -> new ArtistNotFoundException(id));
+
+    }
+
 }

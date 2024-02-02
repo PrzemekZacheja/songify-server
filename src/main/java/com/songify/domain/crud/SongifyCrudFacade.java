@@ -38,6 +38,7 @@ public class SongifyCrudFacade {
     private final AlbumProvider albumPovider;
     private final ArtistDeleter artistDeleter;
     private final ArtistAssigner artistAssigner;
+    private final ArtistUpdater artistUpdater;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
         return artistAdder.addArtist(artistRequestDto);
@@ -90,6 +91,10 @@ public class SongifyCrudFacade {
     public SongDto updateSongById(final Long id, final SongRequestDto songToPut) {
         Song song = SongMapper.mapFromSongRequestToSong(songToPut);
         return songUpdater.updateById(id, song);
+    }
+
+    public ArtistDto updateArtistNameById(final Long id, final String name) {
+        return artistUpdater.updateNameById(id, name);
     }
 
     public SongDto partiallyUpdateSongById(final Long id,

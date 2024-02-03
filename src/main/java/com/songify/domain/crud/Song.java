@@ -55,7 +55,11 @@ public class Song extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Genre genre;
 
-    public Song(final String nameToUpdate) {
-        this.name = nameToUpdate;
+    public Song(final String name) {
+        this.name = name;
+        this.releaseDate = Instant.now();
+        this.duration = 0L;
+        this.language = SongLanguage.ENGLISH;
+        this.genre = new Genre("Unknown");
     }
 }

@@ -26,11 +26,6 @@ class ArtistController {
 
     private final SongifyCrudFacade songifyCrudFacade;
 
-    @PostMapping
-    ResponseEntity<ArtistDto> addArtist(@RequestBody ArtistRequestDto artistRequestDto) {
-        return ResponseEntity.ok(songifyCrudFacade.addArtist(artistRequestDto));
-    }
-
     @GetMapping
     ResponseEntity<AllArtistsDto> findAllArtists(Pageable pageable) {
         Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtists(pageable);
@@ -38,6 +33,16 @@ class ArtistController {
                                                    .artists(allArtists)
                                                    .build();
         return ResponseEntity.ok(allArtistsDto);
+    }
+
+    @PostMapping("/album/songs")
+    ResponseEntity<ArtistDto> addArtistWithDefaultAlbumWithDefaultSongs(@RequestBody ArtistRequestDto artistRequestDto) {
+        return ResponseEntity.ok(songifyCrudFacade.addArtistWithDefaultAlbumAndSongs(artistRequestDto));
+    }
+
+    @PostMapping
+    ResponseEntity<ArtistDto> addArtist(@RequestBody ArtistRequestDto artistRequestDto) {
+        return ResponseEntity.ok(songifyCrudFacade.addArtist(artistRequestDto));
     }
 
     @DeleteMapping("/{artistId}")

@@ -11,6 +11,7 @@
     <exclude-change idName="genre#uuid" tagName="dropNotNullConstraint" />
     <exclude-change idName="artist#uuid" tagName="dropNotNullConstraint" />
     <exclude-change idName="album#uuid" tagName="dropNotNullConstraint" />
+    <exclude-change idName="songs#uuid" tagName="dropNotNullConstraint" />
   </component>
   <component name="JpaPluginProjectSettings">
     <option name="lastSelectedLanguage" value="Java" />

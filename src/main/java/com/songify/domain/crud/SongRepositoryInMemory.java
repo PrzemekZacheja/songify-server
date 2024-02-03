@@ -2,6 +2,7 @@ package com.songify.domain.crud;
 
 import org.springframework.data.domain.Pageable;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +44,17 @@ public class SongRepositoryInMemory implements SongRepository {
     }
 
     @Override
-    public void updateById(Long id, Song song) {
-        databaseInMemory.put(id, song);
+    public void deleteSongsByIds(final Collection<Long> ids) {
+
     }
 
     @Override
-    public void deleteSongsByIds(final Collection<Long> ids) {
-
+    public int updateById(final String name,
+                          final Instant releaseDate,
+                          final Long duration,
+                          final SongLanguage language,
+                          final Long id) {
+        return 0;
     }
 
     //    @Override

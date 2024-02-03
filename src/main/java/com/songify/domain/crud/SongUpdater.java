@@ -16,19 +16,24 @@ class SongUpdater {
 
     SongDto updateById(Long id, Song songToPut) {
         SongDto byId = songProvider.findSongDtoById(id);
-        songRepository.updateById(id, songToPut);
+        songRepository.updateById(songToPut.getName(),
+                                  songToPut.getReleaseDate(),
+                                  songToPut.getDuration(),
+                                  songToPut.getLanguage(),
+                                  id);
         return byId;
     }
 
-    SongDto partiallyUpdateById(Long id, SongDto songDto) {
+    SongDto partiallyUpdateById(Long id, SongDto songToPut) {
         Song song = songProvider.findSongById(id);
-        String nameToUpdate = song.getName();
-        if (song.getName() != null) {
-            nameToUpdate = songDto.name();
-            log.info("New name is: {}", nameToUpdate);
-        }
-        Song songToUpdate = new Song(nameToUpdate);
-        songRepository.updateById(id, songToUpdate);
+
+        Song songToUpdate = SongMapper.mapFromSongDtoToSong(songToPut);
+
+        songRepository.updateById(songToUpdate.getName(),
+                                  songToUpdate.getReleaseDate(),
+                                  songToUpdate.getDuration(),
+                                  songToUpdate.getLanguage(),
+                                  id);
         return SongMapper.mapFromSongToSongDto(songToUpdate);
     }
 }

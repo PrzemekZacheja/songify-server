@@ -1,0 +1,1 @@
+CREATE INDEX songs_name_idx ON songs (name);

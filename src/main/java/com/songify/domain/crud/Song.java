@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -19,7 +20,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.Instant;
 
@@ -27,10 +27,9 @@ import java.time.Instant;
 @Builder
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
-@Table(name = "songs")
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Table(name = "songs", indexes = @Index(name = "songs_name_idx", columnList = "name"))
 public class Song extends BaseEntity {
 
     @Id

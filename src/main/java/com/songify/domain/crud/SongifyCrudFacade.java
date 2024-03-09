@@ -39,11 +39,11 @@ public class SongifyCrudFacade {
     private final ArtistDeleter artistDeleter;
     private final ArtistAssigner artistAssigner;
     private final ArtistUpdater artistUpdater;
+    private final GenreProvider genreProvider;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
         try {
-            ArtistDto artistDto = artistAdder.addArtist(artistRequestDto);
-            return artistDto;
+            return artistAdder.addArtist(artistRequestDto);
         } catch (IllegalArgumentException e) {
             log.error("Error while adding artist: {}, name must not be empty", e.getMessage());
         }
@@ -51,7 +51,12 @@ public class SongifyCrudFacade {
     }
 
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
-        return genreAdder.addGenre(genreRequestDto);
+        try {
+            return genreAdder.addGenre(genreRequestDto);
+        } catch (IllegalArgumentException e) {
+            log.error("Error while adding genre: {}, name must not be empty", e.getMessage());
+        }
+        return null;
     }
 
     public SongDto addSong(final SongRequestDto songRequestDto) {
@@ -79,6 +84,10 @@ public class SongifyCrudFacade {
 
     public List<SongDto> findAllSongs(final Pageable pageable) {
         return songProvider.findAll(pageable);
+    }
+
+    Set<GenreDto> findAllGenres(final Pageable pageable) {
+        return genreProvider.findAll(pageable);
     }
 
     public SongDto findSongById(final long id) {

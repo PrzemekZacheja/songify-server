@@ -3,6 +3,7 @@ package com.songify.domain.crud;
 import org.springframework.data.domain.Pageable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -22,7 +23,7 @@ class InMemoryArtistRepository implements ArtistRepository {
 
     @Override
     public Set<Artist> findAll(final Pageable pageable) {
-        return null;
+        return new HashSet<>(artists.values());
     }
 
     @Override

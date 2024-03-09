@@ -12,6 +12,10 @@ class GenreAdder {
     private final GenreRepository genreRepository;
 
     GenreDto addGenre(final GenreRequestDto genreRequestDto) {
+        if (genreRequestDto.name()
+                           .isEmpty()) {
+            throw new IllegalArgumentException("Genre name cannot be empty");
+        }
         Genre genre = new Genre(genreRequestDto.name());
         Genre saved = genreRepository.save(genre);
         return new GenreDto(saved.getId(), saved.getName());

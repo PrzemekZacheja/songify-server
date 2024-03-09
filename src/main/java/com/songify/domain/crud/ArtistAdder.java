@@ -15,7 +15,11 @@ class ArtistAdder {
     private final ArtistRepository repository;
 
     ArtistDto addArtist(final ArtistRequestDto artistRequestDto) {
-        Artist artist = new Artist(artistRequestDto.name());
+        String name = artistRequestDto.name();
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Artist name cannot be empty");
+        }
+        Artist artist = new Artist(name);
         Artist saved = repository.save(artist);
         return new ArtistDto(saved.getId(), saved.getName());
     }

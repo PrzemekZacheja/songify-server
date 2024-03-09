@@ -35,13 +35,19 @@ public class SongifyCrudFacade {
     private final GenreAdder genreAdder;
     private final AlbumAdder albumAdder;
     private final ArtistProvider artistProvider;
-    private final AlbumProvider albumPovider;
+    private final AlbumProvider albumProvider;
     private final ArtistDeleter artistDeleter;
     private final ArtistAssigner artistAssigner;
     private final ArtistUpdater artistUpdater;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
-        return artistAdder.addArtist(artistRequestDto);
+        try {
+            ArtistDto artistDto = artistAdder.addArtist(artistRequestDto);
+            return artistDto;
+        } catch (IllegalArgumentException e) {
+            log.error("Error while adding artist: {}, name must not be empty", e.getMessage());
+        }
+        return null;
     }
 
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
@@ -80,7 +86,7 @@ public class SongifyCrudFacade {
     }
 
     public AlbumInfo findAlbumByIdWithArtistsAndSongs(final long id) {
-        return albumPovider.findAlbumByIdWithArtistsAndSongs(id);
+        return albumProvider.findAlbumByIdWithArtistsAndSongs(id);
     }
 
     public void deleteArtistByIdWithSongsAndAlbums(final Long id) {

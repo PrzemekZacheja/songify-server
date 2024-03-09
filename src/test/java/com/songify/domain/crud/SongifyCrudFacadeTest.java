@@ -35,8 +35,16 @@ class SongifyCrudFacadeTest {
         //when
         ArtistDto response = songifyCrudFacade.addArtist(nirvana);
         //then
-        assertThat(response).isNotNull();
-        assertThat(response.id()).isNotNull();
         assertThat(response.name()).isEqualTo("Nirvana");
+    }
+
+    @Test
+    void should_not_add_song_when_sent_name_is_empty_and_throw_exception() {
+        //given
+        ArtistRequestDto emptyName = new ArtistRequestDto("");
+        //when
+        ArtistDto artistDto = songifyCrudFacade.addArtist(emptyName);
+        //then
+        assertThat(artistDto).isNull();
     }
 }

@@ -11,13 +11,14 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemoryArtistRepository implements ArtistRepository {
 
-    Map<AtomicLong, Artist> artists = new HashMap<AtomicLong, Artist>();
-    AtomicLong id = new AtomicLong(0L);
+    Map<Long, Artist> artists = new HashMap<>();
+    AtomicLong id = new AtomicLong();
 
     @Override
     public Artist save(final Artist artist) {
+        long id = this.id.getAndIncrement();
+        artist.setId(id);
         artists.put(id, artist);
-        artist.setId(id.incrementAndGet());
         return artist;
     }
 
@@ -28,11 +29,15 @@ class InMemoryArtistRepository implements ArtistRepository {
 
     @Override
     public Optional<Artist> findById(final Long id) {
-        return Optional.empty();
+        return artists.values()
+                      .stream()
+                      .filter(artist -> artist.getId()
+                                              .equals(id))
+                      .findFirst();
     }
 
     @Override
     public void deleteById(final Long id) {
-
+        artists.remove(id);
     }
 }

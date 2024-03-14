@@ -4,7 +4,7 @@ class ArtistNotFoundException extends RuntimeException {
 
 
     ArtistNotFoundException(final Long id) {
-        super("artist with " + id + " not found");
+        super("Artist with id " + id + " not found");
     }
 
 }

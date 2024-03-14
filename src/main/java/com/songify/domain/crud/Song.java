@@ -57,4 +57,16 @@ public class Song extends BaseEntity {
     public Song(final String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", duration=" + duration +
+                ", language=" + language +
+                ", genre=" + genre +
+                '}';
+    }
 }

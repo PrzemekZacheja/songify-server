@@ -20,6 +20,7 @@ public class SongifyCrudFacadeConfig {
         ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumPovider);
         ArtistUpdater artistUpdater = new ArtistUpdater(artistProvider);
         GenreProvider genreProvider = new GenreProvider(genreRepository);
+        GenreDeleter genreDeleter = new GenreDeleter(genreRepository);
         return new SongifyCrudFacade(songAdder,
                                      songProvider,
                                      songDeleter,
@@ -32,6 +33,7 @@ public class SongifyCrudFacadeConfig {
                                      artistDeleter,
                                      artistAssigner,
                                      artistUpdater,
-                                     genreProvider);
+                                     genreProvider,
+                                     genreDeleter);
     }
 }

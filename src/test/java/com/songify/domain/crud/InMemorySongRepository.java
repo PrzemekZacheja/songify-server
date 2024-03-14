@@ -4,13 +4,23 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 class InMemorySongRepository implements SongRepository {
+
+    Map<Long, Song> songs = new HashMap<>();
+    AtomicLong id = new AtomicLong();
+
     @Override
     public Song save(final Song song) {
-        return null;
+        long id = this.id.getAndIncrement();
+        song.setId(id);
+        songs.put(song.getId(), song);
+        return song;
     }
 
     @Override
@@ -20,7 +30,7 @@ class InMemorySongRepository implements SongRepository {
 
     @Override
     public Optional<Song> findById(final Long id) {
-        return Optional.empty();
+        return Optional.ofNullable(songs.get(id));
     }
 
     @Override

@@ -3,11 +3,13 @@ package com.songify.domain.crud;
 import com.songify.domain.crud.dto.GenreDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Service
 class GenreProvider {
 
     private final GenreRepository genreRepository;

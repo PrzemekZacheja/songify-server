@@ -40,6 +40,7 @@ public class SongifyCrudFacade {
     private final ArtistAssigner artistAssigner;
     private final ArtistUpdater artistUpdater;
     private final GenreProvider genreProvider;
+    private final GenreDeleter genreDeleter;
 
     public ArtistDto addArtist(ArtistRequestDto artistRequestDto) {
         try {
@@ -122,5 +123,14 @@ public class SongifyCrudFacade {
                 partiallySongRequestDto,
                 id);
         return songUpdater.partiallyUpdateById(id, songDto);
+    }
+
+    Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
+        return AlbumMapper.mapAlbumsToAlbumDtos(
+                albumProvider.findAlbumsByArtistId(id));
+    }
+
+    void deleteGenreById(final Long id) {
+        genreDeleter.deleteById(id);
     }
 }

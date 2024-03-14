@@ -10,4 +10,6 @@ public interface GenreRepository extends Repository<Genre, Long> {
     Genre save(Genre genre);
 
     Set<Genre> findAll(Pageable pageable);
+
+    Long deleteById(Long id);
 }

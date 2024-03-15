@@ -32,4 +32,6 @@ public interface AlbumRepository extends Repository<Album, Long> {
     void deleteByIdIn(Collection<Long> ids);
 
     Optional<Album> findById(Long id);
+
+    Set<Album> findAllAlbums();
 }

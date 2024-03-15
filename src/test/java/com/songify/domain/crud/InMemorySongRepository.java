@@ -25,7 +25,9 @@ class InMemorySongRepository implements SongRepository {
 
     @Override
     public List<Song> findAll(final Pageable pageable) {
-        return null;
+        return songs.values()
+                    .stream()
+                    .toList();
     }
 
     @Override
@@ -35,12 +37,12 @@ class InMemorySongRepository implements SongRepository {
 
     @Override
     public void deleteById(final Long id) {
-
+        songs.remove(id);
     }
 
     @Override
     public void deleteSongsByIds(final Collection<Long> ids) {
-
+        ids.forEach(this::deleteById);
     }
 
     @Override

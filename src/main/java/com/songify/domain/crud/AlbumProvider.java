@@ -1,10 +1,12 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.AlbumInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,5 +27,12 @@ class AlbumProvider {
     Album findById(final Long albumId) {
         return repository.findById(albumId)
                          .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
+    }
+
+    Set<AlbumDto> findAllAlbums() {
+        Set<Album> allAlbums = repository.findAllAlbums();
+        return allAlbums.stream()
+                        .map(album -> new AlbumDto(album.getId(), album.getTitle()))
+                        .collect(Collectors.toSet());
     }
 }

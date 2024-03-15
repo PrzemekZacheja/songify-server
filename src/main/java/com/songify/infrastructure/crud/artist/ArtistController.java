@@ -28,7 +28,7 @@ class ArtistController {
 
     @GetMapping
     ResponseEntity<AllArtistsDto> findAllArtists(Pageable pageable) {
-        Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtists(pageable);
+        Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtistsDto(pageable);
         AllArtistsDto allArtistsDto = AllArtistsDto.builder()
                                                    .artists(allArtists)
                                                    .build();

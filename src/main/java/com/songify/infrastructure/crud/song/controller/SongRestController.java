@@ -42,7 +42,7 @@ public class SongRestController {
 
     @GetMapping
     public ResponseEntity<GetAllSongsResponseDto> getAllSongs(@PageableDefault() Pageable pageable) {
-        List<SongDto> songs = songifyCrudFacade.findAllSongs(pageable);
+        List<SongDto> songs = songifyCrudFacade.findAllSongsDto(pageable);
         GetAllSongsResponseDto getAllSongsResponseDto = mapSongDomainDtoListToGetAllSongsResponseDto(songs);
         return ResponseEntity.ok(getAllSongsResponseDto);
     }

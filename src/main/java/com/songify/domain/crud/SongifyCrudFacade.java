@@ -79,11 +79,11 @@ public class SongifyCrudFacade {
         return artistAdder.addArtistWithDefaultAlbumAndSongs(artistRequestDto);
     }
 
-    public Set<ArtistDto> findAllArtists(Pageable pageable) {
+    public Set<ArtistDto> findAllArtistsDto(Pageable pageable) {
         return artistProvider.findAllArtists(pageable);
     }
 
-    public List<SongDto> findAllSongs(final Pageable pageable) {
+    public List<SongDto> findAllSongsDto(final Pageable pageable) {
         return songProvider.findAll(pageable);
     }
 
@@ -132,5 +132,9 @@ public class SongifyCrudFacade {
 
     void deleteGenreById(final Long id) {
         genreDeleter.deleteById(id);
+    }
+
+    Set<AlbumDto> findAllAlbums() {
+        return albumProvider.findAllAlbums();
     }
 }

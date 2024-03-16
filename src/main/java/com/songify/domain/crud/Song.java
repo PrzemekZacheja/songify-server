@@ -58,6 +58,10 @@ public class Song extends BaseEntity {
         this.name = name;
     }
 
+    void setGenre(final Genre genre) {
+        this.genre = genre;
+    }
+
     @Override
     public String toString() {
         return "Song{" +

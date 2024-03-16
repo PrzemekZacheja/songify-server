@@ -20,4 +20,11 @@ class GenreProvider {
                               .map(GenreMapper::mapFromGenreToGenreDto)
                               .collect(Collectors.toSet());
     }
+
+    Genre findGenreById(final Long genreId) {
+        return genreRepository.findById(genreId)
+                              .orElseThrow(
+                                      () -> new GenreNotFoundException("Genre with id: " + genreId + " not found")
+                                          );
+    }
 }

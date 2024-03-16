@@ -230,6 +230,21 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should delete Genre and all songs if they contain this Genre")
+    void should_delete_Genre_and_all_songs_if_they_contain_this_Genre() {
+        //given
+        GenreDto genreDto = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id());
+        assertThat(songifyCrudFacade.findAllGenres(Pageable.unpaged())).isNotEmpty();
+        //when
+        songifyCrudFacade.deleteGenreById(genreDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAllGenres(Pageable.unpaged())).isEmpty();
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
+    }
+
+    @Test
     @DisplayName("should add Album and return correct name of Album, but he must contain at least one Song")
     void add_Album() {
         //given

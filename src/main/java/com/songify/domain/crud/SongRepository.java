@@ -37,4 +37,5 @@ public interface SongRepository extends Repository<Song, Long> {
                    SongLanguage language,
                    Long id);
 
+    List<Song> findByGenre_Id(Long id);
 }

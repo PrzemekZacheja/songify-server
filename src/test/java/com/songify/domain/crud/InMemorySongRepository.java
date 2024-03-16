@@ -12,32 +12,32 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemorySongRepository implements SongRepository {
 
-    Map<Long, Song> songs = new HashMap<>();
+    Map<Long, Song> db = new HashMap<>();
     AtomicLong id = new AtomicLong();
 
     @Override
     public Song save(final Song song) {
         long id = this.id.getAndIncrement();
         song.setId(id);
-        songs.put(song.getId(), song);
+        db.put(song.getId(), song);
         return song;
     }
 
     @Override
     public List<Song> findAll(final Pageable pageable) {
-        return songs.values()
-                    .stream()
-                    .toList();
+        return db.values()
+                 .stream()
+                 .toList();
     }
 
     @Override
     public Optional<Song> findById(final Long id) {
-        return Optional.ofNullable(songs.get(id));
+        return Optional.ofNullable(db.get(id));
     }
 
     @Override
     public void deleteById(final Long id) {
-        songs.remove(id);
+        db.remove(id);
     }
 
     @Override
@@ -52,5 +52,15 @@ class InMemorySongRepository implements SongRepository {
                           final SongLanguage language,
                           final Long id) {
         return 0;
+    }
+
+    @Override
+    public List<Song> findByGenre_Id(final Long id) {
+        return db.values()
+                 .stream()
+                 .filter(song -> song.getGenre()
+                                     .getId()
+                                     .equals(id))
+                 .toList();
     }
 }

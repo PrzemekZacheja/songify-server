@@ -13,49 +13,54 @@ import java.util.stream.Collectors;
 
 class InMemoryAlbumRepository implements AlbumRepository {
 
-    Map<Long, Album> albums = new HashMap<>();
+    Map<Long, Album> db = new HashMap<>();
     AtomicLong id = new AtomicLong(0);
 
     @Override
     public void save(final Album album) {
         long id = this.id.getAndIncrement();
         album.setId(id);
-        albums.put(id, album);
+        db.put(id, album);
     }
 
     @Override
     public Optional<AlbumInfo> findByIdAndSongs_IdAndArtists_Id(final Long id) {
-        Album album = albums.get(id);
+        Album album = db.get(id);
         return Optional.of(new AlbumInfoTestImpl(album));
     }
 
     @Override
     public Set<Album> findAllAlbumsByArtistsId(final Long id) {
-        return albums.values()
-                     .stream()
-                     .filter(album -> album.getArtists()
+        return db.values()
+                 .stream()
+                 .filter(album -> album.getArtists()
                                            .stream()
                                            .anyMatch(artist -> artist.getId()
                                                                      .equals(id)))
-                     .collect(Collectors.toSet());
+                 .collect(Collectors.toSet());
     }
 
     @Override
     public void deleteByIdIn(final Collection<Long> ids) {
-        ids.forEach(id -> albums.remove(id));
+        ids.forEach(id -> db.remove(id));
     }
 
     @Override
     public Optional<Album> findById(final Long id) {
-        return albums.values()
-                     .stream()
-                     .filter(album -> album.getId()
+        return db.values()
+                 .stream()
+                 .filter(album -> album.getId()
                                            .equals(id))
-                     .findFirst();
+                 .findFirst();
     }
 
     @Override
     public Set<Album> findAllAlbums() {
-        return new HashSet<>(albums.values());
+        return new HashSet<>(db.values());
+    }
+
+    @Override
+    public void deleteById(final Long id) {
+        db.remove(id);
     }
 }

@@ -189,6 +189,18 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should delete song by Id and return empty list")
+    void should_delete_song_by_Id_and_return_empty_list() {
+        //given
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isNotEmpty();
+        //when
+        songifyCrudFacade.deleteSongById(songDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
+    }
+
+    @Test
     @DisplayName("should add Genre and return correct name of Genre and not null id")
     void add_Genre() {
         //given
@@ -270,5 +282,36 @@ class SongifyCrudFacadeTest {
                                     .anyMatch(songInfo -> songInfo.getName()
                                                                   .equals("song"));
         assertThat(containsSong).isTrue();
+    }
+
+    @Test
+    @DisplayName("should delete Album and return empty list only if Album contain any Songs")
+    void delete_Album() {
+        //TODO
+        //given
+        Instant now = Instant.now();
+        SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                  .name("song")
+                                                                  .duration(10L)
+                                                                  .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                  .releaseDate(now)
+                                                                  .build());
+        AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
+        assertThat(songifyCrudFacade.findAllAlbums()
+                                    .size()).isEqualTo(1);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getSongs()
+                                    .size()).isEqualTo(1);
+        //when
+        songifyCrudFacade.deleteAlbumById(albumDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAllAlbums()
+                                    .size()).isEqualTo(1);
+        songifyCrudFacade.deleteAlbumWithSongsById(albumDto.id());
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())
+                                    .size()).isEqualTo(0);
+        assertThat(songifyCrudFacade.findAllAlbums()
+                                    .size()).isEqualTo(0);
     }
 }

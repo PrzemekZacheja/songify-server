@@ -5,12 +5,11 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
 ~~2. można dodać gatunek muzyczny (nazwa gatunku)~~
 ~~3. ~~można dodać album (tytuł, data wydania, ale musi być w nim przynajmniej jedna piosenka)~~~~
 ~~4. można dodać piosenkę (tytuł, czas trwania, data wydania, język piosenki)~~
-
 ~~5. można dodać artystę od razu z albumem i z piosenką (domyślne wartości)~~
 ~~6. można usunąć artystę (usuwamy wtedy jego piosenki oraz albumy, ale jeśli było więcej niż jeden artysta w
    albumie, to usuwamy tylko artystę z albumu i samego artystę)~~
 ~~7. można usunąć gatunek muzyczny (ale nie może istnieć piosenka z takim gatunkiem)~~
-8. można usunąć album (ale dopiero, wtedy kiedy nie ma już żadnej piosenki przypisanej do albumu)
+~~8. można usunąć album (ale dopiero, wtedy kiedy nie ma już żadnej piosenki przypisanej do albumu)~~
    ~~9. można usunąć piosenkę, ale nie usuwamy albumu i artystów, gdy była tylko 1 piosenka w albumie DONE~~
    ~~10. można edytować nazwę artysty~~
 11. można edytować nazwę gatunku muzycznego 

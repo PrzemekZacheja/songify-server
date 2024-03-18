@@ -14,10 +14,10 @@ public class SongifyCrudFacadeConfig {
         ArtistAdder artistAdder = new ArtistAdder(artistRepository, albumAdder, songAdder);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         ArtistProvider artistProvider = new ArtistProvider(artistRepository);
-        AlbumProvider albumPovider = new AlbumProvider(albumRepository);
-        AlbumDeleter albumDeleter = new AlbumDeleter(albumRepository);
-        ArtistDeleter artistDeleter = new ArtistDeleter(artistRepository, artistProvider, albumPovider, songDeleter, albumDeleter);
-        ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumPovider);
+        AlbumProvider albumProvider = new AlbumProvider(albumRepository);
+        AlbumDeleter albumDeleter = new AlbumDeleter(albumRepository, albumProvider, songDeleter);
+        ArtistDeleter artistDeleter = new ArtistDeleter(artistRepository, artistProvider, albumProvider, songDeleter, albumDeleter);
+        ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumProvider);
         ArtistUpdater artistUpdater = new ArtistUpdater(artistProvider);
         GenreProvider genreProvider = new GenreProvider(genreRepository);
         GenreDeleter genreDeleter = new GenreDeleter(genreRepository, songProvider, songDeleter);
@@ -28,13 +28,14 @@ public class SongifyCrudFacadeConfig {
                                      songDeleter,
                                      songUpdater,
                                      artistAdder,
-                                     genreAdder,
-                                     albumAdder,
                                      artistProvider,
-                                     albumPovider,
                                      artistDeleter,
                                      artistAssigner,
                                      artistUpdater,
+                                     albumAdder,
+                                     albumDeleter,
+                                     albumProvider,
+                                     genreAdder,
                                      genreProvider,
                                      genreDeleter,
                                      genreAssigner);

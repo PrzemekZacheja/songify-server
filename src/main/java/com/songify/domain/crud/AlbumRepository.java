@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -34,4 +35,10 @@ public interface AlbumRepository extends Repository<Album, Long> {
     Optional<Album> findById(Long id);
 
     Set<Album> findAllAlbums();
+
+    @Transactional
+    @Modifying
+    @Query("delete from Album a where a.id = :id")
+    void deleteById(Long id);
+
 }

@@ -32,13 +32,14 @@ public class SongifyCrudFacade {
     private final SongDeleter songDeleter;
     private final SongUpdater songUpdater;
     private final ArtistAdder artistAdder;
-    private final GenreAdder genreAdder;
-    private final AlbumAdder albumAdder;
     private final ArtistProvider artistProvider;
-    private final AlbumProvider albumProvider;
     private final ArtistDeleter artistDeleter;
     private final ArtistAssigner artistAssigner;
     private final ArtistUpdater artistUpdater;
+    private final AlbumAdder albumAdder;
+    private final AlbumDeleter albumDeleter;
+    private final AlbumProvider albumProvider;
+    private final GenreAdder genreAdder;
     private final GenreProvider genreProvider;
     private final GenreDeleter genreDeleter;
     private final GenreAssigner genreAssigner;
@@ -141,5 +142,17 @@ public class SongifyCrudFacade {
 
     void addGenreToSong(final Long genreId, final Long songId) {
         genreAssigner.addGenreToSong(genreId, songId);
+    }
+
+    void deleteAlbumById(final Long id) {
+        try {
+            albumDeleter.deleteById(id);
+        } catch (AlbumDeleterException e) {
+            log.error("Album with id: {} cannot be deleted because it contains songs", id);
+        }
+    }
+
+    void deleteAlbumWithSongsById(final Long id) {
+        albumDeleter.deleteAlbumWithSongsById(id);
     }
 }

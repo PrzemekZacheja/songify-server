@@ -1,6 +1,7 @@
 package com.songify.domain.crud;
 
 import com.songify.domain.crud.dto.AlbumInfo;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,7 +56,7 @@ class InMemoryAlbumRepository implements AlbumRepository {
     }
 
     @Override
-    public Set<Album> findAllAlbums() {
+    public Set<Album> findAllAlbums(Pageable pageable) {
         return new HashSet<>(db.values());
     }
 

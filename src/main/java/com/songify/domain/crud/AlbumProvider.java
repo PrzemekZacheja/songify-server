@@ -3,6 +3,7 @@ package com.songify.domain.crud;
 import com.songify.domain.crud.dto.AlbumDto;
 import com.songify.domain.crud.dto.AlbumInfo;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -29,8 +30,8 @@ class AlbumProvider {
                          .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
     }
 
-    Set<AlbumDto> findAllAlbums() {
-        Set<Album> allAlbums = repository.findAllAlbums();
+    Set<AlbumDto> findAllAlbums(Pageable pageable) {
+        Set<Album> allAlbums = repository.findAllAlbums(pageable);
         return allAlbums.stream()
                         .map(album -> new AlbumDto(album.getId(), album.getTitle()))
                         .collect(Collectors.toSet());

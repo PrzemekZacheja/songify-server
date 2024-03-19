@@ -136,8 +136,8 @@ public class SongifyCrudFacade {
         genreDeleter.deleteById(id);
     }
 
-    Set<AlbumDto> findAllAlbums() {
-        return albumProvider.findAllAlbums();
+    Set<AlbumDto> findAllAlbumsDto(Pageable pageable) {
+        return albumProvider.findAllAlbums(pageable);
     }
 
     void addGenreToSong(final Long genreId, final Long songId) {

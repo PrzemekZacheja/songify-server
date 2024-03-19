@@ -69,7 +69,7 @@ class SongifyCrudFacadeTest {
         ArtistDto artistDto = songifyCrudFacade.addArtistWithDefaultAlbumAndSongs(u2);
         //then
         assertThat(artistDto.name()).isEqualTo("U2");
-        Set<AlbumDto> allAlbums = songifyCrudFacade.findAllAlbums();
+        Set<AlbumDto> allAlbums = songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged());
         assertThat(allAlbums.size()).isEqualTo(1);
         assertThat(allAlbums.stream()
                             .filter(albumDto -> albumDto.title()
@@ -201,6 +201,30 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should delete song by Id and and not delete Album and Artist when the Song was only one in Album")
+    void should_delete_song_by_Id_and_and_not_delete_Album_and_Artist_when_the_Song_was_only_one_in_Album() {
+        //given
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
+        ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        songifyCrudFacade.addArtistToAlbum(artistDto.id(), albumDto.id());
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isNotEmpty();
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())).isNotEmpty();
+        assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
+        //when
+        songifyCrudFacade.deleteSongById(songDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())).isNotEmpty();
+        AlbumInfo albumByIdWithArtistsAndSongs = songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id());
+        assertThat(albumByIdWithArtistsAndSongs.getTitle()).isEqualTo("TitleAlbum");
+        assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
+        assertThat(albumByIdWithArtistsAndSongs.getArtists()).size()
+                                                             .isEqualTo(1);
+    }
+
+
+    @Test
     @DisplayName("should add Genre and return correct name of Genre and not null id")
     void add_Genre() {
         //given
@@ -271,7 +295,7 @@ class SongifyCrudFacadeTest {
         //when
         AlbumDto response = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
         //then
-        assertThat(songifyCrudFacade.findAllAlbums()
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(1);
         assertThat(response.title()).isEqualTo("album");
         AlbumInfo albumByIdWithArtistsAndSongs = songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(response.id());
@@ -287,7 +311,6 @@ class SongifyCrudFacadeTest {
     @Test
     @DisplayName("should delete Album and return empty list only if Album contain any Songs")
     void delete_Album() {
-        //TODO
         //given
         Instant now = Instant.now();
         SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
@@ -298,7 +321,7 @@ class SongifyCrudFacadeTest {
                                                                   .build());
         AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
         AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
-        assertThat(songifyCrudFacade.findAllAlbums()
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(1);
         assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
                                     .getSongs()
@@ -306,12 +329,12 @@ class SongifyCrudFacadeTest {
         //when
         songifyCrudFacade.deleteAlbumById(albumDto.id());
         //then
-        assertThat(songifyCrudFacade.findAllAlbums()
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(1);
         songifyCrudFacade.deleteAlbumWithSongsById(albumDto.id());
         assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())
                                     .size()).isEqualTo(0);
-        assertThat(songifyCrudFacade.findAllAlbums()
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(0);
     }
 }

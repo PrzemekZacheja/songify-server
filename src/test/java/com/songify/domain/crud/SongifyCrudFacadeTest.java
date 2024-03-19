@@ -161,6 +161,18 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("Should edit artist name")
+    void should_edit_artist_name() {
+        //given
+        ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
+        //when
+        ArtistDto response = songifyCrudFacade.updateArtistNameById(artistDtoU2.id(), "U2 Edit");
+        //then
+        assertThat(response.name()).isEqualTo("U2 Edit");
+    }
+
+    @Test
     @DisplayName("should not add Artist when sent name is empty and return null")
     void should_not_add_song_when_sent_name_is_empty_and_return_null() {
         //given

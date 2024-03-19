@@ -36,4 +36,11 @@ class InMemoryGenreRepository implements GenreRepository {
     public Optional<Genre> findById(final Long id) {
         return Optional.ofNullable(db.get(id));
     }
+
+    @Override
+    public void updateNameById(final String name, final Long id) {
+        db.get(id)
+          .setName(name);
+    }
+
 }

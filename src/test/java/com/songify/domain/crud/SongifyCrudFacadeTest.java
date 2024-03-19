@@ -292,6 +292,19 @@ class SongifyCrudFacadeTest {
         assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
     }
 
+    //11. można edytować nazwę gatunku muzycznego
+    @Test
+    @DisplayName("should edit Genre name")
+    void should_edit_Genre_name() {
+        //given
+        GenreDto genreDto = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
+        assertThat(songifyCrudFacade.findAllGenres(Pageable.unpaged())).isNotEmpty();
+        //when
+        GenreDto response = songifyCrudFacade.updateGenreNameById(genreDto.id(), "rock edit");
+        //then
+        assertThat(response.name()).isEqualTo("rock edit");
+    }
+
     @Test
     @DisplayName("should add Album and return correct name of Album, but he must contain at least one Song")
     void add_Album() {

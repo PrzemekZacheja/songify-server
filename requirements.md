@@ -12,7 +12,7 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
 ~~8. można usunąć album (ale dopiero, wtedy kiedy nie ma już żadnej piosenki przypisanej do albumu)~~
    ~~9. można usunąć piosenkę, ale nie usuwamy albumu i artystów, gdy była tylko 1 piosenka w albumie DONE~~
    ~~10. można edytować nazwę artysty~~
-11. można edytować nazwę gatunku muzycznego 
+~~11. można edytować nazwę gatunku muzycznego~~
 12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu) 
 13. można edytować piosenkę (czas trwania, artystę, nazwę piosenki) 
 14. można przypisać piosenki tylko do albumów 

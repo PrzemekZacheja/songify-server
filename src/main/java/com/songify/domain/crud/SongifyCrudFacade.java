@@ -54,6 +54,35 @@ public class SongifyCrudFacade {
         return null;
     }
 
+    public void addArtistToAlbum(Long artistId, Long albumId) {
+        artistAssigner.addArtistToAlbum(artistId, albumId);
+    }
+
+    public ArtistDto addArtistWithDefaultAlbumAndSongs(ArtistRequestDto artistRequestDto) {
+        return artistAdder.addArtistWithDefaultAlbumAndSongs(artistRequestDto);
+    }
+
+    public Set<ArtistDto> findAllArtistsDto(Pageable pageable) {
+        return artistProvider.findAllArtists(pageable);
+    }
+
+    public AlbumInfo findAlbumByIdWithArtistsAndSongs(final long id) {
+        return albumProvider.findAlbumByIdWithArtistsAndSongs(id);
+    }
+
+    public void deleteArtistByIdWithSongsAndAlbums(final Long id) {
+        artistDeleter.deleteArtistByIdWithSongsAndAlbums(id);
+    }
+
+    public ArtistDto updateArtistNameById(final Long id, final String name) {
+        return artistUpdater.updateNameById(id, name);
+    }
+
+    Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
+        return AlbumMapper.mapAlbumsToAlbumDtos(
+                albumProvider.findAlbumsByArtistId(id));
+    }
+
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
         try {
             return genreAdder.addGenre(genreRequestDto);
@@ -61,6 +90,22 @@ public class SongifyCrudFacade {
             log.error("Error while adding genre: {}, name must not be empty", e.getMessage());
         }
         return null;
+    }
+
+    Set<GenreDto> findAllGenres(final Pageable pageable) {
+        return genreProvider.findAll(pageable);
+    }
+
+    void deleteGenreById(final Long id) {
+        genreDeleter.deleteById(id);
+    }
+
+    void addGenreToSong(final Long genreId, final Long songId) {
+        genreAssigner.addGenreToSong(genreId, songId);
+    }
+
+    GenreDto updateGenreNameById(final Long id, final String newNameOfGenre) {
+        return genreUpdater.updateNameOfGenreById(id, newNameOfGenre);
     }
 
     public SongDto addSong(final SongRequestDto songRequestDto) {
@@ -74,36 +119,12 @@ public class SongifyCrudFacade {
         return albumAdder.addAlbumWithSong(albumRequestDto);
     }
 
-    public void addArtistToAlbum(Long artistId, Long albumId) {
-        artistAssigner.addArtistToAlbum(artistId, albumId);
-    }
-
-    public ArtistDto addArtistWithDefaultAlbumAndSongs(ArtistRequestDto artistRequestDto) {
-        return artistAdder.addArtistWithDefaultAlbumAndSongs(artistRequestDto);
-    }
-
-    public Set<ArtistDto> findAllArtistsDto(Pageable pageable) {
-        return artistProvider.findAllArtists(pageable);
-    }
-
     public List<SongDto> findAllSongsDto(final Pageable pageable) {
         return songProvider.findAll(pageable);
     }
 
-    Set<GenreDto> findAllGenres(final Pageable pageable) {
-        return genreProvider.findAll(pageable);
-    }
-
     public SongDto findSongById(final long id) {
         return songProvider.findSongDtoById(id);
-    }
-
-    public AlbumInfo findAlbumByIdWithArtistsAndSongs(final long id) {
-        return albumProvider.findAlbumByIdWithArtistsAndSongs(id);
-    }
-
-    public void deleteArtistByIdWithSongsAndAlbums(final Long id) {
-        artistDeleter.deleteArtistByIdWithSongsAndAlbums(id);
     }
 
     public void deleteSongById(final Long id) {
@@ -116,10 +137,6 @@ public class SongifyCrudFacade {
         return songUpdater.updateById(id, song);
     }
 
-    public ArtistDto updateArtistNameById(final Long id, final String name) {
-        return artistUpdater.updateNameById(id, name);
-    }
-
     public SongDto partiallyUpdateSongById(final Long id,
                                            final PartiallyUpdateSongRequestDto partiallySongRequestDto) {
         SongDto songDto = SongControllerMapper.mapFromPartiallyUpdateSongRequestDtoToSong(
@@ -128,21 +145,8 @@ public class SongifyCrudFacade {
         return songUpdater.partiallyUpdateById(id, songDto);
     }
 
-    Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
-        return AlbumMapper.mapAlbumsToAlbumDtos(
-                albumProvider.findAlbumsByArtistId(id));
-    }
-
-    void deleteGenreById(final Long id) {
-        genreDeleter.deleteById(id);
-    }
-
     Set<AlbumDto> findAllAlbumsDto(Pageable pageable) {
         return albumProvider.findAllAlbums(pageable);
-    }
-
-    void addGenreToSong(final Long genreId, final Long songId) {
-        genreAssigner.addGenreToSong(genreId, songId);
     }
 
     void deleteAlbumById(final Long id) {
@@ -157,7 +161,6 @@ public class SongifyCrudFacade {
         albumDeleter.deleteAlbumWithSongsById(id);
     }
 
-    GenreDto updateGenreNameById(final Long id, final String newNameOfGenre) {
-        return genreUpdater.updateNameOfGenreById(id, newNameOfGenre);
+    void updateAlbumNameById(final Long id, final String albumEdit) {
     }
 }

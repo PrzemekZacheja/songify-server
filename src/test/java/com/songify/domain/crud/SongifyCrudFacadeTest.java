@@ -362,4 +362,30 @@ class SongifyCrudFacadeTest {
         assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(0);
     }
+
+    //12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu)
+    @Test
+    @DisplayName("should edit Album name, add Songs, add Artists")
+    void should_edit_Album_name_add_Songs_add_Artists() {
+        //given
+        Instant now = Instant.now();
+        SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                  .name("song")
+                                                                  .duration(10L)
+                                                                  .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                  .releaseDate(now)
+                                                                  .build());
+        AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
+        ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
+                                    .size()).isEqualTo(1);
+        assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
+                                    .size()).isEqualTo(1);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getSongs()
+                                    .size()).isEqualTo(1);
+        //when
+        songifyCrudFacade.updateAlbumNameById(albumDto.id(), "album edit");
+    }
 }

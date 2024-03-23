@@ -3,7 +3,6 @@ package com.songify.infrastructure.crud.song.controller;
 import com.songify.domain.crud.SongifyCrudFacade;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.domain.crud.dto.SongRequestDto;
-import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.DeleteSongResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.PartiallyUpdateSongResponseDto;
@@ -94,9 +93,9 @@ public class SongRestController {
 
     @PatchMapping
     public ResponseEntity<PartiallyUpdateSongResponseDto> updateSongByPatch(
-            @RequestBody PartiallyUpdateSongRequestDto partiallySongRequestDto,
+            @RequestBody SongRequestDto songRequestDto,
             @RequestParam Long id) {
-        SongDto updatedSong = songifyCrudFacade.partiallyUpdateSongById(id, partiallySongRequestDto);
+        SongDto updatedSong = songifyCrudFacade.updateSongById(id, songRequestDto);
         return ResponseEntity.ok(SongControllerMapper.mapSongDomainDtoToPartiallyUpdateSongResponseDto(updatedSong));
     }
 }

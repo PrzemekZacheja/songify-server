@@ -24,16 +24,19 @@ class SongUpdater {
         return byId;
     }
 
-    SongDto partiallyUpdateById(Long id, SongDto songToPut) {
+    SongDto updateNameById(Long id, final String songNameEdit) {
         Song song = songProvider.findSongById(id);
+        song.setName(songNameEdit);
+        songRepository.save(song);
+        log.info("Song name with id: {} was updated", id);
+        return SongMapper.mapFromSongToSongDto(song);
+    }
 
-        Song songToUpdate = SongMapper.mapFromSongDtoToSong(songToPut);
-
-        songRepository.updateById(songToUpdate.getName(),
-                                  songToUpdate.getReleaseDate(),
-                                  songToUpdate.getDuration(),
-                                  songToUpdate.getLanguage(),
-                                  id);
-        return SongMapper.mapFromSongToSongDto(songToUpdate);
+    SongDto updateDurationById(final Long id, final long duration) {
+        Song song = songProvider.findSongById(id);
+        song.setDuration(duration);
+        songRepository.save(song);
+        log.info("Song duration with id: {} was updated", id);
+        return SongMapper.mapFromSongToSongDto(song);
     }
 }

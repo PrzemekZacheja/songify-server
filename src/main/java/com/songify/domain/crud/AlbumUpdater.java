@@ -1,6 +1,5 @@
 package com.songify.domain.crud;
 
-import com.songify.domain.crud.dto.AlbumDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,8 @@ class AlbumUpdater {
     AlbumProvider albumProvider;
     AlbumRepository albumRepository;
 
-    AlbumDto updateNameById(final Long id, final String newAlbumName) {
+    void updateNameById(final Long id, final String newAlbumName) {
         Album album = albumRepository.updateTitleById(newAlbumName, id);
-        return AlbumMapper.mapAlbumToAlbumDto(album);
+        AlbumMapper.mapAlbumToAlbumDto(album);
     }
 }

@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 
 class InMemoryAlbumRepository implements AlbumRepository {
 
-    Map<Long, Album> db = new HashMap<>();
-    AtomicLong id = new AtomicLong(0);
+    final Map<Long, Album> db = new HashMap<>();
+    final AtomicLong id = new AtomicLong(0);
 
     @Override
     public void save(final Album album) {

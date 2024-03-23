@@ -24,10 +24,10 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 class SongifyCrudFacadeTest {
 
-    SongifyCrudFacade songifyCrudFacade = SongifyCrudFacadeConfig.createSongifyCrudFacade(new InMemorySongRepository(),
-                                                                                          new InMemoryArtistRepository(),
-                                                                                          new InMemoryGenreRepository(),
-                                                                                          new InMemoryAlbumRepository());
+    final SongifyCrudFacade songifyCrudFacade = SongifyCrudFacadeConfig.createSongifyCrudFacade(new InMemorySongRepository(),
+                                                                                                new InMemoryArtistRepository(),
+                                                                                                new InMemoryGenreRepository(),
+                                                                                                new InMemoryAlbumRepository());
 
 
     @Test
@@ -235,6 +235,20 @@ class SongifyCrudFacadeTest {
                                                              .isEqualTo(1);
     }
 
+    //13. można edytować piosenkę (czas trwania, nazwę piosenki)
+    @Test
+    @DisplayName("should edit Song name and duration")
+    void should_edit_Song_name_and_duration() {
+        //given
+        Instant releaseDate = Instant.now();
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", releaseDate, 14L, SongLanguageDto.ENGLISH));
+        //when
+        SongDto editedNameOfSOng = songifyCrudFacade.updateSongNameById(songDto.id(), "SongNameEdit");
+        SongDto editedDurationOfSong = songifyCrudFacade.updateSongDurationById(editedNameOfSOng.id(), 4L);
+        //then
+        assertThat(editedNameOfSOng.name()).isEqualTo("SongNameEdit");
+        assertThat(editedDurationOfSong.duration()).isEqualTo(4L);
+    }
 
     @Test
     @DisplayName("should add Genre and return correct name of Genre and not null id")
@@ -363,7 +377,6 @@ class SongifyCrudFacadeTest {
                                     .size()).isEqualTo(0);
     }
 
-    //12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu)
     @Test
     @DisplayName("should edit Album name, add Songs, add Artists")
     void should_edit_Album_name_add_Songs_add_Artists() {

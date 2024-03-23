@@ -15,7 +15,7 @@ public interface GenreRepository extends Repository<Genre, Long> {
 
     Set<Genre> findAll(Pageable pageable);
 
-    Long deleteById(Long id);
+    void deleteById(Long id);
 
     Optional<Genre> findById(Long id);
 

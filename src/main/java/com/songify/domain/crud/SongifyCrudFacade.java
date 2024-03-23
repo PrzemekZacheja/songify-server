@@ -9,8 +9,6 @@ import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.domain.crud.dto.SongRequestDto;
-import com.songify.infrastructure.crud.song.controller.SongControllerMapper;
-import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -80,8 +78,7 @@ public class SongifyCrudFacade {
     }
 
     Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
-        return AlbumMapper.mapAlbumsToAlbumDtos(
-                albumProvider.findAlbumsByArtistId(id));
+        return AlbumMapper.mapAlbumsToAlbumDtos(albumProvider.findAlbumsByArtistId(id));
     }
 
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
@@ -138,16 +135,16 @@ public class SongifyCrudFacade {
         return songUpdater.updateById(id, song);
     }
 
-    public SongDto partiallyUpdateSongById(final Long id,
-                                           final PartiallyUpdateSongRequestDto partiallySongRequestDto) {
-        SongDto songDto = SongControllerMapper.mapFromPartiallyUpdateSongRequestDtoToSong(
-                partiallySongRequestDto,
-                id);
-        return songUpdater.partiallyUpdateById(id, songDto);
-    }
-
     void addSongToAlbum(final Long idSong, final Long idAlbum) {
         songAdder.addSongToAlbum(idSong, idAlbum);
+    }
+
+    SongDto updateSongNameById(final Long id, final String songNameEdit) {
+        return songUpdater.updateNameById(id, songNameEdit);
+    }
+
+    SongDto updateSongDurationById(final Long id, final long duration) {
+        return songUpdater.updateDurationById(id, duration);
     }
 
     Set<AlbumDto> findAllAlbumsDto(Pageable pageable) {
@@ -169,6 +166,5 @@ public class SongifyCrudFacade {
     void updateAlbumNameById(final Long id, final String newAlbumName) {
         albumUpdater.updateNameById(id, newAlbumName);
     }
-
 
 }

@@ -13,8 +13,9 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
    ~~9. można usunąć piosenkę, ale nie usuwamy albumu i artystów, gdy była tylko 1 piosenka w albumie DONE~~
    ~~10. można edytować nazwę artysty~~
 ~~11. można edytować nazwę gatunku muzycznego~~
-12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu) 
-13. można edytować piosenkę (czas trwania, artystę, nazwę piosenki) 
+~~12. można edytować album (dodawać piosenki, artystów, zmienia nazwe albumu)~~
+
+~~13. można edytować piosenkę (czas trwania, nazwę piosenki)~~
 14. można przypisać piosenki tylko do albumów 
 15. można przypisać piosenki do artysty (poprzez album)
     ~~16. można przypisać artystów do albumów (album może mieć więcej artystów, artysta może mieć kilka albumów)~~
@@ -47,7 +48,7 @@ given there is no songs, artists, albums and genres created before
 12. when I go to /album/1 then I can see song with id 1 added to it
 13. when I put to /album/1/song/1 then Song with id 1 ("Til i collapse") is added to Album with id 1 ("EminemAlbum1")
 14. when I put to /album/1/song/2 then Song with id 2 ("Lose Yourself") is added to Album with id 1 ("EminemAlbum1")
-15. when I go to /album/1/song then I can see 2 songs (id 1, id 2)
+15. when I go to /album/1/song then I can see two songs (id 1, id 2)
 16. when I post to /artist with Artist "Eminem" then Artist "Eminem" is returned with id 1
 17. when I put to /album/1/artist/2 then Artist with id 1 ("Eminem") is added to Album with id 1 ("EminemAlbum1")the
     album with id 1

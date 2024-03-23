@@ -12,8 +12,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemorySongRepository implements SongRepository {
 
-    Map<Long, Song> db = new HashMap<>();
-    AtomicLong id = new AtomicLong();
+    final Map<Long, Song> db = new HashMap<>();
+    final AtomicLong id = new AtomicLong();
 
     @Override
     public Song save(final Song song) {
@@ -46,12 +46,11 @@ class InMemorySongRepository implements SongRepository {
     }
 
     @Override
-    public int updateById(final String name,
-                          final Instant releaseDate,
-                          final Long duration,
-                          final SongLanguage language,
-                          final Long id) {
-        return 0;
+    public void updateById(final String name,
+                           final Instant releaseDate,
+                           final Long duration,
+                           final SongLanguage language,
+                           final Long id) {
     }
 
     @Override

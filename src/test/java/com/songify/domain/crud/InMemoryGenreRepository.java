@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 class InMemoryGenreRepository implements GenreRepository {
 
-    Map<Long, Genre> db = new HashMap<>();
-    AtomicLong id = new AtomicLong();
+    final Map<Long, Genre> db = new HashMap<>();
+    final AtomicLong id = new AtomicLong();
 
     @Override
     public Genre save(final Genre genre) {
@@ -28,8 +28,8 @@ class InMemoryGenreRepository implements GenreRepository {
     }
 
     @Override
-    public Long deleteById(final Long id) {
-        return db.remove(id) != null ? id : -1L;
+    public void deleteById(final Long id) {
+        db.remove(id);
     }
 
     @Override

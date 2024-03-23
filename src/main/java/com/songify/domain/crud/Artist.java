@@ -43,6 +43,6 @@ public class Artist extends BaseEntity {
 
     void addAlbum(final Album album) {
         albums.add(album);
-        album.addArtist(this);
+//        album.addArtist(this);
     }
 }

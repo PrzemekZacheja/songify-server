@@ -6,23 +6,24 @@ public class SongifyCrudFacadeConfig {
                                                             final ArtistRepository artistRepository,
                                                             final GenreRepository genreRepository,
                                                             final AlbumRepository albumRepository) {
-        SongAdder songAdder = new SongAdder(songRepository);
         SongProvider songProvider = new SongProvider(songRepository);
         SongDeleter songDeleter = new SongDeleter(songRepository);
         SongUpdater songUpdater = new SongUpdater(songRepository, songProvider);
         AlbumAdder albumAdder = new AlbumAdder(albumRepository, songProvider);
-        ArtistAdder artistAdder = new ArtistAdder(artistRepository, albumAdder, songAdder);
         GenreAdder genreAdder = new GenreAdder(genreRepository);
         ArtistProvider artistProvider = new ArtistProvider(artistRepository);
         AlbumProvider albumProvider = new AlbumProvider(albumRepository);
+        SongAdder songAdder = new SongAdder(songRepository, albumProvider, songProvider);
+        ArtistAdder artistAdder = new ArtistAdder(artistRepository, albumAdder, songAdder);
         AlbumDeleter albumDeleter = new AlbumDeleter(albumRepository, albumProvider, songDeleter);
         ArtistDeleter artistDeleter = new ArtistDeleter(artistRepository, artistProvider, albumProvider, songDeleter, albumDeleter);
-        ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumProvider);
+        ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumProvider, artistRepository);
         ArtistUpdater artistUpdater = new ArtistUpdater(artistProvider);
         GenreProvider genreProvider = new GenreProvider(genreRepository);
         GenreDeleter genreDeleter = new GenreDeleter(genreRepository, songProvider, songDeleter);
         GenreAssigner genreAssigner = new GenreAssigner(songProvider, genreProvider);
         GenreUpdater genreUpdater = new GenreUpdater(genreRepository, genreProvider);
+        AlbumUpdater albumUpdater = new AlbumUpdater(albumProvider, albumRepository);
 
         return new SongifyCrudFacade(songAdder,
                                      songProvider,
@@ -36,6 +37,7 @@ public class SongifyCrudFacadeConfig {
                                      albumAdder,
                                      albumDeleter,
                                      albumProvider,
+                                     albumUpdater,
                                      genreAdder,
                                      genreProvider,
                                      genreDeleter,

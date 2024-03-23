@@ -39,6 +39,7 @@ public class SongifyCrudFacade {
     private final AlbumAdder albumAdder;
     private final AlbumDeleter albumDeleter;
     private final AlbumProvider albumProvider;
+    private final AlbumUpdater albumUpdater;
     private final GenreAdder genreAdder;
     private final GenreProvider genreProvider;
     private final GenreDeleter genreDeleter;
@@ -145,6 +146,10 @@ public class SongifyCrudFacade {
         return songUpdater.partiallyUpdateById(id, songDto);
     }
 
+    void addSongToAlbum(final Long idSong, final Long idAlbum) {
+        songAdder.addSongToAlbum(idSong, idAlbum);
+    }
+
     Set<AlbumDto> findAllAlbumsDto(Pageable pageable) {
         return albumProvider.findAllAlbums(pageable);
     }
@@ -161,6 +166,9 @@ public class SongifyCrudFacade {
         albumDeleter.deleteAlbumWithSongsById(id);
     }
 
-    void updateAlbumNameById(final Long id, final String albumEdit) {
+    void updateAlbumNameById(final Long id, final String newAlbumName) {
+        albumUpdater.updateNameById(id, newAlbumName);
     }
+
+
 }

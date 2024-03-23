@@ -42,4 +42,9 @@ public interface AlbumRepository extends Repository<Album, Long> {
     @Query("delete from Album a where a.id = :id")
     void deleteById(Long id);
 
+    @Transactional
+    @Modifying
+    @Query("update Album a set a.title = ?1 where a.id = ?2")
+    Album updateTitleById(String title, Long id);
+
 }

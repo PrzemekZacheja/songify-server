@@ -64,5 +64,4 @@ public class Album extends BaseEntity {
     void addArtist(final Artist artist) {
         artists.add(artist);
     }
-
 }

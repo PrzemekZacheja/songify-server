@@ -369,15 +369,17 @@ class SongifyCrudFacadeTest {
     void should_edit_Album_name_add_Songs_add_Artists() {
         //given
         Instant now = Instant.now();
-        SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
+        SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
                                                                   .name("song")
                                                                   .duration(10L)
                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
                                                                   .releaseDate(now)
                                                                   .build());
-        AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
+        AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto1.id());
         AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
-        ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        ArtistDto artistDto1 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        songifyCrudFacade.addArtistToAlbum(artistDto1.id(), albumDto.id());
+
         assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
                                     .size()).isEqualTo(1);
         assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
@@ -387,5 +389,25 @@ class SongifyCrudFacadeTest {
                                     .size()).isEqualTo(1);
         //when
         songifyCrudFacade.updateAlbumNameById(albumDto.id(), "album edit");
+
+        SongDto songDto2 = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                   .name("song2")
+                                                                   .duration(10L)
+                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                   .releaseDate(now)
+                                                                   .build());
+        songifyCrudFacade.addSongToAlbum(songDto2.id(), albumDto.id());
+
+        ArtistDto artistDto2 = songifyCrudFacade.addArtist(new ArtistRequestDto("Metallica"));
+        songifyCrudFacade.addArtistToAlbum(artistDto2.id(), albumDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getTitle()).isEqualTo("album edit");
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getArtists()).size()
+                                                  .isEqualTo(2);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getSongs()).size()
+                                                .isEqualTo(2);
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 class SongAdder {
 
     private final SongRepository songRepository;
+    private final AlbumProvider albumProvider;
+    private final SongProvider songProvider;
 
     Song addSong(Song song) {
         Song savedToDatabase = songRepository.save(song);
@@ -18,4 +20,10 @@ class SongAdder {
         return savedToDatabase;
     }
 
+    void addSongToAlbum(final Long idSong, final Long idAlbum) {
+        Album album = albumProvider.findById(idAlbum);
+        Song song = songProvider.findSongById(idSong);
+        album.addSong(song);
+        log.info("Song added to album: {}", album.toString());
+    }
 }

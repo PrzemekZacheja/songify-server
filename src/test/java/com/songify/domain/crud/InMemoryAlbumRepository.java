@@ -64,4 +64,11 @@ class InMemoryAlbumRepository implements AlbumRepository {
     public void deleteById(final Long id) {
         db.remove(id);
     }
+
+    @Override
+    public Album updateTitleById(final String title, final Long id) {
+        Album album = db.get(id);
+        album.setTitle(title);
+        return album;
+    }
 }

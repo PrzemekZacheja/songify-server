@@ -12,4 +12,12 @@ class AlbumMapper {
                        .map(album -> new AlbumDto(album.getId(), album.getTitle()))
                        .collect(Collectors.toSet());
     }
+
+
+    static AlbumDto mapAlbumToAlbumDto(final Album album) {
+        return AlbumDto.builder()
+                       .id(album.getId())
+                       .title(album.getTitle())
+                       .build();
+    }
 }

@@ -201,6 +201,25 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("Songs can only be assigned to albums")
+    void songs_can_only_be_assigned_to_albums() {
+        //given
+        SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH);
+        List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
+        assertThat(allSongs).isEmpty();
+        SongDto addedSong = songifyCrudFacade.addSong(songRequestDto);
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("AlbumName", Instant.now(), addedSong.id()));
+        //when
+        SongDto secondSong = songifyCrudFacade.addSong(new SongRequestDto("SecondSong", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+        Throwable throwable = catchThrowable(() -> songifyCrudFacade.addSongToAlbum(secondSong.id(), albumDto.id()));
+        //then
+        assertThat(throwable).isNull();
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getSongs()
+                                    .size()).isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("should delete song by Id and return empty list")
     void should_delete_song_by_Id_and_return_empty_list() {
         //given
@@ -235,7 +254,6 @@ class SongifyCrudFacadeTest {
                                                              .isEqualTo(1);
     }
 
-    //13. można edytować piosenkę (czas trwania, nazwę piosenki)
     @Test
     @DisplayName("should edit Song name and duration")
     void should_edit_Song_name_and_duration() {

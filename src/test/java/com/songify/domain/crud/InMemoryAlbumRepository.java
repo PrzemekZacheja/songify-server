@@ -43,7 +43,7 @@ class InMemoryAlbumRepository implements AlbumRepository {
 
     @Override
     public void deleteByIdIn(final Collection<Long> ids) {
-        ids.forEach(id -> db.remove(id));
+        ids.forEach(db::remove);
     }
 
     @Override

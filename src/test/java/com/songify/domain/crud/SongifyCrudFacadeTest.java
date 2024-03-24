@@ -171,6 +171,29 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("you can assign artists to albums (an album can have more artists, an artist can have several albums")
+    void can_assign_artists_to_albums_an_album_can_have_more_artists_an_artist_can_have_several_albums() {
+        //given
+        ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
+        SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+        SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+        AlbumDto albumDto1 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto1.id()));
+        AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum2", Instant.now(), songDto2.id()));
+        //when
+        songifyCrudFacade.addArtistToAlbum(artistDtoU2.id(), albumDto1.id());
+        songifyCrudFacade.addArtistToAlbum(artistDtoNirvana.id(), albumDto1.id());
+        songifyCrudFacade.addAlbumToArtist(albumDto2.id(), artistDtoU2.id());
+        //then
+        assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto1.id())
+                                    .getArtists()
+                                    .size()).isEqualTo(2);
+        assertThat(songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoU2.id())
+                                    .size()).isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("should not add Artist when sent name is empty and return null")
     void should_not_add_song_when_sent_name_is_empty_and_return_null() {
         //given

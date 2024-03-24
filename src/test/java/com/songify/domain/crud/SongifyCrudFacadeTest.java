@@ -553,4 +553,38 @@ class SongifyCrudFacadeTest {
                                     .getSongs()).size()
                                                 .isEqualTo(2);
     }
+
+    //22. można wyświetlać wszystkie albumy
+    @Test
+    @DisplayName("should return all albums")
+    void should_return_all_albums() {
+        //given
+        Instant now = Instant.now();
+        SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                   .name("song")
+                                                                   .duration(10L)
+                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                   .releaseDate(now)
+                                                                   .build());
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));
+
+        SongDto songDto2 = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                   .name("song2")
+                                                                   .duration(10L)
+                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                   .releaseDate(now)
+                                                                   .build());
+        AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album2", now, songDto2.id()));
+        //when
+        Set<AlbumDto> allAlbums = songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged());
+        //then
+        assertThat(allAlbums).isNotEmpty();
+        assertThat(allAlbums.size()).isEqualTo(2);
+        assertThat(allAlbums.stream()
+                            .anyMatch(albumDto1 -> albumDto1.title()
+                                                            .equals("album"))).isTrue();
+        assertThat(allAlbums.stream()
+                            .anyMatch(albumDto1 -> albumDto1.title()
+                                                            .equals("album2"))).isTrue();
+    }
 }

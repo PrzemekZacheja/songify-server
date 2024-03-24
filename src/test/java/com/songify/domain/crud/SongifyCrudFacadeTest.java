@@ -194,6 +194,28 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should return all artists")
+    void should_return_all_artists() {
+        //given
+        ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
+        //when
+        Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtistsDto(Pageable.unpaged());
+        //then
+        assertThat(allArtists.size()).isEqualTo(2);
+        assertThat(allArtists.stream()
+                             .filter(artistDto -> artistDto.name()
+                                                           .contains("U2"))
+                             .collect(Collectors.toSet())
+                             .size()).isEqualTo(1);
+        assertThat(allArtists.stream()
+                             .filter(artistDto -> artistDto.name()
+                                                           .contains("Nirvana"))
+                             .collect(Collectors.toSet())
+                             .size()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("should not add Artist when sent name is empty and return null")
     void should_not_add_song_when_sent_name_is_empty_and_return_null() {
         //given

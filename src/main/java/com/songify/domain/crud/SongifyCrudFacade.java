@@ -171,4 +171,5 @@ public class SongifyCrudFacade {
     void addAlbumToArtist(final Long albumId, final Long artistId) {
         albumAssigner.addAlbumToArtist(albumId, artistId);
     }
+
 }

@@ -364,7 +364,6 @@ class SongifyCrudFacadeTest {
         assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
     }
 
-    //11. można edytować nazwę gatunku muzycznego
     @Test
     @DisplayName("should edit Genre name")
     void should_edit_Genre_name() {
@@ -375,6 +374,20 @@ class SongifyCrudFacadeTest {
         GenreDto response = songifyCrudFacade.updateGenreNameById(genreDto.id(), "rock edit");
         //then
         assertThat(response.name()).isEqualTo("rock edit");
+    }
+
+    @Test
+    @DisplayName("should not add Genre to Song when it already contains this Genre")
+    void should_not_add_Genre_to_Song_when_it_already_contains_this_Genre() {
+        //given
+        GenreDto genreDto = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        //when
+        songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id());
+        Throwable throwable = catchThrowable(() -> songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id()));
+        //then
+        assertThat(throwable).isNotNull();
+        assertThat(throwable).isInstanceOf(NotAddGenreToSongException.class);
     }
 
     @Test

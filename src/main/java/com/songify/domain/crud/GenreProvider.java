@@ -14,7 +14,7 @@ class GenreProvider {
 
     private final GenreRepository genreRepository;
 
-    Set<GenreDto> findAll(final Pageable pageable) {
+	Set<GenreDto> findAll(final Pageable pageable) {
         return genreRepository.findAll(pageable)
                               .stream()
                               .map(GenreMapper::mapFromGenreToGenreDto)
@@ -27,4 +27,5 @@ class GenreProvider {
                                       () -> new GenreNotFoundException("Genre with id: " + genreId + " not found")
                                           );
     }
+
 }

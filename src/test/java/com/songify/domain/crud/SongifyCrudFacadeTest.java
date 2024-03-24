@@ -415,6 +415,19 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should return all genres")
+    void should_return_all_genres() {
+        //given
+        songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
+        songifyCrudFacade.addGenre(new GenreRequestDto("pop"));
+        //when
+        Set<GenreDto> allGenres = songifyCrudFacade.findAllGenres(Pageable.unpaged());
+        //then
+        assertThat(allGenres).isNotEmpty();
+        assertThat(allGenres.size()).isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("should add Album and return correct name of Album, but he must contain at least one Song")
     void add_Album() {
         //given

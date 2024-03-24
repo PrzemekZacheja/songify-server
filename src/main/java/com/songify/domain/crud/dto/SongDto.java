@@ -7,7 +7,6 @@ import lombok.Builder;
 public record SongDto(
         Long id,
         String name,
-        String artist,
         Long duration,
         SongLanguage language) {
 }

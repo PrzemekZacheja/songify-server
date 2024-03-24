@@ -21,9 +21,9 @@ public class SongViewController {
 
     @GetMapping("/views/songs")
     public String songs(Model model) {
-        databaseInMemory.put(1, new SongDto(1L, "Song 1", "Artist 1", 10L, SongLanguage.ENGLISH));
-        databaseInMemory.put(2, new SongDto(2L, "Song 2", "Artist 2", 20L, SongLanguage.ENGLISH));
-        databaseInMemory.put(3, new SongDto(3L, "Song 3", "Artist 3", 30L, SongLanguage.ENGLISH));
+        databaseInMemory.put(1, new SongDto(1L, "Song 1", 10L, SongLanguage.ENGLISH));
+        databaseInMemory.put(2, new SongDto(2L, "Song 2", 20L, SongLanguage.ENGLISH));
+        databaseInMemory.put(3, new SongDto(3L, "Song 3", 30L, SongLanguage.ENGLISH));
 
         model.addAttribute("songs", databaseInMemory);
         return "songs";

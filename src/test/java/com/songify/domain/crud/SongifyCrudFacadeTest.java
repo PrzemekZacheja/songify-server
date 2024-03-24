@@ -63,8 +63,6 @@ class SongifyCrudFacadeTest {
     void should_add_Artist_with_album_and_song_where_album_and_song_have_default_value() {
         //given
         ArtistRequestDto u2 = new ArtistRequestDto("U2");
-        AlbumRequestDto albumRequestDto = new AlbumRequestDto("AlbumName", Instant.now(), null);
-        SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH);
         //when
         ArtistDto artistDto = songifyCrudFacade.addArtistWithDefaultAlbumAndSongs(u2);
         //then
@@ -269,6 +267,25 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("you can assign songs to an artist (via album)")
+    void you_can_assign_songs_to_an_artist_via_album() {
+        //given
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
+        ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        //when
+        songifyCrudFacade.addArtistToAlbum(artistDto.id(), albumDto.id());
+        songifyCrudFacade.addSongToAlbum(songDto.id(), albumDto.id());
+        //then
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getArtists()
+                                    .size()).isEqualTo(1);
+        assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id())
+                                    .getSongs()
+                                    .size()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("should add Genre and return correct name of Genre and not null id")
     void add_Genre() {
         //given
@@ -401,11 +418,11 @@ class SongifyCrudFacadeTest {
         //given
         Instant now = Instant.now();
         SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
-                                                                  .name("song")
-                                                                  .duration(10L)
-                                                                  .songLanguageDto(SongLanguageDto.ENGLISH)
-                                                                  .releaseDate(now)
-                                                                  .build());
+                                                                   .name("song")
+                                                                   .duration(10L)
+                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                   .releaseDate(now)
+                                                                   .build());
         AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto1.id());
         AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(albumRequestDto);
         ArtistDto artistDto1 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));

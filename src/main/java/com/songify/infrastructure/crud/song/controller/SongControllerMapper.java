@@ -1,7 +1,6 @@
 package com.songify.infrastructure.crud.song.controller;
 
 import com.songify.domain.crud.dto.SongDto;
-import com.songify.infrastructure.crud.song.controller.dto.request.PartiallyUpdateSongRequestDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.DeleteSongResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.GetAllSongsResponseDto;
 import com.songify.infrastructure.crud.song.controller.dto.response.PartiallyUpdateSongResponseDto;
@@ -16,7 +15,6 @@ public class SongControllerMapper {
 
     public static SingleSongResponseDtoById mapSongDomainDtoToSingleSongResponseDtoById(SongDto song) {
         return new SingleSongResponseDtoById(SongControllerDto.builder()
-                                                              .artist(song.artist())
                                                               .id(song.id())
                                                               .name(song.name())
                                                               .duration(song.duration())
@@ -37,7 +35,6 @@ public class SongControllerMapper {
 
     private static SongControllerDto mapSongDomainDtoToSongControllerDto(final SongDto song) {
         return SongControllerDto.builder()
-                                .artist(song.artist())
                                 .id(song.id())
                                 .name(song.name())
                                 .duration(song.duration())
@@ -47,7 +44,6 @@ public class SongControllerMapper {
 
     static PartiallyUpdateSongResponseDto mapSongDomainDtoToPartiallyUpdateSongResponseDto(final SongDto updatedSong) {
         return new PartiallyUpdateSongResponseDto(SongControllerDto.builder()
-                                                                   .artist(updatedSong.artist())
                                                                    .id(updatedSong.id())
                                                                    .name(updatedSong.name())
                                                                    .duration(updatedSong.duration())
@@ -55,15 +51,4 @@ public class SongControllerMapper {
                                                                    .build());
     }
 
-    public static SongDto mapFromPartiallyUpdateSongRequestDtoToSong(final PartiallyUpdateSongRequestDto partiallySongRequestDto,
-                                                                     final Long id) {
-        return SongDto.builder()
-                      .id(id)
-                      .artist(partiallySongRequestDto.artist())
-                      .name(partiallySongRequestDto.name())
-                      .language(partiallySongRequestDto.language())
-                      .duration(partiallySongRequestDto.duration() != null ?
-                                              partiallySongRequestDto.duration() : 0L)
-                      .build();
-    }
 }

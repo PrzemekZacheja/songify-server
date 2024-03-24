@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 class GenreProvider {
 
     private final GenreRepository genreRepository;
+    private final SongProvider songProvider;
 
 	Set<GenreDto> findAll(final Pageable pageable) {
         return genreRepository.findAll(pageable)
@@ -28,4 +29,8 @@ class GenreProvider {
                                           );
     }
 
+    GenreDto findGenreBySongId(final Long id) {
+        Song song = songProvider.findSongById(id);
+        return song.getGenre() == null ? null : GenreMapper.mapFromGenreToGenreDto(song.getGenre());
+    }
 }

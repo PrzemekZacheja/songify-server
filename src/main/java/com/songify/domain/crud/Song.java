@@ -58,6 +58,10 @@ public class Song extends BaseEntity {
         this.name = name;
     }
 
+    Genre getGenre() {
+        return genre;
+    }
+
     void setGenre(final Genre genre) {
         this.genre = genre;
     }

@@ -391,6 +391,17 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should return default genre when song doesn't have genre")
+    void should_return_default_genre_when_song_does_not_have_genre() {
+        //given
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        //when
+        GenreDto genreDtoById = songifyCrudFacade.findGenreBySongId(songDto.id());
+        //then
+        assertThat(genreDtoById.name()).isEqualTo("default");
+    }
+
+    @Test
     @DisplayName("should add Album and return correct name of Album, but he must contain at least one Song")
     void add_Album() {
         //given

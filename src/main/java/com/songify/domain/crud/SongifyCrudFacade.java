@@ -107,6 +107,10 @@ public class SongifyCrudFacade {
         return genreUpdater.updateNameOfGenreById(id, newNameOfGenre);
     }
 
+    GenreDto findGenreBySongId(final Long id) {
+        return genreProvider.findGenreBySongId(id);
+    }
+
     public SongDto addSong(final SongRequestDto songRequestDto) {
         Song song = SongMapper.mapFromSongRequestDtoToSong(songRequestDto);
         Song added = songAdder.addSong(song);
@@ -171,5 +175,6 @@ public class SongifyCrudFacade {
     void addAlbumToArtist(final Long albumId, final Long artistId) {
         albumAssigner.addAlbumToArtist(albumId, artistId);
     }
+
 
 }

@@ -19,7 +19,7 @@ public class SongifyCrudFacadeConfig {
         ArtistDeleter artistDeleter = new ArtistDeleter(artistRepository, artistProvider, albumProvider, songDeleter, albumDeleter);
         ArtistAssigner artistAssigner = new ArtistAssigner(artistProvider, albumProvider, artistRepository);
         ArtistUpdater artistUpdater = new ArtistUpdater(artistProvider);
-        GenreProvider genreProvider = new GenreProvider(genreRepository);
+        GenreProvider genreProvider = new GenreProvider(genreRepository, songProvider);
         GenreDeleter genreDeleter = new GenreDeleter(genreRepository, songProvider, songDeleter);
         GenreAssigner genreAssigner = new GenreAssigner(songProvider, genreProvider);
         GenreUpdater genreUpdater = new GenreUpdater(genreRepository, genreProvider);

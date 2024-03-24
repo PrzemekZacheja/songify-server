@@ -20,9 +20,8 @@ Aplikacja SONGIFY to aplikacja CRUD, która umożliwia użytkownikom zarządzani
 ~~15. można przypisać piosenki do artysty (poprzez album)~~
 ~~16. można przypisać artystów do albumów (album może mieć więcej artystów, artysta może mieć kilka albumów)~~
 ~~17. można przypisać tylko jeden gatunek muzyczny do piosenki~~
-
-18. gdy nie ma przypisanego gatunku muzycznego do piosenki, to wyświetlamy "default"
-    ~~19. można wyświetlać wszystkie piosenki~~
+~~18. gdy nie ma przypisanego gatunku muzycznego do piosenki, to wyświetlamy "default"~~
+~~19. można wyświetlać wszystkie piosenki~~
 20. można wyświetlać wszystkie gatunki
     ~~21. można wyświetlać wszystkich artystów~~
 22. można wyświetlać wszystkie albumy

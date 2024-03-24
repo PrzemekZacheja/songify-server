@@ -309,6 +309,19 @@ class SongifyCrudFacadeTest {
     }
 
     @Test
+    @DisplayName("should return all songs")
+    void should_return_all_songs() {
+        //given
+        SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        //when
+        List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
+        //then
+        assertThat(allSongs).isNotEmpty();
+        assertThat(allSongs.size()).isEqualTo(2);
+    }
+
+    @Test
     @DisplayName("should add Genre and return correct name of Genre and not null id")
     void add_Genre() {
         //given

@@ -31,7 +31,6 @@ class SongMapper {
 		           .releaseDate(songRequestDto.releaseDate())
 		           .duration(songRequestDto.duration())
 		           .language(language)
-		           .genre(new Genre("default"))
 		           .build();
 	}
 }

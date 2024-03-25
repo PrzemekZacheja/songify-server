@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class SongAdder {
 
+    private static final String DEFAULT_GENRE_NAME = "default";
     private final SongRepository songRepository;
     private final AlbumProvider albumProvider;
     private final SongProvider songProvider;
 
     Song addSong(Song song) {
+        if (song.getGenre() == null) {
+            song.setGenre(new Genre(DEFAULT_GENRE_NAME));
+        }
         Song savedToDatabase = songRepository.save(song);
         log.info("Song created: {}", savedToDatabase.toString());
         return savedToDatabase;

@@ -415,13 +415,13 @@ class SongifyCrudFacadeTest {
     @DisplayName("should not add Genre to Song when it already contains this Genre")
     void should_not_add_Genre_to_Song_when_it_already_contains_this_Genre() {
         //given
-        GenreDto genreDto = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
+        GenreDto rock = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
         SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+        songifyCrudFacade.addGenreToSong(rock.id(), songDto.id());
+        GenreDto pop = songifyCrudFacade.addGenre(new GenreRequestDto("pop"));
         //when
-        songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id());
-        Throwable throwable = catchThrowable(() -> songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id()));
+        Throwable throwable = catchThrowable(() -> songifyCrudFacade.addGenreToSong(pop.id(), songDto.id()));
         //then
-        assertThat(throwable).isNotNull();
         assertThat(throwable).isInstanceOf(NotAddGenreToSongException.class);
     }
 
@@ -554,7 +554,6 @@ class SongifyCrudFacadeTest {
                                                 .isEqualTo(2);
     }
 
-    //22. można wyświetlać wszystkie albumy
     @Test
     @DisplayName("should return all albums")
     void should_return_all_albums() {
@@ -586,5 +585,37 @@ class SongifyCrudFacadeTest {
         assertThat(allAlbums.stream()
                             .anyMatch(albumDto1 -> albumDto1.title()
                                                             .equals("album2"))).isTrue();
+    }
+
+    @Test
+    @DisplayName("should return all albums with artists and songs")
+    void should_return_all_albums_with_artists_and_songs() {
+        //given
+        Instant now = Instant.now();
+        SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
+                                                                   .name("song")
+                                                                   .duration(10L)
+                                                                   .songLanguageDto(SongLanguageDto.ENGLISH)
+                                                                   .releaseDate(now)
+                                                                   .build());
+        AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));
+        ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+        songifyCrudFacade.addArtistToAlbum(artistDtoU2.id(), albumDto.id());
+        //when
+        AlbumInfo albumByIdWithArtistsAndSongs = songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto.id());
+        //then
+        assertThat(albumByIdWithArtistsAndSongs.getTitle()).isEqualTo("album");
+        assertThat(albumByIdWithArtistsAndSongs.getArtists()).size()
+                                                             .isEqualTo(1);
+        assertThat(albumByIdWithArtistsAndSongs.getArtists()
+                                               .stream()
+                                               .map(AlbumInfo.ArtistInfo::getName)
+                                               .collect(Collectors.toSet())).contains("U2");
+        assertThat(albumByIdWithArtistsAndSongs.getSongs()).size()
+                                                           .isEqualTo(1);
+        assertThat(albumByIdWithArtistsAndSongs.getSongs()
+                                               .stream()
+                                               .map(AlbumInfo.SongInfo::getName)
+                                               .collect(Collectors.toSet())).contains("song");
     }
 }

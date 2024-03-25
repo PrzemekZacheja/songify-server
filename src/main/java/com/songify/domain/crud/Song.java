@@ -74,7 +74,7 @@ public class Song extends BaseEntity {
                 ", releaseDate=" + releaseDate +
                 ", duration=" + duration +
                 ", language=" + language +
-                ", genreName=" + genre.getName() +
+                ", genreName=" + genre +
                 '}';
     }
 }

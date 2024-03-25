@@ -33,7 +33,10 @@ class SongProvider {
                              .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found"));
     }
 
-    List<Song> findSongByGenreId(final Long id) {
-        return songRepository.findByGenre_Id(id);
+    List<SongDto> findSongsByGenreId(final Long id) {
+        List<Song> byGenreId = songRepository.findByGenre_Id(id);
+        return byGenreId.stream()
+                        .map(SongMapper::mapFromSongToSongDto)
+                        .toList();
     }
 }

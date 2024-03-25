@@ -7,6 +7,7 @@ import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistRequestDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
+import com.songify.domain.crud.dto.GenreWithSongsDto;
 import com.songify.domain.crud.dto.SongDto;
 import com.songify.domain.crud.dto.SongRequestDto;
 import lombok.AccessLevel;
@@ -177,4 +178,7 @@ public class SongifyCrudFacade {
     }
 
 
+    GenreWithSongsDto findGenreWithSongs(final Long id) {
+        return genreProvider.findGenreWithSongs(id);
+    }
 }

@@ -5,6 +5,7 @@ import com.songify.domain.crud.dto.AlbumInfo;
 import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.domain.crud.dto.ArtistWithAlbumsDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.GenreWithSongsDto;
@@ -214,6 +215,48 @@ class SongifyCrudFacadeTest {
 		                                                   .contains("Nirvana"))
 		                     .collect(Collectors.toSet())
 		                     .size()).isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("should return all artists with albums")
+	void should_return_all_artists_with_albums() {
+		//given
+		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+		ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
+		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+		AlbumDto albumDto1 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto1.id()));
+		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum2", Instant.now(), songDto2.id()));
+		songifyCrudFacade.addAlbumToArtist(albumDto1.id(), artistDtoU2.id());
+		songifyCrudFacade.addAlbumToArtist(albumDto2.id(), artistDtoNirvana.id());
+		//when
+		Set<ArtistWithAlbumsDto> allArtistsWithAlbums = songifyCrudFacade.findAllArtistsDtoWithAlbumsDto(Pageable.unpaged());
+		//then
+		assertThat(allArtistsWithAlbums.size()).isEqualTo(2);
+		assertThat(allArtistsWithAlbums.stream()
+		                               .filter(artistWithAlbumsDto -> artistWithAlbumsDto.name()
+		                                                                                 .contains("U2"))
+		                               .collect(Collectors.toSet())
+		                               .size()).isEqualTo(1);
+		assertThat(allArtistsWithAlbums.stream()
+		                               .filter(artistWithAlbumsDto -> artistWithAlbumsDto.name()
+		                                                                                 .contains("Nirvana"))
+		                               .collect(Collectors.toSet())
+		                               .size()).isEqualTo(1);
+		Set<AlbumDto> albumByArtistU2 = songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoU2.id());
+		assertThat(albumByArtistU2.size()).isEqualTo(1);
+		assertThat(albumByArtistU2.stream()
+		                          .filter(albumDto -> albumDto.title()
+		                                                      .contains("TitleAlbum"))
+		                          .collect(Collectors.toSet())
+		                          .size()).isEqualTo(1);
+		Set<AlbumDto> albumByArtistNirvana = songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoNirvana.id());
+		assertThat(albumByArtistNirvana.size()).isEqualTo(1);
+		assertThat(albumByArtistNirvana.stream()
+		                               .filter(albumDto -> albumDto.title()
+		                                                           .contains("TitleAlbum2"))
+		                               .collect(Collectors.toSet())
+		                               .size()).isEqualTo(1);
 	}
 
 	@Test

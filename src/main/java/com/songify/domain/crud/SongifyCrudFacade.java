@@ -5,6 +5,7 @@ import com.songify.domain.crud.dto.AlbumInfo;
 import com.songify.domain.crud.dto.AlbumRequestDto;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistRequestDto;
+import com.songify.domain.crud.dto.ArtistWithAlbumsDto;
 import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.GenreWithSongsDto;
@@ -80,7 +81,7 @@ public class SongifyCrudFacade {
     }
 
     Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
-        return AlbumMapper.mapAlbumsToAlbumDtos(albumProvider.findAlbumsByArtistId(id));
+        return albumProvider.findAlbumsDtoByArtistId(id);
     }
 
     public GenreDto addGenre(GenreRequestDto genreRequestDto) {
@@ -180,5 +181,9 @@ public class SongifyCrudFacade {
 
     GenreWithSongsDto findGenreWithSongs(final Long id) {
         return genreProvider.findGenreWithSongs(id);
+    }
+
+    Set<ArtistWithAlbumsDto> findAllArtistsDtoWithAlbumsDto(final Pageable pageable) {
+        return artistProvider.findAllArtistsWithAlbumsDto(pageable);
     }
 }

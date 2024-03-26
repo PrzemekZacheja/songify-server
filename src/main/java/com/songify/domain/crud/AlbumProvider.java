@@ -25,6 +25,13 @@ class AlbumProvider {
         return repository.findAllAlbumsByArtistsId(id);
     }
 
+    Set<AlbumDto> findAlbumsDtoByArtistId(final Long id) {
+        return repository.findAllAlbumsByArtistsId(id)
+                         .stream()
+                         .map(AlbumMapper::mapAlbumToAlbumDto)
+                         .collect(Collectors.toSet());
+    }
+
     Album findById(final Long albumId) {
         return repository.findById(albumId)
                          .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));

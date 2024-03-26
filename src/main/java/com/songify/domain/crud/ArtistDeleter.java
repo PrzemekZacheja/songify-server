@@ -27,7 +27,6 @@ class ArtistDeleter {
             artistRepository.deleteById(id);
             return;
         }
-
         deleteArtistAndSongsWhenHaveOnlyOneAlbum(id, albumsByArtistId);
 
         albumsByArtistId.stream()

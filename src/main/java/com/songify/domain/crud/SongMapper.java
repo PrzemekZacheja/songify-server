@@ -16,15 +16,8 @@ class SongMapper {
 		              .build();
 	}
 
-	static Song mapFromSongRequestToSong(final SongRequestDto songDto) {
-		return Song.builder()
-		           .duration(songDto.duration())
-		           .name(songDto.name())
-		           .build();
-	}
-
 	static Song mapFromSongRequestDtoToSong(final SongRequestDto songRequestDto) {
-		SongLanguage language = SongLanguage.valueOf(songRequestDto.songLanguageDto()
+		SongLanguage language = SongLanguage.valueOf(songRequestDto.songLanguage()
 		                                                           .name());
 		return Song.builder()
 		           .name(songRequestDto.name())

@@ -16,6 +16,7 @@ class SongProvider {
     private final SongRepository songRepository;
 
     List<SongDto> findAll(Pageable pageable) {
+        log.info("Getting all of Songs");
         return songRepository.findAll(pageable)
                              .stream()
                              .map(SongMapper::mapFromSongToSongDto)
@@ -23,6 +24,7 @@ class SongProvider {
     }
 
     SongDto findSongDtoById(Long id) {
+        log.info("Getting Song with id: {}", id);
         return songRepository.findById(id)
                              .map(SongMapper::mapFromSongToSongDto)
                              .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found"));

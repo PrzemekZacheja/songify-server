@@ -10,7 +10,6 @@ import com.songify.domain.crud.dto.GenreDto;
 import com.songify.domain.crud.dto.GenreRequestDto;
 import com.songify.domain.crud.dto.GenreWithSongsDto;
 import com.songify.domain.crud.dto.SongDto;
-import com.songify.domain.crud.dto.SongLanguageDto;
 import com.songify.domain.crud.dto.SongRequestDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -105,7 +104,7 @@ class SongifyCrudFacadeTest {
 		//given
 		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
 		songifyCrudFacade.addArtistToAlbum(artistDtoU2.id(), albumDto.id());
 		Set<AlbumDto> albumsDtoByArtistId = songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoU2.id());
@@ -128,7 +127,7 @@ class SongifyCrudFacadeTest {
 		//given
 		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
 		songifyCrudFacade.addArtistToAlbum(artistDtoU2.id(), albumDto.id());
@@ -178,8 +177,8 @@ class SongifyCrudFacadeTest {
 		//given
 		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
-		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguageDto.ENGLISH));
-		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguage.ENGLISH));
+		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguage.ENGLISH));
 		AlbumDto albumDto1 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto1.id()));
 		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum2", Instant.now(), songDto2.id()));
 		//when
@@ -223,8 +222,8 @@ class SongifyCrudFacadeTest {
 		//given
 		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
-		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguageDto.ENGLISH));
-		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 4L, SongLanguage.ENGLISH));
+		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguage.ENGLISH));
 		AlbumDto albumDto1 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto1.id()));
 		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum2", Instant.now(), songDto2.id()));
 		songifyCrudFacade.addAlbumToArtist(albumDto1.id(), artistDtoU2.id());
@@ -276,7 +275,7 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should add Song and return correct name of Song and not null id")
 	void should_add_Song_and_return_correct_name_od_Song_and_not_null_id() {
 		//given
-		SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH);
+		SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH);
 		List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
 		assertThat(allSongs).isEmpty();
 		//when
@@ -291,13 +290,13 @@ class SongifyCrudFacadeTest {
 	@DisplayName("Songs can only be assigned to albums")
 	void songs_can_only_be_assigned_to_albums() {
 		//given
-		SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH);
+		SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH);
 		List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
 		assertThat(allSongs).isEmpty();
 		SongDto addedSong = songifyCrudFacade.addSong(songRequestDto);
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("AlbumName", Instant.now(), addedSong.id()));
 		//when
-		SongDto secondSong = songifyCrudFacade.addSong(new SongRequestDto("SecondSong", Instant.now(), 4L, SongLanguageDto.ENGLISH));
+		SongDto secondSong = songifyCrudFacade.addSong(new SongRequestDto("SecondSong", Instant.now(), 4L, SongLanguage.ENGLISH));
 		Throwable throwable = catchThrowable(() -> songifyCrudFacade.addSongToAlbum(secondSong.id(), albumDto.id()));
 		//then
 		assertThat(throwable).isNull();
@@ -310,7 +309,7 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should delete song by Id and return empty list")
 	void should_delete_song_by_Id_and_return_empty_list() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isNotEmpty();
 		//when
 		songifyCrudFacade.deleteSongById(songDto.id());
@@ -322,7 +321,7 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should delete song by Id and and not delete Album and Artist when the Song was only one in Album")
 	void should_delete_song_by_Id_and_and_not_delete_Album_and_Artist_when_the_Song_was_only_one_in_Album() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
 		ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		songifyCrudFacade.addArtistToAlbum(artistDto.id(), albumDto.id());
@@ -346,7 +345,7 @@ class SongifyCrudFacadeTest {
 	void should_edit_Song_name_and_duration() {
 		//given
 		Instant releaseDate = Instant.now();
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", releaseDate, 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", releaseDate, 14L, SongLanguage.ENGLISH));
 		//when
 		SongDto editedNameOfSOng = songifyCrudFacade.updateSongNameById(songDto.id(), "SongNameEdit");
 		SongDto editedDurationOfSong = songifyCrudFacade.updateSongDurationById(editedNameOfSOng.id(), 4L);
@@ -359,7 +358,7 @@ class SongifyCrudFacadeTest {
 	@DisplayName("you can assign songs to an artist (via album)")
 	void you_can_assign_songs_to_an_artist_via_album() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto.id()));
 		ArtistDto artistDto = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
 		//when
@@ -378,8 +377,8 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should return all songs")
 	void should_return_all_songs() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
-		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
+		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguage.ENGLISH));
 		//when
 		List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
 		//then
@@ -433,7 +432,7 @@ class SongifyCrudFacadeTest {
 	void should_delete_Genre_and_all_songs_if_they_contain_this_Genre() {
 		//given
 		GenreDto genreDto = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		songifyCrudFacade.addGenreToSong(genreDto.id(), songDto.id());
 		assertThat(songifyCrudFacade.findAllGenres(Pageable.unpaged())).isNotEmpty();
 		//when
@@ -460,7 +459,7 @@ class SongifyCrudFacadeTest {
 	void should_not_add_Genre_to_Song_when_it_already_contains_this_Genre() {
 		//given
 		GenreDto rock = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		songifyCrudFacade.addGenreToSong(rock.id(), songDto.id());
 		GenreDto pop = songifyCrudFacade.addGenre(new GenreRequestDto("pop"));
 		//when
@@ -473,7 +472,7 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should return default genre when song doesn't have genre")
 	void should_return_default_genre_when_song_does_not_have_genre() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 		//when
 		GenreDto genreDtoById = songifyCrudFacade.findGenreBySongId(songDto.id());
 		//then
@@ -499,10 +498,10 @@ class SongifyCrudFacadeTest {
 		//given
 		GenreDto rock = songifyCrudFacade.addGenre(new GenreRequestDto("rock"));
 		GenreDto pop = songifyCrudFacade.addGenre(new GenreRequestDto("pop"));
-		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguageDto.ENGLISH));
-		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName3", Instant.now(), 14L, SongLanguageDto.ENGLISH));
-		SongDto songDto3 = songifyCrudFacade.addSong(new SongRequestDto("SongName4", Instant.now(), 14L, SongLanguageDto.ENGLISH));
-		SongDto songDto4 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguageDto.ENGLISH));
+		SongDto songDto1 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguage.ENGLISH));
+		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName3", Instant.now(), 14L, SongLanguage.ENGLISH));
+		SongDto songDto3 = songifyCrudFacade.addSong(new SongRequestDto("SongName4", Instant.now(), 14L, SongLanguage.ENGLISH));
+		SongDto songDto4 = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
 
 		songifyCrudFacade.addGenreToSong(rock.id(), songDto1.id());
 		songifyCrudFacade.addGenreToSong(rock.id(), songDto2.id());
@@ -534,7 +533,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                          .name("song")
 		                                                          .duration(10L)
-		                                                          .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                          .songLanguage(SongLanguage.ENGLISH)
 		                                                          .releaseDate(now)
 		                                                          .build());
 		AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
@@ -562,7 +561,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                          .name("song")
 		                                                          .duration(10L)
-		                                                          .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                          .songLanguage(SongLanguage.ENGLISH)
 		                                                          .releaseDate(now)
 		                                                          .build());
 		AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto.id());
@@ -592,7 +591,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song")
 		                                                           .duration(10L)
-		                                                           .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
 		AlbumRequestDto albumRequestDto = new AlbumRequestDto("album", now, songDto1.id());
@@ -613,7 +612,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto2 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song2")
 		                                                           .duration(10L)
-		                                                           .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
 		songifyCrudFacade.addSongToAlbum(songDto2.id(), albumDto.id());
@@ -639,7 +638,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song")
 		                                                           .duration(10L)
-		                                                           .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));
@@ -647,7 +646,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto2 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song2")
 		                                                           .duration(10L)
-		                                                           .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
 		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album2", now, songDto2.id()));
@@ -672,7 +671,7 @@ class SongifyCrudFacadeTest {
 		SongDto songDto1 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song")
 		                                                           .duration(10L)
-		                                                           .songLanguageDto(SongLanguageDto.ENGLISH)
+		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
 		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));

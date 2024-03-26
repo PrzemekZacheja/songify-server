@@ -1,5 +1,7 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.SongDto;
+import com.songify.domain.crud.dto.SongRequestDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,13 +17,14 @@ class SongAdder {
     private final AlbumProvider albumProvider;
     private final SongProvider songProvider;
 
-    Song addSong(Song song) {
-        if (song.getGenre() == null) {
-            song.setGenre(new Genre(DEFAULT_GENRE_NAME));
-        }
+    SongDto addSong(SongRequestDto songRequestDto) {
+        Song song = SongMapper.mapFromSongRequestDtoToSong(songRequestDto);
         Song savedToDatabase = songRepository.save(song);
+        if (savedToDatabase.getGenre() == null) {
+            savedToDatabase.setGenre(new Genre(DEFAULT_GENRE_NAME));
+        }
         log.info("Song created: {}", savedToDatabase.toString());
-        return savedToDatabase;
+        return SongMapper.mapFromSongToSongDto(savedToDatabase);
     }
 
     void addSongToAlbum(final Long idSong, final Long idAlbum) {

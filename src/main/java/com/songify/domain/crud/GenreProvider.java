@@ -19,6 +19,7 @@ class GenreProvider {
     private final SongProvider songProvider;
 
 	Set<GenreDto> findAll(final Pageable pageable) {
+		log.info("Getting all genres");
         return genreRepository.findAll(pageable)
                               .stream()
                               .map(GenreMapper::mapFromGenreToGenreDto)
@@ -34,6 +35,7 @@ class GenreProvider {
 
     GenreDto findGenreBySongId(final Long id) {
         Song song = songProvider.findSongById(id);
+	    log.info("Getting genre by song id: {}", id);
         return song.getGenre() == null ? null : GenreMapper.mapFromGenreToGenreDto(song.getGenre());
     }
 

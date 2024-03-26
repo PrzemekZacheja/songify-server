@@ -114,10 +114,9 @@ public class SongifyCrudFacade {
     }
 
     public SongDto addSong(final SongRequestDto songRequestDto) {
-        Song song = SongMapper.mapFromSongRequestDtoToSong(songRequestDto);
-        Song added = songAdder.addSong(song);
-        log.info("Song added with id: {}", added.getId());
-        return SongMapper.mapFromSongToSongDto(added);
+        SongDto added = songAdder.addSong(songRequestDto);
+        log.info("Song added with id: {}", added.id());
+        return added;
     }
 
     public AlbumDto addAlbumWithSongs(AlbumRequestDto albumRequestDto) {
@@ -134,12 +133,10 @@ public class SongifyCrudFacade {
 
     public void deleteSongById(final Long id) {
         songDeleter.deleteById(id);
-        log.info("Song with id: {} deleted", id);
     }
 
     public SongDto updateSongById(final Long id, final SongRequestDto songToPut) {
-        Song song = SongMapper.mapFromSongRequestToSong(songToPut);
-        return songUpdater.updateById(id, song);
+        return songUpdater.updateById(id, songToPut);
     }
 
     void addSongToAlbum(final Long idSong, final Long idAlbum) {

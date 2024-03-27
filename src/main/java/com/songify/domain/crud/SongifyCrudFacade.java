@@ -127,7 +127,7 @@ public class SongifyCrudFacade {
         return songProvider.findAll(pageable);
     }
 
-    public SongDto findSongById(final long id) {
+    public SongDto findSongDtoById(final long id) {
         return songProvider.findSongDtoById(id);
     }
 

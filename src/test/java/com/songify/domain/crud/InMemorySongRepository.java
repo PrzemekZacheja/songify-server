@@ -46,7 +46,13 @@ class InMemorySongRepository implements SongRepository {
 	}
 
 	@Override
-	public void updateById(final String name, final Instant releaseDate, final Long duration, final SongLanguage language, final Long id) {
+	public Song updateById(final String name, final Instant releaseDate, final Long duration, final SongLanguage language, final Long id) {
+		Song song = db.get(id);
+		song.setName(name);
+		song.setReleaseDate(releaseDate);
+		song.setDuration(duration);
+		song.setLanguage(language);
+		return song;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class SongRestController {
     @GetMapping("/{id}")
     public ResponseEntity<SingleSongResponseDtoById> getSongById(@PathVariable("id") long id,
                                                                  @RequestHeader(required = false) String authorizationHeader) {
-        SongDto song = songifyCrudFacade.findSongById(id);
+        SongDto song = songifyCrudFacade.findSongDtoById(id);
         if (authorizationHeader != null) {
             log.info("Authorization header: {}", authorizationHeader);
         }
@@ -77,7 +77,7 @@ public class SongRestController {
     }
 
     private ResponseEntity<DeleteSongResponseDto> getDeleteSongResponseDtoResponseEntity(@RequestParam("id") Long id) {
-        SongDto songToDelete = songifyCrudFacade.findSongById(id);
+        SongDto songToDelete = songifyCrudFacade.findSongDtoById(id);
         songifyCrudFacade.deleteSongById(id);
         DeleteSongResponseDto deletedSongResponseDto = SongControllerMapper.mapSongDomainDtoToDeleteSongResponseDto(
                 songToDelete);

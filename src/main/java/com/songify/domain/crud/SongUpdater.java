@@ -16,13 +16,13 @@ class SongUpdater {
     private final SongProvider songProvider;
 
     SongDto updateById(Long id, SongRequestDto songToPut) {
-        songRepository.updateById(songToPut.name(),
-                                  songToPut.releaseDate(),
-                                  songToPut.duration(),
-                                  songToPut.songLanguage(),
-                                  id);
+        Song song = songRepository.updateById(songToPut.name(),
+                                              songToPut.releaseDate(),
+                                              songToPut.duration(),
+                                              songToPut.songLanguage(),
+                                              id);
         log.info("Song with id: {} was updated", id);
-        return songProvider.findSongDtoById(id);
+        return SongMapper.mapFromSongToSongDto(song);
     }
 
     SongDto updateNameById(Long id, final String songNameEdit) {

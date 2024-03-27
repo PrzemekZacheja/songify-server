@@ -30,7 +30,7 @@ public interface SongRepository extends Repository<Song, Long> {
 
     @Modifying
     @Query("update Song s set s.name = ?1, s.releaseDate = ?2, s.duration = ?3, s.language = ?4 where s.id = ?5")
-    void updateById(String name,
+    Song updateById(String name,
                    Instant releaseDate,
                    Long duration,
                    SongLanguage language,

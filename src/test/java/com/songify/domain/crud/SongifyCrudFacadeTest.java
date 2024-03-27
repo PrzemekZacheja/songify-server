@@ -39,13 +39,13 @@ class SongifyCrudFacadeTest {
 		Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtistsDto(Pageable.unpaged());
 		assertThat(allArtists).isEmpty();
 		//when
-		ArtistDto response = songifyCrudFacade.addArtist(u2);
+		songifyCrudFacade.addArtist(u2);
+		Set<ArtistDto> allArtistsDto = songifyCrudFacade.findAllArtistsDto(Pageable.unpaged());
 		//then
-		assertThat(response).isNotNull();
-		assertThat(response.id()).isNotNull();
-		assertThat(response.name()).isEqualTo("U2");
-		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
-		                            .size()).isEqualTo(1);
+		assertThat(allArtistsDto).isNotNull();
+		assertThat(allArtistsDto.size()).isEqualTo(1);
+		assertThat(allArtistsDto).extracting(ArtistDto::name)
+		                         .contains("U2");
 	}
 
 	@Test
@@ -53,10 +53,14 @@ class SongifyCrudFacadeTest {
 	void should_add_Artist_and_return_notNull_value_of_nirvana_name() {
 		//given
 		ArtistRequestDto nirvana = new ArtistRequestDto("Nirvana");
+		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isEmpty();
 		//when
-		ArtistDto response = songifyCrudFacade.addArtist(nirvana);
+		songifyCrudFacade.addArtist(nirvana);
 		//then
-		assertThat(response.name()).isEqualTo("Nirvana");
+		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
+		                            .size()).isEqualTo(1);
+		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).extracting(ArtistDto::name)
+		                                                                   .contains("Nirvana");
 	}
 
 	@Test
@@ -198,8 +202,8 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should return all artists")
 	void should_return_all_artists() {
 		//given
-		ArtistDto artistDtoU2 = songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
-		ArtistDto artistDtoNirvana = songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
+		songifyCrudFacade.addArtist(new ArtistRequestDto("U2"));
+		songifyCrudFacade.addArtist(new ArtistRequestDto("Nirvana"));
 		//when
 		Set<ArtistDto> allArtists = songifyCrudFacade.findAllArtistsDto(Pageable.unpaged());
 		//then
@@ -276,14 +280,19 @@ class SongifyCrudFacadeTest {
 	void should_add_Song_and_return_correct_name_od_Song_and_not_null_id() {
 		//given
 		SongRequestDto songRequestDto = new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH);
-		List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
-		assertThat(allSongs).isEmpty();
+		List<SongDto> allSongsBeforeAddingSong = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
+		assertThat(allSongsBeforeAddingSong).isEmpty();
 		//when
-		SongDto response = songifyCrudFacade.addSong(songRequestDto);
+		songifyCrudFacade.addSong(songRequestDto);
+		List<SongDto> allSongsDto = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
 		//then
-		assertThat(response).isNotNull();
-		assertThat(response.id()).isNotNull();
-		assertThat(response.name()).isEqualTo("SongName");
+		assertThat(allSongsDto).isNotNull();
+		assertThat(allSongsDto).extracting(SongDto::id)
+		                       .isNotNull();
+		assertThat(allSongsDto).extracting(SongDto::id)
+		                       .contains(0L);
+		assertThat(allSongsDto).extracting(SongDto::name)
+		                       .contains("SongName");
 	}
 
 	@Test
@@ -377,8 +386,8 @@ class SongifyCrudFacadeTest {
 	@DisplayName("should return all songs")
 	void should_return_all_songs() {
 		//given
-		SongDto songDto = songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
-		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguage.ENGLISH));
+		songifyCrudFacade.addSong(new SongRequestDto("SongName", Instant.now(), 14L, SongLanguage.ENGLISH));
+		songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 14L, SongLanguage.ENGLISH));
 		//when
 		List<SongDto> allSongs = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
 		//then
@@ -641,7 +650,7 @@ class SongifyCrudFacadeTest {
 		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
-		AlbumDto albumDto = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));
+		songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album", now, songDto1.id()));
 
 		SongDto songDto2 = songifyCrudFacade.addSong(SongRequestDto.builder()
 		                                                           .name("song2")
@@ -649,7 +658,7 @@ class SongifyCrudFacadeTest {
 		                                                           .songLanguage(SongLanguage.ENGLISH)
 		                                                           .releaseDate(now)
 		                                                           .build());
-		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album2", now, songDto2.id()));
+		songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("album2", now, songDto2.id()));
 		//when
 		Set<AlbumDto> allAlbums = songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged());
 		//then
@@ -693,5 +702,45 @@ class SongifyCrudFacadeTest {
 		                                       .stream()
 		                                       .map(AlbumInfo.SongInfo::getName)
 		                                       .collect(Collectors.toSet())).contains("song");
+	}
+
+	@Test
+	@DisplayName("should update Song and return correct values")
+	void should_update_Song_and_return_correct_values() {
+		//given
+		Instant now = Instant.now();
+		SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
+		                                                          .name("song")
+		                                                          .duration(10L)
+		                                                          .songLanguage(SongLanguage.ENGLISH)
+		                                                          .releaseDate(now)
+		                                                          .build());
+		//when
+		songifyCrudFacade.updateSongById(songDto.id(), new SongRequestDto("song2", now, 10L, SongLanguage.ENGLISH));
+		List<SongDto> allSongsDto = songifyCrudFacade.findAllSongsDto(Pageable.unpaged());
+		//then
+		assertThat(allSongsDto).isNotEmpty();
+		assertThat(allSongsDto.size()).isEqualTo(1);
+		assertThat(allSongsDto).extracting(SongDto::name)
+		                       .contains("song2");
+	}
+
+	@Test
+	@DisplayName("should return Song by id")
+	void should_return_Song_by_id() {
+		//given
+		Instant now = Instant.now();
+		SongDto songDto = songifyCrudFacade.addSong(SongRequestDto.builder()
+		                                                          .name("song")
+		                                                          .duration(10L)
+		                                                          .songLanguage(SongLanguage.ENGLISH)
+		                                                          .releaseDate(now)
+		                                                          .build());
+		//when
+		SongDto songDtoById = songifyCrudFacade.findSongDtoById(songDto.id());
+		//then
+		assertThat(songDtoById.name()).isEqualTo("song");
+		assertThat(songDtoById.duration()).isEqualTo(10L);
+		assertThat(songDtoById.language()).isEqualTo(SongLanguage.ENGLISH);
 	}
 }

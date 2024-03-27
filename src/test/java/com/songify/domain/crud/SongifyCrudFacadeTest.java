@@ -185,6 +185,12 @@ class SongifyCrudFacadeTest {
 		SongDto songDto2 = songifyCrudFacade.addSong(new SongRequestDto("SongName2", Instant.now(), 4L, SongLanguage.ENGLISH));
 		AlbumDto albumDto1 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum", Instant.now(), songDto1.id()));
 		AlbumDto albumDto2 = songifyCrudFacade.addAlbumWithSongs(new AlbumRequestDto("TitleAlbum2", Instant.now(), songDto2.id()));
+		assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto1.id())).extracting(albumInfo -> albumInfo.getArtists()
+		                                                                                                                .size())
+		                                                                              .isEqualTo(0);
+		assertThat(songifyCrudFacade.findAlbumByIdWithArtistsAndSongs(albumDto2.id())).extracting(albumInfo -> albumInfo.getArtists()
+		                                                                                                                .size())
+		                                                                              .isEqualTo(0);
 		//when
 		songifyCrudFacade.addArtistToAlbum(artistDtoU2.id(), albumDto1.id());
 		songifyCrudFacade.addArtistToAlbum(artistDtoNirvana.id(), albumDto1.id());

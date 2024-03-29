@@ -120,7 +120,7 @@ public class SongifyCrudFacade {
     }
 
     public AlbumDto addAlbumWithSongs(AlbumRequestDto albumRequestDto) {
-        return albumAdder.addAlbumWithSong(albumRequestDto);
+        return albumAdder.addAlbumWithSongs(albumRequestDto);
     }
 
     public List<SongDto> findAllSongsDto(final Pageable pageable) {

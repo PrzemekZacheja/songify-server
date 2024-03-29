@@ -57,6 +57,10 @@ public class Album extends BaseEntity {
         songs.add(song);
     }
 
+    void addSongs(final Set<Song> songs) {
+        this.songs.addAll(songs);
+    }
+
     void deleteArtist(final Artist artist) {
         artists.remove(artist);
     }

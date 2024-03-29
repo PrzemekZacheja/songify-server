@@ -26,14 +26,14 @@ class ArtistDeleter {
             artistRepository.deleteById(id);
             return;
         }
-        deleteArtistAndSongsWhenHaveOnlyOneAlbum(id, albumsByArtistId);
+        deleteArtistAndSongsWhenHaveOnlyOneAlbumByArtistId(id, albumsByArtistId);
         albumsByArtistId.stream()
                         .filter(album -> album.getArtists()
                                               .size() >= 2)
                         .forEach(album -> album.deleteArtist(artist));
     }
 
-    private void deleteArtistAndSongsWhenHaveOnlyOneAlbum(final Long id, final Set<Album> albumsByArtistId) {
+    private void deleteArtistAndSongsWhenHaveOnlyOneAlbumByArtistId(final Long id, final Set<Album> albumsByArtistId) {
         Set<Album> albumsWithOnlyOneArtist = albumsByArtistId.stream().
                                                              filter(album -> album.getArtists()
                                                                                   .size() == 1)

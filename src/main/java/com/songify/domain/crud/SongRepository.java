@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface SongRepository extends Repository<Song, Long> {
 
@@ -37,4 +38,7 @@ public interface SongRepository extends Repository<Song, Long> {
                    Long id);
 
     List<Song> findByGenre_Id(Long id);
+
+    @Query("select s from Song s where s.id in :ids ")
+    Set<Song> findSongsById(Set<Long> ids);
 }

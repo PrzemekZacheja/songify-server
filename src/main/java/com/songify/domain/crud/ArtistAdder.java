@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.UUID;
 
 
@@ -47,8 +48,8 @@ class ArtistAdder {
         SongDto addedSong = songAdder.addSong(new SongRequestDto(nameOfDefaultSong, Instant.now(), 1L, SongLanguage.ENGLISH));
 
         String nameDefaultOfAlbum = "Default Album : " + UUID.randomUUID();
-        AlbumRequestDto albumRequestDto = new AlbumRequestDto(nameDefaultOfAlbum, Instant.now(), addedSong.id());
-        albumAdder.addAlbumWithSong(albumRequestDto);
+        AlbumRequestDto albumRequestDto = new AlbumRequestDto(nameDefaultOfAlbum, Instant.now(), Collections.singleton(addedSong.id()));
+        albumAdder.addAlbumWithSongs(albumRequestDto);
 
         return repository.save(artist);
     }

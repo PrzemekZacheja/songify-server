@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 class InMemorySongRepository implements SongRepository {
 
@@ -63,6 +65,14 @@ class InMemorySongRepository implements SongRepository {
 		                             .getId()
 		                             .equals(id))
 		         .toList();
+	}
+
+	@Override
+	public Set<Song> findSongsById(final Set<Long> ids) {
+		return db.values()
+		         .stream()
+		         .filter(song -> ids.contains(song.getId()))
+		         .collect(Collectors.toSet());
 	}
 
 }

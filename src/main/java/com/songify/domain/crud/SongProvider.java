@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -40,5 +41,9 @@ class SongProvider {
         return byGenreId.stream()
                         .map(SongMapper::mapFromSongToSongDto)
                         .toList();
+    }
+
+    Set<Song> findSongsByIds(final Set<Long> ids) {
+        return songRepository.findSongsById(ids);
     }
 }

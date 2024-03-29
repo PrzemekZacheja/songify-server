@@ -21,7 +21,7 @@ class AlbumDeleter {
     }
 
     void deleteById(final Long id) {
-        if (albumProvider.findById(id)
+        if (albumProvider.findAlbumById(id)
                          .getSongs()
                          .isEmpty()) {
             albumRepository.deleteById(id);
@@ -32,7 +32,7 @@ class AlbumDeleter {
     }
 
     void deleteAlbumWithSongsById(final Long id) {
-        Album byId = albumProvider.findById(id);
+        Album byId = albumProvider.findAlbumById(id);
         Set<Song> songs = byId.getSongs();
         Set<Long> songsIds = songs.stream()
                                   .map(Song::getId)

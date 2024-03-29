@@ -47,7 +47,7 @@ class ArtistController {
 
     @DeleteMapping("/{artistId}")
     ResponseEntity<String> deleteArtistById(@PathVariable final Long artistId) {
-        songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(artistId);
+        songifyCrudFacade.deleteArtistById(artistId);
         return ResponseEntity.ok("Artist with id: " + artistId + " deleted");
     }
 

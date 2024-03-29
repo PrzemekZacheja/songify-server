@@ -28,7 +28,7 @@ class SongAdder {
     }
 
     void addSongToAlbum(final Long idSong, final Long idAlbum) {
-        Album album = albumProvider.findById(idAlbum);
+        Album album = albumProvider.findAlbumById(idAlbum);
         Song song = songProvider.findSongById(idSong);
         album.addSong(song);
         log.info("Song added to album: {}", album.toString());

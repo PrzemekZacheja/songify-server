@@ -72,7 +72,7 @@ public class SongifyCrudFacade {
         return albumProvider.findAlbumByIdWithArtistsAndSongs(id);
     }
 
-    public void deleteArtistByIdWithSongsAndAlbums(final Long id) {
+    public void deleteArtistById(final Long id) {
         artistDeleter.deleteArtistByIdWithSongsAndAlbums(id);
     }
 
@@ -182,5 +182,13 @@ public class SongifyCrudFacade {
 
     Set<ArtistWithAlbumsDto> findAllArtistsDtoWithAlbumsDto(final Pageable pageable) {
         return artistProvider.findAllArtistsWithAlbumsDto(pageable);
+    }
+
+    AlbumDto findAlbumDtoById(final long id) {
+        return albumProvider.findAlbumDtoById(id);
+    }
+
+    Set<ArtistDto> findArtistsDtoByAlbumId(final Long id) {
+        return artistProvider.findArtistsDtoByAlbumId(id);
     }
 }

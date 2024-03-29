@@ -1,5 +1,6 @@
 package com.songify.domain.crud;
 
+import com.songify.domain.crud.dto.AlbumInfo;
 import com.songify.domain.crud.dto.ArtistDto;
 import com.songify.domain.crud.dto.ArtistWithAlbumsDto;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,5 +49,13 @@ class ArtistProvider {
 				                               .build()
 		                     )
 		                 .collect(Collectors.toSet());
+	}
+
+	Set<ArtistDto> findArtistsDtoByAlbumId(final Long id) {
+		AlbumInfo albumByIdWithArtistsAndSongs = albumProvider.findAlbumByIdWithArtistsAndSongs(id);
+		if (albumByIdWithArtistsAndSongs != null) {
+			return ArtistMapper.mapArtistInfosToArtistDtos(albumByIdWithArtistsAndSongs.getArtists());
+		}
+		return Collections.emptySet();
 	}
 }

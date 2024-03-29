@@ -36,14 +36,23 @@ class AlbumProvider {
                          .collect(Collectors.toSet());
     }
 
-    Album findById(final Long albumId) {
-        return repository.findById(albumId)
-                         .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
+    AlbumDto findAlbumDtoById(final Long albumId) {
+        Album album = repository.findById(albumId)
+                                .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
+        log.info("Album with id " + albumId + " was found");
+        return AlbumMapper.mapAlbumToAlbumDto(album);
+    }
+
+    Album findAlbumById(final Long albumId) {
+        Album album = repository.findById(albumId)
+                                .orElseThrow(() -> new AlbumNotFoundException("Album with id " + albumId + " wasn't found"));
+        log.info("Album with id " + albumId + " was found");
+        return album;
     }
 
     Set<AlbumDto> findAllAlbums(Pageable pageable) {
         Set<Album> allAlbums = repository.findAllAlbums(pageable);
-        log.info("All albums were found");
+        log.info("{} albums were found", allAlbums.size());
         return allAlbums.stream()
                         .map(album -> new AlbumDto(album.getId(), album.getTitle()))
                         .collect(Collectors.toSet());

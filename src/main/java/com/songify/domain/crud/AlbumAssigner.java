@@ -13,7 +13,7 @@ class AlbumAssigner {
 	private final ArtistProvider artistProvider;
 
 	void addAlbumToArtist(final Long albumId, final Long artistId) {
-		Album album = albumProvider.findById(albumId);
+		Album album = albumProvider.findAlbumById(albumId);
 		Artist artist = artistProvider.findById(artistId);
 		album.addArtist(artist);
 		log.info("Album id " + album.getId() + " added to artist " + artist.getName());

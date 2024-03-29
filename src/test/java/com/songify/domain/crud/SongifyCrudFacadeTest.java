@@ -96,7 +96,7 @@ class SongifyCrudFacadeTest {
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isNotEmpty();
 		assertThat(songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoU2.id())).isEmpty();
 		//when
-		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(artistDtoU2.id()));
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistById(artistDtoU2.id()));
 		//then
 		assertThat(throwable).isNull();
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isEmpty();
@@ -115,7 +115,7 @@ class SongifyCrudFacadeTest {
 		assertThat(albumsDtoByArtistId).isNotEmpty();
 		assertThat(albumsDtoByArtistId.size()).isEqualTo(1);
 		//when
-		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(artistDtoU2.id()));
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistById(artistDtoU2.id()));
 		//then
 		assertThat(throwable).isNull();
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isEmpty();
@@ -138,15 +138,21 @@ class SongifyCrudFacadeTest {
 		songifyCrudFacade.addArtistToAlbum(artistDtoNirvana.id(), albumDto.id());
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
 		                            .size()).isGreaterThanOrEqualTo(2);
+		Set<ArtistDto> artistsDtoByAlbumId = songifyCrudFacade.findArtistsDtoByAlbumId(albumDto.id());
+		assertThat(artistsDtoByAlbumId).isNotEmpty();
+		assertThat(artistsDtoByAlbumId.size()).isEqualTo(2);
 		Set<AlbumDto> albumsDtoByArtistId = songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoU2.id());
 		assertThat(albumsDtoByArtistId).isNotEmpty();
 		assertThat(albumsDtoByArtistId.size()).isEqualTo(1);
 		//when
-		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(artistDtoU2.id()));
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistById(artistDtoU2.id()));
 		//then
 		assertThat(throwable).isNull();
-		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
-		                            .size()).isEqualTo(1);
+		Set<ArtistDto> allArtistsDto = songifyCrudFacade.findAllArtistsDto(Pageable.unpaged());
+		assertThat(allArtistsDto
+				           .size()).isEqualTo(1);
+		assertThat(allArtistsDto).extracting(ArtistDto::name)
+		                         .containsOnly("Nirvana");
 		assertThat(songifyCrudFacade.findAlbumsDtoByArtistId(artistDtoNirvana.id())
 		                            .size()).isEqualTo(1);
 	}
@@ -157,7 +163,7 @@ class SongifyCrudFacadeTest {
 		//given
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())).isEmpty();
 		//when
-		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistByIdWithSongsAndAlbums(0L));
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.deleteArtistById(0L));
 		//then
 		assertThat(throwable).isInstanceOf(ArtistNotFoundException.class);
 		assertThat(throwable.getMessage()).isEqualTo("Artist with id " + 0 + " not found");
@@ -279,6 +285,18 @@ class SongifyCrudFacadeTest {
 		assertThat(artistDto).isNull();
 		assertThat(songifyCrudFacade.findAllArtistsDto(Pageable.unpaged())
 		                            .size()).isEqualTo(0);
+	}
+
+	@Test
+	@DisplayName("should throw exception when song not found by id")
+	void should_throw_exception_when_song_not_found_by_id() {
+		//given
+		assertThat(songifyCrudFacade.findAllSongsDto(Pageable.unpaged())).isEmpty();
+		//when
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.findSongDtoById(0L));
+		//then
+		assertThat(throwable).isInstanceOf(SongNotFoundException.class);
+		assertThat(throwable.getMessage()).isEqualTo("Song with id " + 0 + " not found");
 	}
 
 	@Test
@@ -708,6 +726,19 @@ class SongifyCrudFacadeTest {
 		                                       .stream()
 		                                       .map(AlbumInfo.SongInfo::getName)
 		                                       .collect(Collectors.toSet())).contains("song");
+	}
+
+	@Test
+	@DisplayName("should throw exception when album not found by id")
+	void should_throw_exception_when_album_not_found_by_id() {
+		//given
+		assertThat(songifyCrudFacade.findAllAlbumsDto(Pageable.unpaged())
+		                            .isEmpty());
+		//when
+		Throwable throwable = catchThrowable(() -> songifyCrudFacade.findAlbumDtoById(10L));
+		//then
+		assertThat(throwable).isNotNull();
+		assertThat(throwable).isInstanceOf(AlbumNotFoundException.class);
 	}
 
 	@Test
